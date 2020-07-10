@@ -192,6 +192,7 @@ export default {
 }
 .card {
 	width: 90%;
+
 	@media only screen and(max-width:$bp-smallest) {
 		width: 100%;
 	}
