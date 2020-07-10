@@ -127,7 +127,6 @@ h2 {
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
-
 	color: $font-secondary;
 	@media only screen and(max-width:$bp-smaller) {
 		flex-direction: column;
