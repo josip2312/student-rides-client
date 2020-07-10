@@ -1,0 +1,212 @@
+<template>
+	<section class="register">
+		<form action="/login" class="form-control">
+			<div class="form-group">
+				<h2 class="heading-2">Register</h2>
+			</div>
+			<div class="form-register-group">
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input
+						:class="{ invalid: $v.name.$error }"
+						@blur="setName"
+						v-model="name"
+						type="name"
+						name="name"
+						id="name"
+					/>
+
+					<transition name="fade" mode="out-in">
+						<p v-if="!nameValidate">
+							Ne moze biti prazno
+						</p>
+					</transition>
+				</div>
+				<div class="form-group">
+					<label for="lastname">Last name</label>
+					<input
+						:class="{ invalid: $v.lastname.$error }"
+						@blur="setLastname"
+						v-model="lastname"
+						type="lastname"
+						name="lastname"
+						id="lastname"
+					/>
+					<transition name="fade" mode="out-in">
+						<p v-if="!lastnameValidate">
+							Ne moze biti prazno
+						</p>
+					</transition>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email">Email Address</label>
+				<input
+					:class="{ invalid: $v.email.$error }"
+					v-model="email"
+					@blur="setEmail"
+					type="email"
+					name="email"
+					id="email"
+				/>
+				<transition name="fade" mode="out-in">
+					<p v-if="!emailValidateEmail">
+						Unesite valjanu E-Mail adresu
+					</p>
+				</transition>
+				<transition name="fade" mode="out-in">
+					<p v-if="!emailValidateReq">
+						Ne moze biti prazno
+					</p>
+				</transition>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input
+					:class="{ invalid: $v.password.$error }"
+					@blur="setPassword"
+					v-model="password"
+					type="password"
+					name="password"
+					id="password"
+				/>
+				<transition name="fade" mode="out-in">
+					<p v-if="!passwordValidateLen">
+						Lozinka mora imati najmanje 6 znakova
+					</p>
+				</transition>
+
+				<transition name="fade" mode="out-in">
+					<p v-if="!passwordValidateReq">
+						Ne moze biti prazno
+					</p>
+				</transition>
+			</div>
+			<div class="form-group">
+				<label for="confirmPassword">Confirm your password</label>
+				<input
+					:class="{ invalid: $v.confirmPassword.$error }"
+					@blur="setConfirmPassword"
+					v-model="confirmPassword"
+					type="password"
+					name="confirmPassword"
+					id="confirmPassword"
+				/>
+
+				<transition name="fade" mode="out-in">
+					<p v-if="!confirmPasswordValidate">
+						Lozinke se razlikuju
+					</p>
+				</transition>
+			</div>
+			<div class="form-group">
+				<button
+					class="btn"
+					type="submit"
+					@click.prevent="
+						registerUser({ name, lastname, email, password })
+					"
+					:class="{ disabled: $v.$invalid }"
+				>
+					Register
+				</button>
+			</div>
+		</form>
+	</section>
+</template>
+
+<script>
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
+export default {
+	name: "About",
+	data() {
+		return {
+			emailValidateEmail: true,
+			emailValidateReq: true,
+
+			nameValidate: true,
+
+			lastnameValidate: true,
+
+			passwordValidateLen: true,
+			passwordValidateReq: true,
+
+			confirmPasswordValidate: true,
+
+			name: null,
+			lastname: null,
+			email: null,
+			password: null,
+			confirmPassword: null
+		};
+	},
+	validations: {
+		name: {
+			required
+		},
+		lastname: {
+			required
+		},
+		email: {
+			required,
+			email
+		},
+		password: {
+			required,
+			minLen: minLength(6)
+		},
+		confirmPassword: {
+			sameAs: sameAs("password")
+		}
+	},
+	methods: {
+		setName() {
+			this.$v.name.$touch();
+			this.nameValidate = this.$v.name.required;
+		},
+		setLastname() {
+			this.$v.lastname.$touch();
+			this.lastnameValidate = this.$v.lastname.required;
+		},
+
+		setEmail() {
+			this.$v.email.$touch();
+			this.emailValidateEmail = this.$v.email.email;
+			this.emailValidateReq = this.$v.email.required;
+		},
+		setPassword() {
+			this.$v.password.$touch();
+			this.passwordValidateLen = this.$v.password.minLen;
+			this.passwordValidateReq = this.$v.password.required;
+		},
+		setConfirmPassword() {
+			this.$v.confirmPassword.$touch();
+			this.confirmPasswordValidate = this.$v.confirmPassword.sameAs;
+		},
+
+		...mapActions(["registerUser"])
+	}
+};
+</script>
+<style lang="scss" scoped>
+@import "../assets/css/form";
+.register {
+	min-height: 90vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 3rem;
+}
+.form-register-group {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.form-group {
+		margin: 1.2rem 0;
+		flex: 0;
+		flex-basis: 45%;
+	}
+}
+</style>

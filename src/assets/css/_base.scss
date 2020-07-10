@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
+$color-secondary: #252727;
+$color-primary: #2d3436;
+$color-tertiary: #dfe6e9;
+
+$grey: #696868;
+$blue: #0652dd;
+
+$orange: #ff5700;
+
+$font-primary: #fafafa;
+$font-secondary: #212121;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+$bp-largest: 100em; //1600px
+$bp-x-large: 87.5em; //1400px
+$bp-large: 62.5em; //1000px
+$bp-medium: 50em; //800px
+$bp-smaller: 43.75rem; //700
+$bp-small: 37.5em; //600px
+$bp-smallest: 31.25em; //500px
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+	@media only screen and(max-width:$bp-large) {
+		font-size: 55%;
+	}
+	@media only screen and(max-width:$bp-small) {
+		font-size: 48%;
+	}
+}
+
+body {
+	//margin: 0 !important;
+	font-family: "Montserrat", sans-serif;
+	font-weight: 400;
+	line-height: 1.6;
+	color: $font-primary;
+	font-size: 1.6rem;
+	background-color: $color-tertiary;
+	overflow-x: hidden;
+}
+a {
+	font-family: "Montserrat", sans-serif;
+}
+.heading-1 {
+	font-family: "Open Sans", sans-serif;
+	color: $font-primary;
+	font-size: 3rem;
+	font-weight: 300;
+}
+.heading-3 {
+	font-family: "Open Sans", sans-serif;
+	color: $font-secondary;
+	font-size: 2rem;
+	font-weight: 400;
+}
+.heading-4 {
+	font-family: "Open Sans", sans-serif;
+	color: $font-primary;
+	letter-spacing: 1px;
+	font-size: 2.2rem;
+	font-weight: 400;
+}
+.btn {
+	text-decoration: none;
+	border: 0;
+	background-color: $blue;
+	padding: 1.6rem 2.2rem;
+	color: $font-primary;
+	font-size: 1.6rem;
+	outline: none;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	text-transform: uppercase;
+	text-align: center;
+}
+.btn:hover {
+	//background-color: $color-primary;
+}

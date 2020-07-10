@@ -1,32 +1,55 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+	<div id="app">
+		<Header />
+		<transition name="fade" mode="out-in">
+			<keep-alive include="Create">
+				<router-view />
+			</keep-alive>
+		</transition>
+		<Footer />
+	</div>
 </template>
 
+<script>
+import { mapActions, mapGetters } from "vuex";
+
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+export default {
+	components: {
+		Header,
+		Footer
+	},
+	computed: {
+		...mapGetters(["getRides", "getLoggedInUser", "isLoggedIn"])
+	},
+	methods: {
+		...mapActions(["fetchRides", "fetchUserRides"])
+	},
+	watch: {
+		getLoggedInUser: function() {
+			this.fetchUserRides();
+		},
+
+		getRides: function() {
+			if (this.isLoggedIn) this.fetchUserRides();
+		}
+	},
+	created() {
+		this.fetchRides();
+	}
+};
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "assets/css/base";
+.fade-enter-active,
+.fade-leave-active {
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
 }
 </style>
