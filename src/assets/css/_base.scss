@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
-$color-secondary: #252727;
-$color-primary: #2d3436;
+$color-secondary: #151616;
+//$color-primary: #2d3436;
+$color-primary: #222222;
 $color-tertiary: #dfe6e9;
 
 $grey: #696868;
@@ -33,6 +34,13 @@ html {
 	box-sizing: border-box;
 	font-size: 62.5%;
 	scroll-behavior: smooth;
+	@media only screen and(min-width:$bp-x-large) {
+		font-size: 75%;
+	}
+	@media only screen and(min-width:$bp-largest) {
+		font-size: 110%;
+	}
+
 	@media only screen and(max-width:$bp-large) {
 		font-size: 55%;
 	}

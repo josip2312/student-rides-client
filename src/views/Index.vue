@@ -26,26 +26,10 @@
 				:class="{ isVisible: showRidesLeft }"
 				v-else
 			>
-				<form action="">
-					<label for="start">Mjesto polaska</label>
-					<input
-						v-model="searchStart"
-						type="text"
-						name="start"
-						id="start"
-					/>
-					<label for="end">Odrediste</label>
-					<input
-						v-model="searchEnd"
-						type="text"
-						name="end"
-						id="end"
-					/>
-				</form>
-
-				<button class="btn" @click="searchRides">
-					Trazi
-				</button>
+				<h3 class="heading-3">Pregledaj voznje</h3>
+				<router-link :to="{ name: 'Rides' }" class="btn">
+					Sve voznje
+				</router-link>
 			</div>
 
 			<div
@@ -57,16 +41,6 @@
 					Postavi svoju prvu voznju!
 				</router-link>
 			</div>
-			<!-- <div
-				v-else
-				class="rides-down-right"
-				:class="{ isVisible: showRidesRight }"
-			>
-				<h3 class="heading-3">Zaradi i pomozi</h3>
-				<button class="btn">
-					Postavi svoju prvu voznju!
-				</button>
-			</div> -->
 		</div>
 	</main>
 </template>
@@ -78,10 +52,7 @@ export default {
 	data() {
 		return {
 			showRidesLeft: true,
-			showRidesRight: false,
-
-			searchStart: "",
-			searchEnd: ""
+			showRidesRight: false
 		};
 	},
 	computed: {
@@ -95,13 +66,6 @@ export default {
 		showRight() {
 			this.showRidesRight = !this.showRidesRight;
 			this.showRidesLeft = false;
-		},
-		searchRides() {
-			this.$store.state.searchParams = {
-				start: this.searchStart,
-				end: this.searchEnd
-			};
-			this.$router.push({ name: "Rides" });
 		}
 	},
 	components: {}
@@ -283,10 +247,11 @@ export default {
 	position: absolute;
 	height: 90vh;
 	width: 100%;
-	background-image: url(../assets/img/bgimg.png);
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
+
+	background-color: #ccc8c8;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='199' viewBox='0 0 100 199'%3E%3Cg fill='%23486bd6' fill-opacity='0.19'%3E%3Cpath d='M0 199V0h1v1.99L100 199h-1.12L1 4.22V199H0zM100 2h-.12l-1-2H100v2z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+	//background-color: #dfe6e9;
+	//background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23587fbd' fill-opacity='0.16'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 	opacity: 0.6;
 	z-index: 2;
 }

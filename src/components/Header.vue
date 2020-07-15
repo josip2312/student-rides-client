@@ -48,7 +48,7 @@
 				<img src="../assets/img/user.svg" alt="User" />
 			</div>
 		</header>
-		<div class="mobile-nav" v-if="isPhone">
+		<div class="mobile-nav" v-if="isMobile">
 			<ul class="mobile-nav-wrapper" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Index' }" tag="li">
 					<img src="../assets/img/home.svg" alt="Home" />
@@ -99,9 +99,6 @@ export default {
 		...mapGetters(["isLoggedIn"]),
 		isMobile() {
 			return this.windowWidth <= 700;
-		},
-		isPhone() {
-			return this.windowWidth <= 600;
 		}
 	},
 	methods: {
@@ -216,18 +213,10 @@ header {
 	top: 0;
 	z-index: 20;
 	width: 100%;
-	height: 11vh;
+	height: 10vh;
 	z-index: 20;
 }
-header::before {
-	content: " ";
-	background-color: $blue;
-	height: 4px;
-	width: 100vw;
-	position: absolute;
-	/* position: sticky;
-	top: 0; */
-}
+
 nav {
 	width: 70%;
 	height: 100%;
@@ -311,7 +300,7 @@ nav {
 }
 .user {
 	position: absolute;
-	top: 28%;
+	top: 26%;
 	right: 5%;
 	cursor: pointer;
 	img {

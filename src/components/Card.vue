@@ -2,43 +2,17 @@
 	<div class="card">
 		<div class="card-top">
 			<slot name="card-top">Default</slot>
-			<!-- <div class="start">{{ ride.start }}</div>
-					<img src="../assets/img/arrow.svg" alt="Right arrow" />
-					<div class="end">{{ ride.end }}</div> -->
 		</div>
 		<div class="card-mid">
 			<slot name="card-mid">Default mid</slot>
-			<!-- <div class="price">
-						<span>KM</span>
-						<span>{{ ride.price }}</span>
-					</div>
-					<div class="date">
-						<span>
-							<img src="../assets/img/date.svg" alt="Date" />
-						</span>
-						<span>
-							{{ ride.date | moment }}
-						</span>
-					</div> -->
 		</div>
 		<div class="card-down">
 			<slot name="card-down">Default down</slot>
-			<!-- <div class="contact">
-						<span
-							><img src="../assets/img/phone.svg" alt="Phone" />
-						</span>
-						<span>
-							{{ ride.contact }}
-						</span>
-					</div>
-					<div class="seats">
-						<span>
-							<img src="../assets/img/seat.svg" alt="Seat" />
-						</span>
-						<span> {{ ride.seats }} mjesta </span>
-					</div> -->
 		</div>
 		<button type="submit" class="btn">Zakazi!</button>
+		<div class="buttons">
+			<slot name="buttons"></slot>
+		</div>
 	</div>
 </template>
 
@@ -126,8 +100,16 @@ export default {
 	}
 	.btn {
 		width: 90%;
-		margin: 2rem auto;
+		margin: 1rem auto;
 		//background-color: hsl(218, 9%, 96%);
+	}
+}
+.buttons {
+	width: 90%;
+	display: flex;
+	margin: 0 auto;
+	.btn:first-child {
+		margin-right: 1.5rem;
 	}
 }
 </style>

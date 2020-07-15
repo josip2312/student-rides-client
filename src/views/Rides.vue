@@ -54,27 +54,24 @@
 
 <script>
 import Card from "../components/Card";
-
 import { mapActions, mapGetters } from "vuex";
 import moment from "moment";
 export default {
 	data() {
 		return {
 			searchStart: "",
-			searchEnd: ""
+			searchEnd: "",
+			localRides: this.getRides
 		};
 	},
 	components: {
 		Card
 	},
+	//filteredRides not reactive on edit state
 	computed: {
-		...mapGetters(["getRides", "getSearchParams"]),
+		...mapGetters(["getRides"]),
 		filteredRides() {
 			return this.getRides.filter(ride => {
-				/* return (
-					ride.start.toLowerCase().match(this.searchStart) &&
-					ride.end.toLowerCase().match(this.searchEnd)
-				); */
 				if (this.searchStart || this.searchEnd) {
 					return (
 						ride.start
@@ -85,14 +82,7 @@ export default {
 							.match(this.searchEnd.toLowerCase())
 					);
 				} else {
-					return (
-						ride.start
-							.toLowerCase()
-							.match(this.getSearchParams.start.toLowerCase()) &&
-						ride.end
-							.toLowerCase()
-							.match(this.getSearchParams.end.toLowerCase())
-					);
+					return this.getRides;
 				}
 			});
 		}
@@ -117,7 +107,8 @@ export default {
 	align-items: center;
 	width: 60%;
 	margin: 0 auto;
-	padding-top: 5rem;
+	padding: 3rem 0;
+	background-color: #fff;
 	@media only screen and(max-width:$bp-smaller) {
 		flex-direction: column;
 	}
@@ -130,6 +121,7 @@ export default {
 			margin-bottom: 1rem;
 		}
 		input {
+			font-size: 1.6rem;
 			color: $font-secondary;
 			padding: 1rem;
 			width: 100%;
@@ -137,6 +129,7 @@ export default {
 			border: none;
 			border-bottom: 1px solid $color-tertiary;
 			transition: all 0.2s ease-out;
+			background-color: $color-tertiary;
 			@media only screen and(max-width:$bp-smaller) {
 				margin-bottom: 2rem;
 			}
@@ -155,12 +148,13 @@ export default {
 			margin-bottom: 1rem;
 		}
 		input {
+			font-size: 1.6rem;
 			color: $font-secondary;
 			padding: 1rem;
 			width: 100%;
 			outline: none;
 			border: none;
-
+			background-color: $color-tertiary;
 			border-bottom: 1px solid $color-tertiary;
 			transition: all 0.2s ease-out;
 		}

@@ -2,9 +2,9 @@
 	<div id="app">
 		<Header />
 		<transition name="fade" mode="out-in">
-			<keep-alive include="Create">
-				<router-view />
-			</keep-alive>
+			<!-- <keep-alive include="Create"> -->
+			<router-view />
+			<!-- </keep-alive> -->
 		</transition>
 		<Footer />
 	</div>
@@ -24,11 +24,12 @@ export default {
 		...mapGetters(["getRides", "getLoggedInUser", "isLoggedIn"])
 	},
 	methods: {
-		...mapActions(["fetchRides", "fetchUserRides"])
+		...mapActions(["fetchRides", "fetchUserRides", "fetchUserInfo"])
 	},
 	watch: {
 		getLoggedInUser: function() {
 			this.fetchUserRides();
+			this.fetchUserInfo();
 		},
 
 		getRides: function() {

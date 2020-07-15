@@ -5,8 +5,9 @@
 				<img src="../assets/img/user-pic.jpg" alt="User picture" />
 			</div>
 			<div class="profile-desc">
-				<h2>Josip Ivancic</h2>
-				<div class="email">josip.ivancic23@gmail.com</div>
+				<h2>{{ getUserData.name }} {{ getUserData.lastname }}</h2>
+				<div class="email">{{ getUserData.email }}</div>
+				<button class="btn" @click="createRide">Nova voznja</button>
 			</div>
 		</div>
 		<h2>Moje voznje</h2>
@@ -47,6 +48,27 @@
 						<span> {{ ride.seats }} mjesta </span>
 					</div>
 				</template>
+				<template v-slot:buttons>
+					<button class="btn" @click="deleteRide(ride._id)">
+						Delete
+					</button>
+					<button
+						class="btn"
+						@click="
+							goEditMode({
+								id: ride._id,
+								start: ride.start,
+								end: ride.end,
+								date: ride.date,
+								contact: ride.contact,
+								seats: ride.seats,
+								price: ride.price
+							})
+						"
+					>
+						Edit
+					</button>
+				</template>
 			</Card>
 		</div>
 	</div>
@@ -56,13 +78,19 @@
 import moment from "moment";
 
 import Card from "../components/Card";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	components: {
 		Card
 	},
 	computed: {
-		...mapGetters(["getUserRides"])
+		...mapGetters(["getUserRides", "getUserData"])
+	},
+	methods: {
+		...mapActions(["deleteRide", "goEditMode"]),
+		createRide() {
+			this.$router.push({ name: "Create" });
+		}
 	},
 	filters: {
 		moment: function(date) {
@@ -112,8 +140,11 @@ export default {
 		align-self: center;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
+		& > * {
+			margin-bottom: 1.5rem;
+		}
 	}
 }
 
@@ -136,6 +167,11 @@ h2 {
 	width: 90%;
 	@media only screen and(max-width:$bp-smallest) {
 		width: 100%;
+	}
+}
+.buttons {
+	button {
+		margin: 0 1rem;
 	}
 }
 </style>

@@ -94,7 +94,7 @@
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!seatsValidate">
-							Ne moze biti prazno
+							Vrijednost mora biti izmedju 1 i 10
 						</p>
 					</transition>
 				</div>
@@ -107,15 +107,17 @@
 						type="number"
 						name="price"
 						id="price"
+						placeholder="KM"
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!priceValidate">
-							Ne moze biti prazno
+							Vrijednost mora biti izmedju 1 i 100
 						</p>
 					</transition>
 				</div>
 				<div class="form-group">
 					<button
+						v-if="!isEditMode"
 						class="btn"
 						type="submit"
 						@click.prevent="
@@ -131,6 +133,25 @@
 						:class="{ disabled: $v.$invalid }"
 					>
 						Postavi
+					</button>
+					<button
+						v-else
+						class="btn"
+						type="submit"
+						@click.prevent="
+							editRide({
+								id,
+								start,
+								end,
+								date,
+								contact,
+								seats,
+								price
+							})
+						"
+						:class="{ disabled: $v.$invalid }"
+					>
+						Update
 					</button>
 				</div>
 				<div class="form-group">
@@ -149,7 +170,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { required, numeric } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 
 export default {
 	data() {
@@ -161,14 +182,16 @@ export default {
 			dateValidate: true,
 			contactValidate: true,
 			seatsValidate: true,
+
 			priceValidate: true,
 
-			start: null,
-			end: null,
-			date: null,
-			contact: null,
-			seats: null,
-			price: null
+			id: this.$store.state.editingRide.id || null,
+			start: this.$store.state.editingRide.start || null,
+			end: this.$store.state.editingRide.end || null,
+			date: this.$store.state.editingRide.date || null,
+			contact: this.$store.state.editingRide.contact || null,
+			seats: this.$store.state.editingRide.seats || null,
+			price: this.$store.state.editingRide.price || null
 		};
 	},
 	validations: {
@@ -183,23 +206,25 @@ export default {
 		},
 		contact: {
 			phoneNum(num) {
-				return /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g.test(
-					num
-				);
+				return /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/g.test(num);
 			}
 		},
 		seats: {
-			required
+			length(num) {
+				return num >= 1 && num <= 10;
+			}
 		},
 		price: {
-			required
+			length(num) {
+				return num >= 1 && num <= 100;
+			}
 		}
 	},
 	computed: {
-		...mapGetters(["getLoggedInUser"])
+		...mapGetters(["getLoggedInUser", "isEditMode"])
 	},
 	methods: {
-		...mapActions(["postRide"]),
+		...mapActions(["postRide", "editRide"]),
 		setStart() {
 			this.$v.start.$touch();
 			this.startValidate = this.$v.start.required;
@@ -218,12 +243,15 @@ export default {
 		},
 		setSeats() {
 			this.$v.seats.$touch();
-			this.seatsValidate = this.$v.seats.required;
+			this.seatsValidate = this.$v.seats.length;
 		},
 		setPrice() {
 			this.$v.price.$touch();
-			this.priceValidate = this.$v.price.required;
+			this.priceValidate = this.$v.price.length;
 		}
+	},
+	created() {
+		console.log(this.$store.state.editingRide);
 	}
 };
 </script>
@@ -236,6 +264,9 @@ export default {
 	justify-content: center;
 	align-items: center;
 	padding: 3rem;
+	@media only screen and(max-width:$bp-smallest) {
+		padding: 0;
+	}
 }
 .step-1,
 .step-2 {

@@ -37,7 +37,10 @@
 				/>
 				<transition name="fade" mode="out-in">
 					<p v-if="!passwordValidateLen">
-						Lozinka mora imati najmanje 6 znakova, broj i slovo
+						Lozinka mora imati najmanje 6 znakova
+					</p>
+					<p v-else-if="!passwordValidateStrong">
+						Lozinka mora sadrzati broj i slovo
 					</p>
 				</transition>
 			</div>
@@ -80,7 +83,7 @@
 </template>
 
 <script>
-import { required, email, sameAs } from "vuelidate/lib/validators";
+import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
 
 import { mapActions } from "vuex";
 export default {
@@ -91,7 +94,7 @@ export default {
 			emailValidateReq: true,
 
 			passwordValidateLen: true,
-			passwordValidateReq: true,
+			passwordValidateStrong: true,
 
 			confirmPasswordValidate: true,
 
@@ -107,11 +110,10 @@ export default {
 		},
 		password: {
 			required,
+			minLength: minLength(6),
 			strongPassword(password1) {
 				return (
-					/[a-z]/.test(password1) && // checks for a-z
-					/[0-9]/.test(password1) && // checks for 0-9
-					password1.length >= 6
+					/[a-z]/.test(password1) && /[0-9]/.test(password1) // checks for a-z // checks for 0-9
 				);
 			}
 		},
@@ -129,8 +131,8 @@ export default {
 		},
 		setPassword() {
 			this.$v.password.$touch();
-			this.passwordValidateLen = this.$v.password.strongPassword;
-			this.passwordValidateReq = this.$v.password.required;
+			this.passwordValidateStrong = this.$v.password.strongPassword;
+			this.passwordValidateLen = this.$v.password.minLength;
 		},
 		setConfirmPassword() {
 			this.$v.confirmPassword.$touch();
