@@ -101,20 +101,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/css/card";
 .profile {
 	min-height: 90vh;
-	width: 75%;
+	width: 90%;
 	margin: 0 auto;
-	padding: 5rem;
+	margin-top: 5rem;
 	color: $font-secondary;
-	@media only screen and(max-width:$bp-medium) {
+	/* @media only screen and(max-width:$bp-medium) {
 		width: 90%;
 	}
 	@media only screen and(max-width:$bp-smallest) {
 		width: 100%;
-		padding: 3rem 5rem;
-	}
+	} */
 }
 .profile-info {
 	display: flex;
@@ -126,7 +124,7 @@ export default {
 		align-items: center;
 	}
 	.profile-image {
-		width: 50%;
+		width: 40%;
 		align-self: center;
 		@media only screen and(max-width:$bp-small) {
 			margin-bottom: 3rem;
@@ -153,22 +151,22 @@ h2 {
 }
 
 .profile-rides {
-	margin-top: 5rem;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	flex-wrap: wrap;
+
+	width: 75%;
+	margin: 0 auto;
+	margin-top: 5rem;
 	color: $font-secondary;
 	@media only screen and(max-width:$bp-smaller) {
 		flex-direction: column;
 	}
-}
-.card {
-	width: 90%;
-	@media only screen and(max-width:$bp-smallest) {
-		width: 100%;
+	@media only screen and(max-width:$bp-medium) {
+		width: 85%;
 	}
 }
+
 .buttons {
 	button {
 		margin: 0 1rem;

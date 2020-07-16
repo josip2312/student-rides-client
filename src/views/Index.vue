@@ -93,7 +93,7 @@ export default {
 		align-items: center;
 		justify-content: space-around;
 		background-color: #fff;
-
+		box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 		z-index: 10;
 		@media only screen and(max-width:$bp-large) {
 			width: 65%;
@@ -175,6 +175,7 @@ export default {
 			width: 95%;
 		}
 		&-left {
+			box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 			opacity: 0;
 			transform: scaleY(0);
 			transform-origin: top;
@@ -188,43 +189,14 @@ export default {
 			flex-direction: column;
 			justify-content: space-around;
 			align-items: center;
-
 			transition: all 0.3s;
-			form {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-around;
-				margin-bottom: 3rem;
-				input {
-					width: 100%;
-					outline: none;
-					padding: 0.8rem 1.6rem;
-					font-size: 1.5rem;
-					border: none;
-					background-color: $color-tertiary;
-					border-bottom: 1px solid #fff;
-					transition: all 0.2s ease-out;
-					/* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-						0 1px 2px rgba(0, 0, 0, 0.24); */
-				}
-				input:focus,
-				input:hover {
-					border-bottom: 1px solid $blue;
-				}
-
-				label {
-					margin-bottom: 1rem;
-				}
-				#start {
-					margin-bottom: 1rem;
-				}
-			}
 		}
 		.isVisible {
 			opacity: 1;
 			transform: scaleY(1);
 		}
 		&-right {
+			box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 			opacity: 0;
 			transform: scaleY(0);
 			transform-origin: top;

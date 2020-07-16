@@ -1,10 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+import Login from "../views/auth/Login.vue";
+import Register from "../views/auth/Register.vue";
+import ForgotPassword from "../views/auth/ForgotPassword.vue";
+
 import Index from "../views/Index.vue";
 import Create from "../views/Create.vue";
 import Rides from "../views/Rides.vue";
-import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
 
 import store from "../store/index";
@@ -35,14 +38,19 @@ const routes = [
 		}
 	},
 	{
-		path: "/login",
+		path: "/auth/login",
 		name: "Login",
 		component: Login
 	},
 	{
-		path: "/register",
+		path: "/auth/register",
 		name: "Register",
 		component: Register
+	},
+	{
+		path: "/auth/forgot-password",
+		name: "ForgotPassword",
+		component: ForgotPassword
 	},
 	{
 		path: "/rides",

@@ -264,9 +264,6 @@ export default {
 	justify-content: center;
 	align-items: center;
 	padding: 3rem;
-	@media only screen and(max-width:$bp-smallest) {
-		padding: 0;
-	}
 }
 .step-1,
 .step-2 {

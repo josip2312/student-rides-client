@@ -60,8 +60,7 @@ export default {
 	data() {
 		return {
 			searchStart: "",
-			searchEnd: "",
-			localRides: this.getRides
+			searchEnd: ""
 		};
 	},
 	components: {
@@ -99,7 +98,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/css/card";
 .search {
 	display: flex;
 	color: $font-secondary;
@@ -118,6 +116,7 @@ export default {
 		justify-content: space-around;
 		align-items: center;
 		label {
+			font-weight: 500;
 			margin-bottom: 1rem;
 		}
 		input {
@@ -145,6 +144,7 @@ export default {
 		align-items: center;
 
 		label {
+			font-weight: 500;
 			margin-bottom: 1rem;
 		}
 		input {
@@ -168,27 +168,17 @@ export default {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	flex-wrap: wrap;
-	min-height: 90vh;
+	//flex-wrap: wrap;
 	color: $font-secondary;
-	padding: 5rem;
 	width: 75%;
 	margin: 0 auto;
-	@media only screen and(max-width:$bp-medium) {
-		width: 90%;
-	}
+	margin-top: 5rem;
+
 	@media only screen and(max-width:$bp-smaller) {
 		flex-direction: column;
 	}
-	@media only screen and(max-width:$bp-smallest) {
-		width: 100%;
-	}
-}
-.card {
-	width: 90%;
-
-	@media only screen and(max-width:$bp-smallest) {
-		width: 100%;
+	@media only screen and(max-width:$bp-medium) {
+		width: 85%;
 	}
 }
 </style>

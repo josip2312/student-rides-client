@@ -303,6 +303,10 @@ nav {
 	top: 26%;
 	right: 5%;
 	cursor: pointer;
+	@media only screen and(max-width:$bp-smallest) {
+		top: 30%;
+	}
+
 	img {
 		width: 3.5rem;
 	}

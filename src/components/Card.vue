@@ -24,15 +24,14 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-	margin-bottom: 3rem;
 	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
-	flex-basis: 50%;
+	width: 37.5rem;
 	justify-self: flex-start;
-
-	/* padding: 2rem 5rem; */
+	margin: 0 2.5rem;
+	margin-bottom: 3rem;
 	background-color: #fff;
 	& > * {
 		margin: 2rem 0;
@@ -43,6 +42,7 @@ export default {
 		align-items: center;
 		border-bottom: 1px solid #e6e6e6;
 		padding-bottom: 2rem;
+
 		.start {
 			font-weight: 600;
 		}

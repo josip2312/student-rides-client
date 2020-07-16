@@ -42,10 +42,11 @@ export default new Vuex.Store({
 		getUserRides: state => state.userRides,
 		getEditingRide: state => state.editingRide,
 		isEditMode: state => state.editMode,
+		getUserData: state => state.userData,
+
 		isLoggedIn: state => state.loggedIn,
 		getJWT: state => state.jwtToken,
-		getLoggedInUser: state => state.loggedInUser,
-		getUserData: state => state.userData
+		getLoggedInUser: state => state.loggedInUser
 	},
 	mutations: {
 		SET_RIDES: (state, rides) => {
@@ -63,9 +64,11 @@ export default new Vuex.Store({
 			state.userRides = state.userRides.filter(ride => ride._id !== id);
 		},
 		RIDE_UPDATED: (state, data) => {
-			const foundRide = state.rides.find(ride => ride._id === data.id);
-			state.rides = state.rides.filter(ride => ride._id !== data.id);
-			state.rides = [...state.rides, foundRide];
+			console.log("State before filter", state.rides);
+			state.rides = state.rides.filter(ride => {
+				return ride._id !== data.id;
+			});
+
 			router.push({ name: "Profile" });
 		},
 		SET_EDITING_RIDE: (state, data) => {
@@ -92,7 +95,7 @@ export default new Vuex.Store({
 			router.push({ name: "Index" });
 		},
 		REGISTER_USER: () => {
-			router.push("/login");
+			router.push({ name: "Login" });
 		},
 		SET_USER_DATA: (state, data) => {
 			state.userData = data;
@@ -184,7 +187,12 @@ export default new Vuex.Store({
 					},
 					config
 				);
-				commit("RIDE_UPDATED", data);
+
+				const updatedRide = await axios.get(
+					`${URL}/rides/user/${data.id}`
+				);
+				console.log(updatedRide);
+				commit("RIDE_UPDATED", updatedRide.data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -226,6 +234,11 @@ export default new Vuex.Store({
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		async resetPassword({ commit }, email) {
+			console.log(email);
+			await axios.post(`${URL}/auth/forgotpassword`, { email });
+			commit("RESET_PASSWORD");
 		},
 		async fetchUserInfo({ commit, getters }) {
 			try {
