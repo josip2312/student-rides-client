@@ -17,7 +17,10 @@ export default new Vuex.Store({
 		userRides: [],
 		editMode: false,
 		editingRide: {},
+		detailsRide: {},
 
+		success: {},
+		error: {},
 		loggedIn: false,
 		jwtToken: null,
 		loggedInUser: null,
@@ -29,6 +32,9 @@ export default new Vuex.Store({
 			reducer: state => ({
 				rides: state.rides,
 				userRides: state.userRides,
+				detailsRide: state.detailsRide,
+
+				error: state.error,
 				loggedIn: state.loggedIn,
 				jwtToken: state.jwtToken,
 				loggedInUser: state.loggedInUser,
@@ -40,10 +46,13 @@ export default new Vuex.Store({
 	getters: {
 		getRides: state => state.rides,
 		getUserRides: state => state.userRides,
+		getDetailsRide: state => state.detailsRide,
 		getEditingRide: state => state.editingRide,
 		isEditMode: state => state.editMode,
 		getUserData: state => state.userData,
 
+		getError: state => state.error,
+		getSuccess: state => state.success,
 		isLoggedIn: state => state.loggedIn,
 		getJWT: state => state.jwtToken,
 		getLoggedInUser: state => state.loggedInUser
@@ -52,24 +61,36 @@ export default new Vuex.Store({
 		SET_RIDES: (state, rides) => {
 			state.rides = rides;
 		},
+
+		ERROR: (state, error) => {
+			state.error = error.response.data;
+		},
+		SUCCESS: (state, message) => {
+			state.success = message;
+		},
 		SET_USER_RIDES: (state, rides) => {
 			state.userRides = rides;
 		},
 		ADD_RIDE: (state, ride) => {
 			state.rides.push(ride);
 			router.push({ name: "Rides" });
+			location.reload();
+		},
+		SET_RIDE_DETAILS: (state, data) => {
+			data.ride._id = data.id;
+			state.detailsRide = data.ride;
+			router.push({ name: "RideDetails" });
 		},
 		RIDE_DELETED: (state, id) => {
 			state.rides = state.rides.filter(ride => ride._id !== id);
 			state.userRides = state.userRides.filter(ride => ride._id !== id);
 		},
 		RIDE_UPDATED: (state, data) => {
-			console.log("State before filter", state.rides);
 			state.rides = state.rides.filter(ride => {
 				return ride._id !== data.id;
 			});
-
 			router.push({ name: "Profile" });
+			location.reload();
 		},
 		SET_EDITING_RIDE: (state, data) => {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
@@ -81,7 +102,9 @@ export default new Vuex.Store({
 				contact: data.contact,
 				date: formattedDate,
 				seats: data.seats,
-				price: data.price
+				price: data.price,
+				smoking: data.smoking,
+				car: data.car
 			};
 			state.editMode = true;
 		},
@@ -99,6 +122,9 @@ export default new Vuex.Store({
 		},
 		SET_USER_DATA: (state, data) => {
 			state.userData = data;
+		},
+		LOGIN_FAILED: (state, data) => {
+			state.error = data;
 		}
 	},
 	actions: {
@@ -123,12 +149,14 @@ export default new Vuex.Store({
 		},
 
 		async postRide({ commit, getters }, data) {
+			console.log(data);
 			let config = {
 				headers: {
 					Authorization: `Bearer ${getters.getJWT}`
 				}
 			};
 			try {
+				//problem je sto ja stavljam ovaj ride bez ida u state
 				await axios.post(
 					"http://localhost:3000/rides",
 					{
@@ -138,14 +166,25 @@ export default new Vuex.Store({
 						contact: data.contact,
 						seats: data.seats,
 						price: data.price,
-						userId: getters.getLoggedInUser
+						userId: getters.getLoggedInUser,
+						smoking: data.smoking,
+						car: data.car
 					},
 					config
 				);
-
+				//const ride = await axios.get(`${URL}/rides/user/${id}`);
 				commit("ADD_RIDE", data);
 			} catch (error) {
 				console.log(error);
+			}
+		},
+		async rideDetails({ commit }, id) {
+			try {
+				const ride = await axios.get(`${URL}/rides/user/${id}`);
+				console.log(ride);
+				commit("SET_RIDE_DETAILS", { ride: ride.data, id });
+			} catch (error) {
+				console.log(error.response);
 			}
 		},
 		async deleteRide({ commit, getters }, id) {
@@ -158,6 +197,7 @@ export default new Vuex.Store({
 
 				await axios.delete(`${URL}/rides/${id}`, config);
 				commit("RIDE_DELETED", id);
+				commit("SUCCESS", "Vožnja uklonjena");
 			} catch (error) {
 				console.log(error);
 			}
@@ -174,6 +214,11 @@ export default new Vuex.Store({
 					}
 				};
 
+				data.smoking === "yes"
+					? (data.smoking = true)
+					: (data.smoking = false);
+
+				console.log(data.smoking);
 				await axios.patch(
 					`${URL}/rides/${data.id}`,
 					{
@@ -183,7 +228,9 @@ export default new Vuex.Store({
 						date: data.date,
 						contact: data.contact,
 						seats: data.seats,
-						price: data.price
+						price: data.price,
+						smoking: data.smoking,
+						car: data.car
 					},
 					config
 				);
@@ -196,6 +243,10 @@ export default new Vuex.Store({
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		async reserveRide({ commit }, id) {
+			console.log(id);
+			commit("SET_RESERVATION", id);
 		},
 		//authentication
 		async postLogin({ commit }, data) {
@@ -210,7 +261,7 @@ export default new Vuex.Store({
 
 				commit("SET_LOGGED_IN", req.data);
 			} catch (error) {
-				console.log(error);
+				console.log(error.response);
 			}
 		},
 		userLogout() {
@@ -218,7 +269,6 @@ export default new Vuex.Store({
 			location.reload();
 		},
 		async registerUser({ commit }, data) {
-			console.log(data);
 			try {
 				const req = await axios.post(
 					"http://localhost:3000/auth/register",
@@ -232,23 +282,41 @@ export default new Vuex.Store({
 				console.log(req.data);
 				commit("REGISTER_USER");
 			} catch (error) {
-				console.log(error);
+				console.log(error.response);
 			}
 		},
-		async resetPassword({ commit }, email) {
+		async requestResetPassword({ commit }, email) {
 			console.log(email);
-			await axios.post(`${URL}/auth/forgotpassword`, { email });
-			commit("RESET_PASSWORD");
+			try {
+				await axios.post(`${URL}/auth/forgotpassword`, { email });
+				commit("REQUEST_RESET_PASSWORD");
+			} catch (error) {
+				console.log(error.response);
+			}
+		},
+
+		async resetPassword({ commit }, data) {
+			try {
+				const req = await axios.put(
+					`${URL}/auth/resetpassword/${data.id}`,
+					{
+						password: data.password
+					}
+				);
+				commit("SET_LOGGED_IN", req.data);
+			} catch (error) {
+				console.log(error.response);
+			}
 		},
 		async fetchUserInfo({ commit, getters }) {
 			try {
 				const req = await axios.get(
 					`${URL}/auth/user/${getters.getLoggedInUser}`
 				);
-				console.log(req.data);
+
 				commit("SET_USER_DATA", req.data);
 			} catch (error) {
-				console.log(error);
+				console.log(error.response);
 			}
 		}
 	}

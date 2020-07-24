@@ -1,24 +1,26 @@
 <template>
 	<div class="card">
 		<div class="card-top">
-			<slot name="card-top">Default</slot>
-		</div>
-		<div class="card-mid">
-			<slot name="card-mid">Default mid</slot>
+			<div class="card-left">
+				<slot name="card-left">Default left</slot>
+			</div>
+			<div class="card-right">
+				<slot name="card-right">Default right</slot>
+			</div>
 		</div>
 		<div class="card-down">
-			<slot name="card-down">Default down</slot>
-		</div>
-		<button type="submit" class="btn">Zakazi!</button>
-		<div class="buttons">
-			<slot name="buttons"></slot>
+			<slot name="card-down"></slot>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-	name: "Card"
+	name: "Card",
+	computed: {
+		...mapGetters(["isLoggedIn"])
+	}
 };
 </script>
 
@@ -28,21 +30,50 @@ export default {
 	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
-	width: 37.5rem;
 	justify-self: flex-start;
-	margin: 0 2.5rem;
+	flex: 1;
+
+	width: 50rem;
+	padding: 2rem 1rem;
 	margin-bottom: 3rem;
 	background-color: #fff;
-	& > * {
-		margin: 2rem 0;
+	cursor: pointer;
+	position: relative;
+	@media only screen and(max-width:$bp-small) {
+		width: 40rem;
 	}
+	@media only screen and(min-width:$bp-largest) {
+		width: 60rem;
+	}
+
 	&-top {
 		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		border-bottom: 1px solid #e6e6e6;
-		padding-bottom: 2rem;
 
+		margin: 2.5rem 0;
+		width: 100%;
+	}
+	&-left {
+		flex-basis: 50%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+
+		padding-left: 3rem;
+		height: 100%;
+		.path {
+			margin-right: 1.5rem;
+			img {
+				height: 7rem;
+			}
+		}
+		.path-text {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+			margin-top: -0.75rem;
+			height: 8rem;
+		}
 		.start {
 			font-weight: 600;
 		}
@@ -50,21 +81,24 @@ export default {
 			font-weight: 600;
 		}
 	}
-	&-mid {
-		padding: 1.5rem 1.5rem;
+	&-right {
+		flex-basis: 50%;
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		align-items: center;
 		.price {
 			flex: 1;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+
+			font-size: 1.8rem;
 			span:first-child {
+				font-weight: 600;
 				color: $grey;
 			}
 			span:first-child + span {
-				font-size: 2rem;
+				font-size: 2.2rem;
 			}
 		}
 		.date {
@@ -72,44 +106,17 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			img {
-			}
+
+			font-size: 1.8rem;
 		}
 	}
 	&-down {
-		padding: 1.5rem 1.5rem;
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		align-items: center;
-		.contact {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+		button {
+			margin: 0 1rem;
 		}
-		.seats {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			img {
-				width: 2.4rem;
-				height: 2.4rem;
-			}
-		}
-	}
-	.btn {
-		width: 90%;
-		margin: 1rem auto;
-		//background-color: hsl(218, 9%, 96%);
-	}
-}
-.buttons {
-	width: 90%;
-	display: flex;
-	margin: 0 auto;
-	.btn:first-child {
-		margin-right: 1.5rem;
 	}
 }
 </style>

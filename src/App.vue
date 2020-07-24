@@ -2,9 +2,7 @@
 	<div id="app">
 		<Header />
 		<transition name="fade" mode="out-in">
-			<!-- <keep-alive include="Create"> -->
 			<router-view />
-			<!-- </keep-alive> -->
 		</transition>
 		<Footer />
 	</div>
@@ -15,6 +13,7 @@ import { mapActions, mapGetters } from "vuex";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+//import Error from "./components/Error";
 export default {
 	components: {
 		Header,
@@ -43,6 +42,7 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/base";
+
 .fade-enter-active,
 .fade-leave-active {
 	transition-duration: 0.2s;

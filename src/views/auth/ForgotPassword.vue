@@ -30,7 +30,7 @@
 				<button
 					class="btn"
 					type="submit"
-					@click.prevent="resetPassword(email)"
+					@click.prevent="requestResetPassword(email)"
 					:class="{ disabled: $v.$invalid }"
 				>
 					Posalji link za ponovno postavljanje
@@ -60,7 +60,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["resetPassword"]),
+		...mapActions(["requestResetPassword"]),
 		setEmail() {
 			this.$v.email.$touch();
 			this.emailValidateEmail = this.$v.email.email;

@@ -4,11 +4,13 @@ import VueRouter from "vue-router";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import ForgotPassword from "../views/auth/ForgotPassword.vue";
+import NewPassword from "../views/auth/NewPassword.vue";
 
 import Index from "../views/Index.vue";
 import Create from "../views/Create.vue";
 import Rides from "../views/Rides.vue";
 import Profile from "../views/Profile.vue";
+import RideDetails from "../views/RideDetails.vue";
 
 import store from "../store/index";
 
@@ -21,7 +23,7 @@ const routes = [
 		component: Index
 	},
 	{
-		path: "/create",
+		path: "/rides/create",
 		name: "Create",
 		component: Create,
 		meta: {
@@ -38,19 +40,21 @@ const routes = [
 		}
 	},
 	{
-		path: "/auth/login",
-		name: "Login",
-		component: Login
-	},
-	{
-		path: "/auth/register",
-		name: "Register",
-		component: Register
-	},
-	{
-		path: "/auth/forgot-password",
-		name: "ForgotPassword",
-		component: ForgotPassword
+		path: "/rides/ride-details",
+		name: "RideDetails",
+		component: RideDetails,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: (to, from, next) => {
+			if (to.matched.some(rec => rec.meta.requiresAuth)) {
+				if (store.state.loggedIn) {
+					next();
+				} else {
+					next({ name: "Login" });
+				}
+			}
+		}
 	},
 	{
 		path: "/rides",
@@ -69,8 +73,30 @@ const routes = [
 			}
 		}
 	},
+
 	{
-		path: "/profile",
+		path: "/auth/login",
+		name: "Login",
+		component: Login
+	},
+	{
+		path: "/auth/register",
+		name: "Register",
+		component: Register
+	},
+	{
+		path: "/auth/forgotpassword",
+		name: "ForgotPassword",
+		component: ForgotPassword
+	},
+	{
+		path: "/auth/newpassword/:id",
+		name: "NewPassword",
+		component: NewPassword
+	},
+
+	{
+		path: "/auth/profile",
 		name: "Profile",
 		component: Profile,
 		meta: {

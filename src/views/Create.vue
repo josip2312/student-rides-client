@@ -1,7 +1,7 @@
 <template>
 	<section class="create">
-		<form action="/rides" class="form-control">
-			<section class="step-1" v-if="step === 1">
+		<transition name="fade" mode="in-out">
+			<form class="step-1 form-control" v-if="step === 1">
 				<div class="form-group">
 					<h2 class="heading-2">Postavi voznju</h2>
 				</div>
@@ -59,15 +59,16 @@
 						Dalje
 					</button>
 				</div>
-			</section>
-
-			<section
-				class="step-2"
+			</form>
+		</transition>
+		<transition name="fade" mode="in-out">
+			<form
+				class="step-2 form-control"
 				v-if="step === 2"
 				:class="{ isVisible: step === 2 }"
 			>
 				<div class="form-group">
-					<label for="email">Kontakt</label>
+					<label for="email">Kontakt broj</label>
 					<input
 						:class="{ invalid: $v.contact.$error }"
 						@blur="setContact"
@@ -75,6 +76,7 @@
 						type="text"
 						name="contact"
 						id="contact"
+						placeholder="063 ### ###"
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!contactValidate">
@@ -116,20 +118,91 @@
 					</transition>
 				</div>
 				<div class="form-group">
+					<button class="btn" type="submit" @click.prevent="step++">
+						Dalje
+					</button>
+				</div>
+				<div class="form-group">
+					<button
+						class="btn btn-secondary"
+						type="submit"
+						@click.prevent="step--"
+					>
+						Natrag
+					</button>
+				</div>
+			</form>
+		</transition>
+		<transition name="fade" mode="in-out">
+			<form
+				@submit.prevent="
+					postRide({
+						start,
+						end,
+						date,
+						contact,
+						seats,
+						price,
+						smoking,
+						car
+					})
+				"
+				class="step-2 form-control"
+				v-if="step === 3"
+			>
+				<div class="form-group">
+					<label for="smoking">Cigarete</label>
+					<div class="radio-buttons">
+						<label for="smokingYes">Da</label>
+						<input
+							:class="{ invalid: $v.smoking.$error }"
+							@blur="setSmoking"
+							v-model="smoking"
+							type="radio"
+							name="smoking"
+							id="smokingYes"
+							value="yes"
+						/>
+						<label for="smokingNo">Ne</label>
+						<input
+							:class="{ invalid: $v.smoking.$error }"
+							@blur="setSmoking"
+							v-model="smoking"
+							type="radio"
+							name="smoking"
+							id="smokingNo"
+							value="no"
+						/>
+					</div>
+
+					<transition name="fade" mode="out-in">
+						<p v-if="!smokingValidate">
+							Izaberite jednu opciju
+						</p>
+					</transition>
+				</div>
+				<div class="form-group">
+					<label for="seats">Marka i tip automobila</label>
+					<input
+						:class="{ invalid: $v.seats.$error }"
+						@blur="setCar"
+						v-model="car"
+						type="text"
+						name="car"
+						id="car"
+					/>
+					<transition name="fade" mode="out-in">
+						<p v-if="!carValidate">
+							Ne moze biti prazno
+						</p>
+					</transition>
+				</div>
+
+				<div class="form-group">
 					<button
 						v-if="!isEditMode"
 						class="btn"
 						type="submit"
-						@click.prevent="
-							postRide({
-								start,
-								end,
-								date,
-								contact,
-								seats,
-								price
-							})
-						"
 						:class="{ disabled: $v.$invalid }"
 					>
 						Postavi
@@ -146,7 +219,9 @@
 								date,
 								contact,
 								seats,
-								price
+								price,
+								smoking,
+								car
 							})
 						"
 						:class="{ disabled: $v.$invalid }"
@@ -163,8 +238,8 @@
 						Natrag
 					</button>
 				</div>
-			</section>
-		</form>
+			</form>
+		</transition>
 	</section>
 </template>
 
@@ -182,8 +257,9 @@ export default {
 			dateValidate: true,
 			contactValidate: true,
 			seatsValidate: true,
-
 			priceValidate: true,
+			smokingValidate: true,
+			carValidate: true,
 
 			id: this.$store.state.editingRide.id || null,
 			start: this.$store.state.editingRide.start || null,
@@ -191,7 +267,10 @@ export default {
 			date: this.$store.state.editingRide.date || null,
 			contact: this.$store.state.editingRide.contact || null,
 			seats: this.$store.state.editingRide.seats || null,
-			price: this.$store.state.editingRide.price || null
+			price: this.$store.state.editingRide.price || null,
+			smoking:
+				this.$store.state.editingRide.smoking === true ? "yes" : "no",
+			car: this.$store.state.editingRide.car || null
 		};
 	},
 	validations: {
@@ -206,7 +285,10 @@ export default {
 		},
 		contact: {
 			phoneNum(num) {
-				return /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/g.test(num);
+				return (
+					/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s/0-9]*$/g.test(num) &&
+					num.toString().split("").length >= 7
+				);
 			}
 		},
 		seats: {
@@ -218,6 +300,12 @@ export default {
 			length(num) {
 				return num >= 1 && num <= 100;
 			}
+		},
+		smoking: {
+			required
+		},
+		car: {
+			required
 		}
 	},
 	computed: {
@@ -248,10 +336,15 @@ export default {
 		setPrice() {
 			this.$v.price.$touch();
 			this.priceValidate = this.$v.price.length;
+		},
+		setSmoking() {
+			this.$v.smoking.$touch();
+			this.$smokingValidate = this.$v.smoking.required;
+		},
+		setCar() {
+			this.$v.car.$touch();
+			this.$carValidate = this.$v.car.required;
 		}
-	},
-	created() {
-		console.log(this.$store.state.editingRide);
 	}
 };
 </script>
@@ -259,17 +352,19 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/css/form";
 .create {
-	min-height: 90vh;
+	height: 90vh;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 3rem;
 }
-.step-1,
-.step-2 {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
+form {
+	position: absolute;
+}
+.form-control {
+	@media only screen and(max-width:$bp-smallest) {
+		width: 86%;
+	}
 }
 .btn-secondary {
 	background-color: $color-tertiary;
@@ -278,13 +373,5 @@ export default {
 }
 .btn-secondary:hover {
 	background-color: $color-tertiary;
-}
-.fade-enter-active,
-.fade-leave-active {
-	transition: all 0.2s;
-}
-.fade-enter,
-.fade-leave-to {
-	opacity: 0;
 }
 </style>

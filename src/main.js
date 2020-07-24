@@ -3,6 +3,17 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Vuelidate from "vuelidate";
+import axios from "axios";
+
+axios.interceptors.response.use(
+	function(response) {
+		return response;
+	},
+	function(error) {
+		store.commit("ERROR", error);
+		return Promise.reject(error);
+	}
+);
 
 Vue.config.productionTip = false;
 

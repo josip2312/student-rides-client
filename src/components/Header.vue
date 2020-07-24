@@ -13,7 +13,7 @@
 					<img
 						:class="{ active: visible }"
 						src="../assets/img/menu.svg"
-						alt="Menu"
+						alt="Menu icon"
 						ref="menu-icon"
 					/>
 				</div>
@@ -24,61 +24,61 @@
 					:class="{ isVisible: visible }"
 				>
 					<router-link :to="{ name: 'Index' }" tag="li"
-						>Home</router-link
+						>Početna</router-link
 					>
 					<router-link :to="{ name: 'Login' }" tag="li"
-						>Login</router-link
+						>Prijava</router-link
 					>
 					<router-link :to="{ name: 'Register' }" tag="li"
-						>Register</router-link
+						>Registracija</router-link
 					>
 				</ul>
 
 				<ul v-else ref="sidebar" :class="{ isVisible: visible }">
 					<router-link :to="{ name: 'Index' }" tag="li"
-						>Home</router-link
+						>Početna</router-link
 					>
 					<router-link :to="{ name: 'Rides' }" tag="li"
-						>Voznje</router-link
+						>Vožnje</router-link
 					>
-					<li @click="userLogout">Log out</li>
+					<li @click="userLogout">Odjavi se</li>
 				</ul>
 			</nav>
 			<div class="user" v-if="isLoggedIn" @click="sendToProfile">
-				<img src="../assets/img/user.svg" alt="User" />
+				<img src="../assets/img/user.svg" alt="User icon" />
 			</div>
 		</header>
 		<div class="mobile-nav" v-if="isMobile">
 			<ul class="mobile-nav-wrapper" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Index' }" tag="li">
-					<img src="../assets/img/home.svg" alt="Home" />
-					<span>Home</span>
+					<img src="../assets/img/home.svg" alt="Home icon" />
+					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Login' }" tag="li">
-					<img src="../assets/img/login.svg" alt="Login" />
-					<span>Login</span>
+					<img src="../assets/img/login.svg" alt="Login icon" />
+					<span>Prijava</span>
 				</router-link>
 				<router-link :to="{ name: 'Register' }" tag="li">
-					<img src="../assets/img/useradd.svg" alt="Sign up" />
-					<span>Sign up</span>
+					<img src="../assets/img/useradd.svg" alt="Sign up icon" />
+					<span>Registracija</span>
 				</router-link>
 			</ul>
 			<ul class="mobile-nav-wrapper" v-else>
 				<router-link :to="{ name: 'Index' }" tag="li">
-					<img src="../assets/img/home.svg" alt="Home" />
-					<span>Home</span>
+					<img src="../assets/img/home.svg" alt="Home icon" />
+					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Rides' }" tag="li">
-					<img src="../assets/img/rides.svg" alt="Voznje" />
-					<span>Voznje</span>
+					<img src="../assets/img/rides.svg" alt="Car icon" />
+					<span>Vožnje</span>
 				</router-link>
 				<li @click="userLogout">
 					<img
 						src="../assets/img/logout.svg"
 						@click="userLogout"
-						alt="Log out"
+						alt="Log out icon"
 					/>
-					<span>Log out</span>
+					<span>Odjavi se</span>
 				</li>
 			</ul>
 		</div>
@@ -159,31 +159,36 @@ export default {
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	height: 11vh;
-	background: $blue;
-	width: 100%;
 	display: flex;
 	align-items: center;
+	height: 11vh;
+	width: 100%;
+
+	background: $blue;
+
 	&-wrapper {
-		width: 90%;
-		margin: 0 auto;
 		display: flex;
 		justify-content: space-around;
+
+		width: 90%;
+		margin: 0 auto;
 		@media only screen and(max-width:$bp-smallest) {
 			width: 100%;
 		}
 		li {
 			flex: 1;
-			text-transform: uppercase;
-			list-style: none;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
+			text-transform: uppercase;
+			list-style: none;
 			font-size: 1.4rem;
 			cursor: pointer;
 			img {
 				margin-bottom: 0.5rem;
+				width: 2.5rem;
+				height: 2.5rem;
 			}
 		}
 		.router-link-exact-active {
@@ -198,32 +203,32 @@ export default {
 	top: 0;
 	left: 0;
 	position: fixed;
-	z-index: 10;
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.3s;
 	background-color: rgba(#000, 0.8);
 	filter: blur(1);
-	z-index: 11;
+	//z-index: 11;
+	z-index: 10;
 }
 header {
 	display: block;
 	background-color: $color-primary;
 	position: sticky;
 	top: 0;
-	z-index: 20;
 	width: 100%;
 	height: 10vh;
 	z-index: 20;
 }
 
 nav {
-	width: 70%;
-	height: 100%;
-	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	width: 70%;
+	height: 100%;
+	margin: 0 auto;
 	@media only screen and(max-width:$bp-smallest) {
 		width: 80%;
 	}
@@ -257,8 +262,9 @@ nav {
 		@media only screen and(max-width:$bp-smaller) {
 			transform: translateX(50vw);
 			flex-direction: column;
-			position: fixed;
 			justify-content: flex-start;
+
+			position: fixed;
 			top: 10vh;
 			right: 0;
 			height: 90vh;
@@ -273,11 +279,13 @@ nav {
 			border-radius: 10rem;
 			transition: all 0.3s;
 			cursor: pointer;
+
 			@media only screen and(max-width:$bp-smaller) {
 				flex-basis: 10%;
 				display: flex;
 				justify-content: center;
 				align-items: center;
+
 				padding: 0;
 				margin: 1.5rem 0;
 				border-radius: 0;
@@ -303,8 +311,14 @@ nav {
 	top: 26%;
 	right: 5%;
 	cursor: pointer;
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$bp-large) {
 		top: 30%;
+	}
+	@media only screen and(max-width:$bp-small) {
+		top: 33%;
+	}
+	@media only screen and(max-width:$bp-smallest) {
+		top: 34%;
 	}
 
 	img {

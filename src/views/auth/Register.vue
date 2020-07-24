@@ -1,12 +1,15 @@
 <template>
 	<section class="register">
-		<form class="form-control">
+		<form
+			class="form-control"
+			@submit.prevent="registerUser({ name, lastname, email, password })"
+		>
 			<div class="form-group">
-				<h2 class="heading-2">Register</h2>
+				<h2 class="heading-2">Registracija</h2>
 			</div>
 			<div class="form-register-group">
 				<div class="form-group">
-					<label for="name">Name</label>
+					<label for="name">Ime</label>
 					<input
 						:class="{ invalid: $v.name.$error }"
 						@blur="setName"
@@ -23,7 +26,7 @@
 					</transition>
 				</div>
 				<div class="form-group">
-					<label for="lastname">Last name</label>
+					<label for="lastname">Prezime</label>
 					<input
 						:class="{ invalid: $v.lastname.$error }"
 						@blur="setLastname"
@@ -40,7 +43,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="email">Email Address</label>
+				<label for="email">Email Adresa</label>
 				<input
 					:class="{ invalid: $v.email.$error }"
 					v-model="email"
@@ -61,7 +64,7 @@
 				</transition>
 			</div>
 			<div class="form-group">
-				<label for="password">Password</label>
+				<label for="password">Lozinka</label>
 				<input
 					:class="{ invalid: $v.password.$error }"
 					@blur="setPassword"
@@ -80,7 +83,7 @@
 				</transition>
 			</div>
 			<div class="form-group">
-				<label for="confirmPassword">Confirm your password</label>
+				<label for="confirmPassword">Potvrdi lozinku</label>
 				<input
 					:class="{ invalid: $v.confirmPassword.$error }"
 					@blur="setConfirmPassword"
@@ -100,23 +103,28 @@
 				<button
 					class="btn"
 					type="submit"
-					@click.prevent="
-						registerUser({ name, lastname, email, password })
-					"
 					:class="{ disabled: $v.$invalid }"
+					:disabled="$v.$invalid"
 				>
-					Register
+					Registriraj se
 				</button>
 			</div>
 		</form>
+
+		<Error />
 	</section>
 </template>
 
 <script>
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 import { mapActions } from "vuex";
+import Error from "@/components/Error";
+
 export default {
-	name: "About",
+	name: "Register",
+	components: {
+		Error
+	},
 	data() {
 		return {
 			emailValidateEmail: true,

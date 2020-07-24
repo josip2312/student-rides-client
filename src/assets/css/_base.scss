@@ -22,6 +22,8 @@ $font-secondary: #212121;
 }
 $bp-largest: 125em; //2000px
 $bp-x-large: 87.5em; //1400px
+$bp-larger: 75em; //1200px
+
 $bp-large: 62.5em; //1000px
 $bp-medium: 50em; //800px
 $bp-smaller: 43.75rem; //700
@@ -35,14 +37,20 @@ html {
 		font-size: 75%;
 	}
 	@media only screen and(min-width:$bp-largest) {
-		font-size: 100%;
+		font-size: 105%;
+	}
+	@media only screen and(max-width:$bp-larger) {
+		font-size: 55%;
 	}
 
 	@media only screen and(max-width:$bp-large) {
-		font-size: 55%;
+		font-size: 50%;
+	}
+	@media only screen and(max-width:$bp-medium) {
+		font-size: 47.5%;
 	}
 	@media only screen and(max-width:$bp-small) {
-		font-size: 50%;
+		font-size: 47.5%;
 	}
 	@media only screen and(max-width:$bp-smallest) {
 		font-size: 45%;
@@ -57,6 +65,7 @@ body {
 	color: $font-primary;
 	font-size: 1.6rem;
 	background-color: $color-tertiary;
+
 	overflow-x: hidden;
 }
 a {
@@ -68,11 +77,17 @@ a {
 	font-size: 3rem;
 	font-weight: 300;
 }
+.heading-2 {
+	font-family: "Open Sans", sans-serif;
+	color: $font-secondary;
+	font-size: 2.4rem;
+	font-weight: 400;
+}
 .heading-3 {
 	font-family: "Open Sans", sans-serif;
 	color: $font-secondary;
 	font-size: 2rem;
-	font-weight: 400;
+	font-weight: 500;
 }
 .heading-4 {
 	font-family: "Open Sans", sans-serif;
@@ -85,7 +100,7 @@ a {
 	text-decoration: none;
 	border: 0;
 	background-color: $blue;
-	padding: 1.6rem 2.2rem;
+	padding: 1.4rem 2.1rem;
 	color: $font-primary;
 	font-size: 1.6rem;
 	outline: none;
@@ -97,4 +112,18 @@ a {
 }
 .btn:hover {
 	//background-color: $color-primary;
+}
+
+@mixin input {
+	font-size: 1.6rem;
+	font-family: "Montserrat", sans-serif;
+	color: $font-secondary;
+	padding: 1.2rem 1rem;
+	width: 100%;
+	outline: none;
+	border: none;
+	border-bottom: 1px solid $color-tertiary;
+	transition: all 0.2s ease-out;
+	background-color: $color-tertiary;
+	transition: all 0.2s;
 }

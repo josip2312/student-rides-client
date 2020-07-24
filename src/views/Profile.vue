@@ -1,54 +1,55 @@
 <template>
-	<div class="profile">
+	<section class="profile">
 		<div class="profile-info">
 			<div class="profile-image">
 				<img src="../assets/img/user-pic.jpg" alt="User picture" />
 			</div>
 			<div class="profile-desc">
-				<h2>{{ getUserData.name }} {{ getUserData.lastname }}</h2>
-				<div class="email">{{ getUserData.email }}</div>
+				<h2 class="heading-2">
+					<span>
+						{{ getUserData.name }} {{ getUserData.lastname }}
+					</span>
+					<img src="../assets/img/edit.svg" alt="Edit name" />
+				</h2>
+				<div class="email">
+					<span>
+						{{ getUserData.email }}
+					</span>
+					<img src="../assets/img/edit.svg" alt="Edit email" />
+				</div>
 				<button class="btn" @click="createRide">Nova voznja</button>
 			</div>
 		</div>
-		<h2>Moje voznje</h2>
+		<h2 class="heading-2">Moje voznje</h2>
 		<div class="profile-rides">
+			<div class="no-rides" v-if="getUserRides.length < 1">
+				No rides
+			</div>
 			<Card v-for="(ride, index) in getUserRides" :key="index">
-				<template v-slot:card-top>
-					<div class="start">{{ ride.start }}</div>
-					<img src="../assets/img/arrow.svg" alt="Right arrow" />
-					<div class="end">{{ ride.end }}</div>
-				</template>
-				<template v-slot:card-mid>
-					<div class="price">
-						<span>KM</span>
-						<span>{{ ride.price }}</span>
+				<template v-slot:card-left>
+					<div class="path">
+						<img src="../assets/img/path.svg" alt="Right arrow" />
 					</div>
+					<div class="path-text">
+						<div class="start">{{ ride.start }}</div>
+						<div class="end">{{ ride.end }}</div>
+					</div>
+				</template>
+				<template v-slot:card-right>
 					<div class="date">
 						<span>
-							<img src="../assets/img/date.svg" alt="Date" />
+							<img src="../assets/img/date.svg" alt="Date icon" />
 						</span>
 						<span>
 							{{ ride.date | moment }}
 						</span>
 					</div>
-				</template>
-				<template v-slot:card-down>
-					<div class="contact">
-						<span
-							><img src="../assets/img/phone.svg" alt="Phone" />
-						</span>
-						<span>
-							{{ ride.contact }}
-						</span>
-					</div>
-					<div class="seats">
-						<span>
-							<img src="../assets/img/seat.svg" alt="Seat" />
-						</span>
-						<span> {{ ride.seats }} mjesta </span>
+					<div class="price">
+						<span>KM</span>
+						<span>{{ ride.price }}</span>
 					</div>
 				</template>
-				<template v-slot:buttons>
+				<template v-slot:card-down v-if="isLoggedIn">
 					<button class="btn" @click="deleteRide(ride._id)">
 						Delete
 					</button>
@@ -62,7 +63,9 @@
 								date: ride.date,
 								contact: ride.contact,
 								seats: ride.seats,
-								price: ride.price
+								price: ride.price,
+								smoking: ride.smoking,
+								car: ride.car
 							})
 						"
 					>
@@ -71,20 +74,23 @@
 				</template>
 			</Card>
 		</div>
-	</div>
+		<Success />
+	</section>
 </template>
 
 <script>
 import moment from "moment";
 
 import Card from "../components/Card";
+import Success from "../components/Success";
 import { mapGetters, mapActions } from "vuex";
 export default {
 	components: {
-		Card
+		Card,
+		Success
 	},
 	computed: {
-		...mapGetters(["getUserRides", "getUserData"])
+		...mapGetters(["getUserRides", "getUserData", "isLoggedIn"])
 	},
 	methods: {
 		...mapActions(["deleteRide", "goEditMode"]),
@@ -94,7 +100,7 @@ export default {
 	},
 	filters: {
 		moment: function(date) {
-			return moment(date).format("MMM Do YY");
+			return moment(date).calendar();
 		}
 	}
 };
@@ -102,22 +108,16 @@ export default {
 
 <style lang="scss" scoped>
 .profile {
-	min-height: 90vh;
 	width: 90%;
 	margin: 0 auto;
-	margin-top: 5rem;
+	padding: 5rem 0;
 	color: $font-secondary;
-	/* @media only screen and(max-width:$bp-medium) {
-		width: 90%;
-	}
-	@media only screen and(max-width:$bp-smallest) {
-		width: 100%;
-	} */
 }
 .profile-info {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+
 	margin-bottom: 5rem;
 	@media only screen and(max-width:$bp-small) {
 		flex-direction: column;
@@ -140,8 +140,34 @@ export default {
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
+
+		box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+		border-radius: 3px;
+		background-color: #fff;
+		padding: 2rem 2rem;
+		img {
+			width: 2.2rem;
+			height: 2.2rem;
+		}
 		& > * {
-			margin-bottom: 1.5rem;
+			width: 100%;
+			margin-bottom: 2rem;
+		}
+		h2 {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			span {
+				margin-right: 3rem;
+			}
+		}
+		.email {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			span {
+				margin-right: 3rem;
+			}
 		}
 	}
 }
@@ -154,17 +180,12 @@ h2 {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	flex-direction: column;
 
 	width: 75%;
 	margin: 0 auto;
 	margin-top: 5rem;
 	color: $font-secondary;
-	@media only screen and(max-width:$bp-smaller) {
-		flex-direction: column;
-	}
-	@media only screen and(max-width:$bp-medium) {
-		width: 85%;
-	}
 }
 
 .buttons {

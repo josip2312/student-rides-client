@@ -9,7 +9,7 @@
 
 			<div class="footer-up-right">
 				<h4 class="heading-4">Newsletter</h4>
-				<form action="" method="post">
+				<form method="POST">
 					<label for="emailNews">E-Mail</label>
 					<input type="email" name="emailNews" id="emailNews" />
 					<button class="btn">Send</button>
@@ -42,31 +42,35 @@ export default {};
 
 <style lang="scss" scoped>
 .footer {
-	background-color: $color-primary;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 
+	background-color: $color-primary;
 	&-up {
-		padding: 2rem 15%;
-		width: 100%;
 		display: flex;
 		align-items: center;
-		min-height: 30rem;
 		justify-content: space-between;
+
+		padding: 2rem 15%;
+		width: 100%;
+		min-height: 30rem;
 		@media only screen and(max-width:$bp-smallest) {
 			padding: 2rem 10%;
+			flex-direction: column;
 		}
 		&-left {
-			padding-left: 0.8rem;
+			flex: 1.2;
 			display: flex;
 			flex-direction: column;
-			align-self: flex-start;
+
+			padding: 2.5rem 0;
+			padding-left: 0.8rem;
 			height: 100%;
-			flex-basis: 30%;
-			@media only screen and(max-width:$bp-smallest) {
-				flex-basis: 50%;
+
+			@media only screen and(min-width:$bp-smallest) {
+				align-self: flex-start;
 			}
 			h4 {
 				flex: 2;
@@ -82,16 +86,20 @@ export default {};
 		}
 
 		&-right {
-			align-self: flex-start;
-			flex-basis: 30%;
+			flex: 1;
 			display: flex;
 			flex-direction: column;
-			height: 100%;
+			align-items: center;
 			justify-content: space-around;
 			text-align: center;
-			align-items: center;
-			@media only screen and(max-width:$bp-smallest) {
-				flex-basis: 50%;
+
+			padding: 2.5rem 0;
+			height: 100%;
+			@media only screen and(min-width:$bp-smallest) {
+				align-self: flex-start;
+			}
+			@media only screen and(min-width:$bp-x-large) {
+				flex: 0.5;
 			}
 			h4 {
 				margin-bottom: 1rem;
@@ -100,17 +108,12 @@ export default {};
 				width: 90%;
 				margin: 0 auto;
 				input {
+					@include input;
 					margin: 1rem 0;
-					padding: 0.6rem 2rem;
 					font-size: 1.2rem;
-					width: 100%;
-					font-family: "Montserrat", sans-serif;
 					background-color: $color-secondary;
-					border: 0;
-					outline: none;
-					color: $font-primary;
 					border-bottom: 1px solid $color-secondary;
-					transition: all 0.2s;
+					color: $font-primary;
 				}
 				input:hover,
 				input:focus {

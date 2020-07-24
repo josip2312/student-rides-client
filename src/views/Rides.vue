@@ -1,50 +1,64 @@
 <template>
-	<section id="rides">
+	<section class="rides">
 		<div class="search">
-			<div class="search-start">
-				<label for="start">Mjesto polaska</label>
-				<input v-model="searchStart" type="text" id="start" />
+			<div class="search-top">
+				<h3 class="heading-3">Pretrazi voznje</h3>
+				<img src="../assets/img/magnifier.svg" alt="Search icon" />
 			</div>
-			<div class="search-end">
-				<label for="end">Destinacija</label>
-				<input v-model="searchEnd" type="text" id="end" />
+			<div class="search-bottom">
+				<div class="search-start">
+					<label for="start">Mjesto polaska</label>
+					<input
+						v-model="searchStart"
+						type="text"
+						id="start"
+						placeholder="Tomislavgrad"
+					/>
+				</div>
+				<div class="search-end">
+					<label for="end">Destinacija</label>
+					<input
+						v-model="searchEnd"
+						type="text"
+						id="end"
+						placeholder="Mostar"
+					/>
+				</div>
 			</div>
 		</div>
 		<div class="all-rides">
-			<Card v-for="(ride, index) in filteredRides" :key="index">
-				<template v-slot:card-top>
-					<div class="start">{{ ride.start }}</div>
-					<img src="../assets/img/arrow.svg" alt="Right arrow" />
-					<div class="end">{{ ride.end }}</div>
-				</template>
-				<template v-slot:card-mid>
-					<div class="price">
-						<span>KM</span>
-						<span>{{ ride.price }}</span>
+			<div class="no-rides" v-if="filteredRides.length < 1">
+				No rides
+			</div>
+			<Card
+				v-for="(ride, index) in filteredRides"
+				:key="index"
+				@click.native="rideDetails(ride._id)"
+			>
+				<template v-slot:card-left>
+					<div class="path">
+						<img src="../assets/img/path.svg" alt="Right arrow" />
 					</div>
+					<div class="path-text">
+						<div class="start">{{ ride.start }}</div>
+						<div class="end">{{ ride.end }}</div>
+					</div>
+				</template>
+				<template v-slot:card-right>
 					<div class="date">
 						<span>
-							<img src="../assets/img/date.svg" alt="Date" />
+							<img
+								src="../assets/img/date.svg"
+								alt="Calendar icon"
+							/>
 						</span>
 						<span>
 							{{ ride.date | moment }}
 						</span>
 					</div>
-				</template>
-				<template v-slot:card-down>
-					<div class="contact">
-						<span
-							><img src="../assets/img/phone.svg" alt="Phone" />
-						</span>
-						<span>
-							{{ ride.contact }}
-						</span>
-					</div>
-					<div class="seats">
-						<span>
-							<img src="../assets/img/seat.svg" alt="Seat" />
-						</span>
-						<span> {{ ride.seats }} mjesta </span>
+					<div class="price">
+						<span>KM</span>
+						<span>{{ ride.price }}</span>
 					</div>
 				</template>
 			</Card>
@@ -66,7 +80,7 @@ export default {
 	components: {
 		Card
 	},
-	//filteredRides not reactive on edit state
+
 	computed: {
 		...mapGetters(["getRides"]),
 		filteredRides() {
@@ -87,10 +101,11 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchRides"])
+		...mapActions(["fetchRides", "rideDetails"])
 	},
 	filters: {
 		moment: function(date) {
+			//return moment(date).calendar();
 			return moment(date).format("MMM Do YY");
 		}
 	}
@@ -98,87 +113,98 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.rides {
+	padding: 0 1rem 5rem 1rem;
+}
 .search {
 	display: flex;
-	color: $font-secondary;
+	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	width: 60%;
+
+	color: $font-secondary;
+	width: 50%;
 	margin: 0 auto;
 	padding: 3rem 0;
 	background-color: #fff;
-	@media only screen and(max-width:$bp-smaller) {
-		flex-direction: column;
+	@media only screen and(max-width:$bp-smallest) {
+		width: 70%;
 	}
-	&-start {
+	&-top {
 		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		align-items: center;
-		label {
-			font-weight: 500;
-			margin-bottom: 1rem;
+		margin-bottom: 2.5rem;
+		h3 {
+			margin-right: 2rem;
 		}
-		input {
-			font-size: 1.6rem;
-			color: $font-secondary;
-			padding: 1rem;
-			width: 100%;
-			outline: none;
-			border: none;
-			border-bottom: 1px solid $color-tertiary;
-			transition: all 0.2s ease-out;
-			background-color: $color-tertiary;
-			@media only screen and(max-width:$bp-smaller) {
-				margin-bottom: 2rem;
+	}
+	&-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+
+		width: 80%;
+		@media only screen and(max-width:$bp-small) {
+			flex-direction: column;
+		}
+		.search-start {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+
+			margin-right: 1rem;
+			@media only screen and(max-width:$bp-small) {
+				margin: 0;
+			}
+			label {
+				font-weight: 500;
+				margin-bottom: 1rem;
+			}
+			input {
+				@include input;
+				@media only screen and(max-width:$bp-small) {
+					margin-bottom: 1.5rem;
+				}
+			}
+			input:focus {
+				border-bottom: 1px solid $blue;
 			}
 		}
-		input:focus {
-			border-bottom: 1px solid $blue;
-		}
-	}
-	&-end {
-		flex-direction: column;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
+		.search-end {
+			flex-direction: column;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
 
-		label {
-			font-weight: 500;
-			margin-bottom: 1rem;
-		}
-		input {
-			font-size: 1.6rem;
-			color: $font-secondary;
-			padding: 1rem;
-			width: 100%;
-			outline: none;
-			border: none;
-			background-color: $color-tertiary;
-			border-bottom: 1px solid $color-tertiary;
-			transition: all 0.2s ease-out;
-		}
-		input:focus {
-			border-bottom: 1px solid $blue;
+			margin-left: 1rem;
+			@media only screen and(max-width:$bp-small) {
+				margin: 0;
+			}
+
+			label {
+				font-weight: 500;
+				margin-bottom: 1rem;
+			}
+			input {
+				@include input;
+			}
+			input:focus {
+				border-bottom: 1px solid $blue;
+			}
 		}
 	}
 }
 
 .all-rides {
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
-	//flex-wrap: wrap;
+	flex-direction: column;
+
 	color: $font-secondary;
-	width: 75%;
+	width: 100%;
 	margin: 0 auto;
 	margin-top: 5rem;
-
-	@media only screen and(max-width:$bp-smaller) {
-		flex-direction: column;
-	}
-	@media only screen and(max-width:$bp-medium) {
-		width: 85%;
-	}
+	padding: 1rem;
 }
 </style>
