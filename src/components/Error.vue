@@ -1,6 +1,11 @@
 <template>
 	<transition name="fade" mode="out-in">
 		<div class="error" v-if="isError">
+			<img
+				src="../assets/img/x.svg"
+				alt="X icon"
+				@click="isError = false"
+			/>
 			<span>
 				{{ getError.error }}
 			</span>
@@ -41,12 +46,20 @@ export default {
 	z-index: 20;
 	transform: translateX(-50%);
 	transition: all 0.2s;
-	height: 10vh;
+	height: 15vh;
 	width: 50%;
 	text-align: center;
-	font-size: 1.8rem;
+	font-size: 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	img {
+		position: absolute;
+		right: 1.5rem;
+		top: 1.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+		cursor: pointer;
+	}
 }
 </style>

@@ -5,19 +5,24 @@
 			<router-view />
 		</transition>
 		<Footer />
+		<Success />
+		<Error />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 
+import Success from "./components/Success";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-//import Error from "./components/Error";
+import Error from "./components/Error";
 export default {
 	components: {
 		Header,
-		Footer
+		Footer,
+		Success,
+		Error
 	},
 	computed: {
 		...mapGetters(["getRides", "getLoggedInUser", "isLoggedIn"])

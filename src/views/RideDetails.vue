@@ -27,7 +27,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="details-bottom">
+			<div class="details-mid">
 				<div class="seats">
 					<img src="../assets/img/seat.svg" alt="Seat icon" />
 
@@ -46,8 +46,25 @@
 					{{ getDetailsRide.car }}
 				</div>
 			</div>
+			<div class="details-bottom">
+				<div
+					class="user"
+					v-for="(user, index) in getDetailsRide.users"
+					:key="index"
+				>
+					{{ user.name }}
+				</div>
+			</div>
 			<div class="buttons">
-				<button class="btn" @click="reserveRide(getLoggedInUser)">
+				<button
+					class="btn"
+					@click="
+						reserveRide({
+							userId: getLoggedInUser,
+							rideId: getDetailsRide._id
+						})
+					"
+				>
 					Zakazi
 				</button>
 			</div>
@@ -66,7 +83,7 @@ export default {
 		...mapGetters(["getDetailsRide", "getLoggedInUser"])
 	},
 	methods: {
-		...mapActions(["goEditMode", "reserveRide"])
+		...mapActions(["goEditMode", "reserveRide", "reserveRide"])
 	},
 	filters: {
 		moment: function(date) {
@@ -168,7 +185,7 @@ export default {
 		flex: 1;
 	}
 }
-.details-bottom {
+.details-mid {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;

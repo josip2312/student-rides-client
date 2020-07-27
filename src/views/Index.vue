@@ -42,13 +42,18 @@
 				</router-link>
 			</div>
 		</div>
+		<Success />
 	</main>
 </template>
 
 <script>
+import Success from "@/components/Success";
 import { mapGetters } from "vuex";
 export default {
 	name: "Home",
+	components: {
+		Success
+	},
 	data() {
 		return {
 			showRidesLeft: true,
@@ -67,8 +72,7 @@ export default {
 			this.showRidesRight = !this.showRidesRight;
 			this.showRidesLeft = false;
 		}
-	},
-	components: {}
+	}
 };
 </script>
 
