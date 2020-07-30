@@ -72,6 +72,9 @@ export const REGISTER_USER = () => {
 export const SET_USER_DATA = (state, data) => {
 	state.userData = data;
 };
+export const SET_PHOTO = (state, data) => {
+	state.photo = data;
+};
 export const LOGIN_FAILED = (state, data) => {
 	state.error = data;
 };

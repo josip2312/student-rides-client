@@ -2,7 +2,24 @@
 	<section class="profile">
 		<div class="profile-info">
 			<div class="profile-image">
-				<img src="../assets/img/user-pic.jpg" alt="User picture" />
+				<img
+					v-if="getPhoto"
+					:src="backendUrl + '/uploads/' + getPhoto"
+					alt="User picture"
+				/>
+				<label for="fileUpload">Upload a photo</label>
+				<input
+					style="display:none"
+					type="file"
+					@change="setSelectedFile"
+					ref="fileInput"
+				/>
+				<button @click="$refs.fileInput.click()">
+					Pick file
+				</button>
+				<button @click="uploadPhoto(selectedFile)">
+					Upload
+				</button>
 			</div>
 			<div class="profile-desc">
 				<h2 class="heading-2">
@@ -79,23 +96,35 @@
 </template>
 
 <script>
+import dotenv from "dotenv";
+dotenv.config();
 import moment from "moment";
-
 import Card from "../components/Card";
 import Success from "../components/Success";
 import { mapGetters, mapActions } from "vuex";
 export default {
+	name: "Profile",
 	components: {
 		Card,
 		Success
 	},
+	data() {
+		return {
+			backendUrl: process.env.VUE_APP_BACKEND_URL,
+			selectedFile: null
+		};
+	},
 	computed: {
-		...mapGetters(["getUserRides", "getUserData", "isLoggedIn"])
+		...mapGetters(["getUserRides", "getUserData", "isLoggedIn", "getPhoto"])
 	},
 	methods: {
-		...mapActions(["deleteRide", "goEditMode"]),
+		...mapActions(["deleteRide", "goEditMode", "uploadPhoto"]),
 		createRide() {
 			this.$router.push({ name: "Create" });
+		},
+		setSelectedFile(e) {
+			console.log("called", e);
+			this.selectedFile = e.target.files[0];
 		}
 	},
 	filters: {
@@ -124,7 +153,7 @@ export default {
 		align-items: center;
 	}
 	.profile-image {
-		width: 40%;
+		width: 25%;
 		align-self: center;
 		@media only screen and(max-width:$bp-small) {
 			margin-bottom: 3rem;

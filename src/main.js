@@ -5,6 +5,12 @@ import store from "./store";
 import Vuelidate from "vuelidate";
 import axios from "axios";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL;
+
 axios.interceptors.response.use(
 	function(response) {
 		return response;

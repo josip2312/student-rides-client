@@ -48,7 +48,7 @@
 				</transition>
 			</div>
 			<div class="form-group">
-				<label for="confrimPassword">Potvrdi lozinku</label>
+				<label for="confirmPassword">Potvrdi lozinku</label>
 				<input
 					:class="{ invalid: $v.confirmPassword.$error }"
 					@blur="setConfirmPassword"

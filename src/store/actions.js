@@ -1,10 +1,9 @@
 import axios from "axios";
 import router from "../router/index";
-const URL = "http://localhost:3000";
 
 export const fetchRides = async ({ commit }) => {
 	try {
-		const res = await axios.get("http://localhost:3000/rides");
+		const res = await axios.get("rides");
 		commit("SET_RIDES", res.data);
 	} catch (error) {
 		console.log(error);
@@ -12,9 +11,7 @@ export const fetchRides = async ({ commit }) => {
 };
 export const fetchUserRides = async ({ commit, getters }) => {
 	try {
-		const res = await axios.get(
-			`http://localhost:3000/rides/${getters.getLoggedInUser}`
-		);
+		const res = await axios.get(`rides/${getters.getLoggedInUser}`);
 
 		commit("SET_USER_RIDES", res.data);
 	} catch (error) {
@@ -32,7 +29,7 @@ export const postRide = async ({ commit, getters }, data) => {
 	try {
 		//problem je sto ja stavljam ovaj ride bez ida u state
 		await axios.post(
-			"http://localhost:3000/rides",
+			"rides",
 			{
 				start: data.start,
 				end: data.end,
@@ -46,7 +43,7 @@ export const postRide = async ({ commit, getters }, data) => {
 			},
 			config
 		);
-		//const ride = await axios.get(`${URL}/rides/user/${id}`);
+		//const ride = await axios.get(`rides/user/${id}`);
 		commit("ADD_RIDE", data);
 	} catch (error) {
 		console.log(error);
@@ -59,7 +56,7 @@ export const rideDetails = async ({ commit, getters }, id) => {
 				Authorization: `Bearer ${getters.getJWT}`
 			}
 		};
-		const ride = await axios.get(`${URL}/rides/user/${id}`, config);
+		const ride = await axios.get(`rides/user/${id}`, config);
 
 		commit("SET_RIDE_DETAILS", { ride: ride.data, id });
 	} catch (error) {
@@ -74,7 +71,7 @@ export const deleteRide = async ({ commit, getters }, id) => {
 				Authorization: `Bearer ${getters.getJWT}`
 			}
 		};
-		await axios.delete(`${URL}/rides/${id}`, config);
+		await axios.delete(`rides/${id}`, config);
 
 		commit("RIDE_DELETED", id);
 		commit("SUCCESS", "Vožnja uklonjena");
@@ -98,7 +95,7 @@ export const editRide = async ({ commit, getters }, data) => {
 
 		console.log(data.smoking);
 		await axios.patch(
-			`${URL}/rides/${data.id}`,
+			`rides/${data.id}`,
 			{
 				id: data.id,
 				start: data.start,
@@ -113,7 +110,7 @@ export const editRide = async ({ commit, getters }, data) => {
 			config
 		);
 
-		const updatedRide = await axios.get(`${URL}/rides/user/${data.id}`);
+		const updatedRide = await axios.get(`rides/user/${data.id}`);
 		console.log(updatedRide);
 		commit("RIDE_UPDATED", updatedRide.data);
 	} catch (error) {
@@ -128,7 +125,7 @@ export const reserveRide = async ({ commit, getters, dispatch }, data) => {
 			}
 		};
 		await axios.post(
-			`${URL}/rides/${data.rideId}`,
+			`rides/${data.rideId}`,
 			{ userId: data.userId },
 			config
 		);
@@ -139,10 +136,11 @@ export const reserveRide = async ({ commit, getters, dispatch }, data) => {
 		console.log(error.response);
 	}
 };
+
 //authentication
 export const postLogin = async ({ commit }, data) => {
 	try {
-		const req = await axios.post("http://localhost:3000/auth/login", {
+		const req = await axios.post("auth/login", {
 			email: data.email,
 			password: data.password
 		});
@@ -159,7 +157,7 @@ export const userLogout = () => {
 };
 export const registerUser = async ({ commit }, data) => {
 	try {
-		const req = await axios.post("http://localhost:3000/auth/register", {
+		const req = await axios.post("auth/register", {
 			name: data.name,
 			lastname: data.lastname,
 			email: data.email,
@@ -174,7 +172,7 @@ export const registerUser = async ({ commit }, data) => {
 export const requestResetPassword = async ({ commit }, email) => {
 	console.log(email);
 	try {
-		await axios.post(`${URL}/auth/forgotpassword`, { email });
+		await axios.post(`auth/forgotpassword`, { email });
 		commit("REQUEST_RESET_PASSWORD");
 	} catch (error) {
 		console.log(error.response);
@@ -183,7 +181,7 @@ export const requestResetPassword = async ({ commit }, email) => {
 
 export const resetPassword = async ({ commit }, data) => {
 	try {
-		const req = await axios.put(`${URL}/auth/resetpassword/${data.id}`, {
+		const req = await axios.put(`auth/resetpassword/${data.id}`, {
 			password: data.password
 		});
 		commit("SET_LOGGED_IN", req.data);
@@ -193,11 +191,40 @@ export const resetPassword = async ({ commit }, data) => {
 };
 export const fetchUserInfo = async ({ commit, getters }) => {
 	try {
-		const req = await axios.get(
-			`${URL}/auth/user/${getters.getLoggedInUser}`
-		);
+		const req = await axios.get(`auth/user/${getters.getLoggedInUser}`);
 
 		commit("SET_USER_DATA", req.data);
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+//eslint-disable-next-line
+export const uploadPhoto = async ({ commit, getters, dispatch }, payload) => {
+	try {
+		console.log(payload);
+		const fd = new FormData();
+		fd.append("image", payload, payload.name);
+		console.log(payload);
+		const res = await axios.put(
+			`auth/user/${getters.getLoggedInUser}/photo`,
+			fd
+		);
+
+		commit("SET_PHOTO", res.data.data);
+	} catch (error) {
+		console.log(error.response);
+	}
+};
+//file se nalazi na /uploads/naziv_filea, dobij to i dohvati
+//eslint-disable-next-line
+export const getPhoto = async ({ commit, getters }) => {
+	try {
+		//eslint-disable-next-line
+		const res = await axios.get(
+			`auth/user/${getters.getLoggedInUser}/photo`
+		);
+		console.log(res);
+		commit("SET_PHOTO", res.data);
 	} catch (error) {
 		console.log(error.response);
 	}

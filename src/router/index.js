@@ -15,6 +15,25 @@ import RideDetails from "../views/RideDetails.vue";
 import store from "../store/index";
 
 Vue.use(VueRouter);
+
+const loggedOutGuard = (to, from, next) => {
+	if (to.matched.some(rec => rec.meta.requiresAuth)) {
+		if (store.state.loggedIn) {
+			next();
+		} else {
+			next({ name: "Login" });
+		}
+	}
+};
+
+const loggedInGuard = (to, from, next) => {
+	if (!store.state.loggedIn) {
+		next();
+	} else {
+		next({ name: "Index" });
+	}
+};
+
 //props:true ako zelim nesto prebacit u redirectu
 const routes = [
 	{
@@ -29,15 +48,7 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	},
 	{
 		path: "/rides/ride-details",
@@ -46,15 +57,7 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	},
 	{
 		path: "/rides",
@@ -63,36 +66,33 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	},
 
 	{
 		path: "/auth/login",
 		name: "Login",
-		component: Login
+		component: Login,
+
+		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/register",
 		name: "Register",
-		component: Register
+		component: Register,
+		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/forgotpassword",
 		name: "ForgotPassword",
-		component: ForgotPassword
+		component: ForgotPassword,
+		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/newpassword/:id",
 		name: "NewPassword",
-		component: NewPassword
+		component: NewPassword,
+		beforeEnter: loggedInGuard
 	},
 
 	{
@@ -102,15 +102,7 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	}
 ];
 

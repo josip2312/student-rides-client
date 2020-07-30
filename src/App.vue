@@ -6,7 +6,6 @@
 		</transition>
 		<Footer />
 		<Success />
-		<Error />
 	</div>
 </template>
 
@@ -16,24 +15,29 @@ import { mapActions, mapGetters } from "vuex";
 import Success from "./components/Success";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Error from "./components/Error";
+
 export default {
 	components: {
 		Header,
 		Footer,
-		Success,
-		Error
+		Success
 	},
 	computed: {
 		...mapGetters(["getRides", "getLoggedInUser", "isLoggedIn"])
 	},
 	methods: {
-		...mapActions(["fetchRides", "fetchUserRides", "fetchUserInfo"])
+		...mapActions([
+			"fetchRides",
+			"fetchUserRides",
+			"fetchUserInfo",
+			"getPhoto"
+		])
 	},
 	watch: {
 		getLoggedInUser: function() {
 			this.fetchUserRides();
 			this.fetchUserInfo();
+			this.getPhoto();
 		},
 
 		getRides: function() {

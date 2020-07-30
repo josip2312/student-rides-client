@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		editMode: false,
 		editingRide: {},
 		detailsRide: {},
+		photo: null,
 
 		success: {},
 		error: {},
@@ -31,6 +32,7 @@ export default new Vuex.Store({
 				rides: state.rides,
 				userRides: state.userRides,
 				detailsRide: state.detailsRide,
+				photo: state.photo,
 
 				error: state.error,
 				success: state.success,
