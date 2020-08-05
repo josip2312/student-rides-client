@@ -3,9 +3,9 @@
 		<div class="success" v-if="isSuccess">
 			<span>
 				<img
-					src="../assets/img/x.svg"
+					src="../assets/img/icons/x.svg"
 					alt="X icon"
-					@click="isSuccess = false"
+					@click="setSuccess"
 				/>
 				<span>
 					{{ getSuccess }}
@@ -16,46 +16,42 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Success",
-	data() {
-		return {
-			isSuccess: false
-		};
-	},
+
 	computed: {
-		...mapGetters(["getSuccess"])
+		...mapGetters(["getSuccess", "isSuccess"])
 	},
-	watch: {
-		getSuccess: function() {
-			this.isSuccess = true;
-			let vm = this;
-			setTimeout(function() {
-				vm.isSuccess = false;
-			}, 3000);
-		}
+	methods: {
+		...mapActions(["setSuccess"])
 	}
 };
 </script>
 
 <style lang="scss" scoped>
 .success {
-	position: fixed;
-	bottom: 0;
-	left: 50%;
-	background-color: $blue;
-	z-index: 20;
-	transform: translateX(-50%);
-	transition: all 0.2s;
-	height: 15vh;
-	width: 50%;
-	text-align: center;
-	font-size: 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	z-index: 20;
+
+	min-height: 17.5vh;
+	width: 50rem;
+	background-color: $blue;
+	transform: translateX(-50%);
+	transition: all 0.2s;
+	text-align: center;
+	font-size: 1.8rem;
 	color: #fff;
+	padding: 2rem;
+	@media only screen and(max-width:$bp-small) {
+		width: 35rem;
+	}
 	img {
 		position: absolute;
 		right: 1.5rem;

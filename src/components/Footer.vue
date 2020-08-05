@@ -18,16 +18,16 @@
 		</div>
 		<div class="footer-mid">
 			<a href="#">
-				<img src="../assets/img/fb.svg" alt="Facebook" />
+				<img src="../assets/img/icons/fb.svg" alt="Facebook" />
 			</a>
 			<a href="#">
-				<img src="../assets/img/yt.svg" alt="Youtube" />
+				<img src="../assets/img/icons/yt.svg" alt="Youtube" />
 			</a>
 			<a href="#">
-				<img src="../assets/img/ig.svg" alt="Instagram" />
+				<img src="../assets/img/icons/ig.svg" alt="Instagram" />
 			</a>
 			<a href="#">
-				<img src="../assets/img/gh.svg" alt="Github" />
+				<img src="../assets/img/icons/gh.svg" alt="Github" />
 			</a>
 		</div>
 		<div class="footer-down">

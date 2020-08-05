@@ -19,7 +19,9 @@ export default new Vuex.Store({
 		photo: null,
 
 		success: {},
+		isSuccess: false,
 		error: {},
+		isError: false,
 		loggedIn: false,
 		jwtToken: null,
 		loggedInUser: null,
@@ -34,8 +36,6 @@ export default new Vuex.Store({
 				detailsRide: state.detailsRide,
 				photo: state.photo,
 
-				error: state.error,
-				success: state.success,
 				loggedIn: state.loggedIn,
 				jwtToken: state.jwtToken,
 				loggedInUser: state.loggedInUser,

@@ -9,7 +9,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+/* axios.defaults.headers.common[
+	"Authorization"
+] = `Bearer ${store.getters.getJWT}`;
+console.log(store.getters.getJWT); */
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL;
+
+axios.interceptors.request.use(function(config) {
+	const token = store.getters.getJWT;
+	config.headers.Authorization = token ? `Bearer ${token}` : "";
+
+	return config;
+});
 
 axios.interceptors.response.use(
 	function(response) {

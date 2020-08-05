@@ -2,9 +2,9 @@
 	<transition name="fade" mode="out-in">
 		<div class="error" v-if="isError">
 			<img
-				src="../assets/img/x.svg"
+				src="../assets/img/icons/x.svg"
 				alt="X icon"
-				@click="isError = false"
+				@click="setError"
 			/>
 			<span>
 				{{ getError.error }}
@@ -14,25 +14,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Error",
-	data() {
-		return {
-			isError: false
-		};
-	},
+
 	computed: {
-		...mapGetters(["getError"])
+		...mapGetters(["getError", "isError"])
 	},
-	watch: {
-		getError: function() {
-			this.isError = true;
-			let vm = this;
-			setTimeout(function() {
-				vm.isError = false;
-			}, 3000);
-		}
+	methods: {
+		...mapActions(["setError"])
 	}
 };
 </script>
@@ -46,17 +36,21 @@ export default {
 	z-index: 20;
 	transform: translateX(-50%);
 	transition: all 0.2s;
-	height: 15vh;
-	width: 50%;
+	min-height: 17.5vh;
+	width: 50rem;
 	text-align: center;
-	font-size: 2rem;
+	font-size: 1.8rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 2rem;
+	@media only screen and(max-width:$bp-small) {
+		width: 35rem;
+	}
 	img {
 		position: absolute;
-		right: 1.5rem;
-		top: 1.5rem;
+		right: 1rem;
+		top: 1rem;
 		width: 2.5rem;
 		height: 2.5rem;
 		cursor: pointer;

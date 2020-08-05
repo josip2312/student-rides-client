@@ -4,7 +4,10 @@
 			<div class="details-top">
 				<div class="details-top-left">
 					<div class="path">
-						<img src="../assets/img/path.svg" alt="Path icon" />
+						<img
+							src="../assets/img/icons/path.svg"
+							alt="Path icon"
+						/>
 					</div>
 					<div class="path-text">
 						<div class="start">{{ getDetailsRide.start }}</div>
@@ -15,7 +18,10 @@
 				<div class="details-top-right">
 					<div class="date">
 						<span>
-							<img src="../assets/img/date.svg" alt="Date icon" />
+							<img
+								src="../assets/img/icons/date.svg"
+								alt="Date icon"
+							/>
 						</span>
 						<span>
 							{{ getDetailsRide.date | moment }}
@@ -29,30 +35,48 @@
 			</div>
 			<div class="details-mid">
 				<div class="seats">
-					<img src="../assets/img/seat.svg" alt="Seat icon" />
+					<img src="../assets/img/icons/seat.svg" alt="Seat icon" />
 
 					<span>{{ getDetailsRide.seats }} mjesta</span>
 				</div>
 				<div class="price">
 					<img
-						src="../assets/img/yes.svg"
+						src="../assets/img/icons/yes.svg"
 						v-if="getDetailsRide.smoking"
 					/>
-					<img v-else src="../assets/img/no.svg" alt="Cross icon" />
+					<img
+						v-else
+						src="../assets/img/icons/no.svg"
+						alt="Cross icon"
+					/>
 					<span>Pusenje</span>
 				</div>
 				<div class="car">
-					<img src="../assets/img/rides2.svg" alt="Car icon" />
+					<img src="../assets/img/icons/rides2.svg" alt="Car icon" />
 					{{ getDetailsRide.car }}
 				</div>
 			</div>
 			<div class="details-bottom">
+				<h2 class="heading-2">Putnici</h2>
 				<div
 					class="user"
 					v-for="(user, index) in getDetailsRide.users"
 					:key="index"
 				>
-					{{ user.name }}
+					<img
+						v-if="user.photo"
+						:src="backendUrl + '/uploads/' + user.photo"
+						alt=""
+					/>
+					<img
+						v-else
+						:src="backendUrl + '/uploads/user.svg'"
+						alt=""
+					/>
+					<span> {{ user.name }} {{ user.lastname }} </span>
+				</div>
+				<div class="no-users" v-if="!getDetailsRide.users[0]">
+					Nema putnika
 				</div>
 			</div>
 			<div class="buttons">
@@ -73,11 +97,17 @@
 </template>
 
 <script>
+/* import dotenv from "dotenv";
+dotenv.config(); */
+
 import moment from "moment";
 import { mapActions, mapGetters } from "vuex";
 export default {
+	name: "RideDetails",
 	data() {
-		return {};
+		return {
+			backendUrl: process.env.VUE_APP_BACKEND_URL
+		};
 	},
 	computed: {
 		...mapGetters(["getDetailsRide", "getLoggedInUser"])
@@ -95,8 +125,9 @@ export default {
 
 <style lang="scss" scoped>
 .details {
-	margin: 0 auto;
-	padding: 5rem;
+	display: flex;
+	align-items: center;
+	padding: 5rem 1rem;
 	color: $font-secondary;
 }
 .container {
@@ -110,7 +141,7 @@ export default {
 	padding: 2.5rem 1rem;
 	width: 50rem;
 	margin: 0 auto;
-	@media only screen and(max-width:$bp-small) {
+	@media only screen and(max-width:$bp-smaller) {
 		width: 40rem;
 	}
 	@media only screen and(max-width:$bp-smallest) {
@@ -223,5 +254,31 @@ export default {
 }
 .buttons {
 	text-align: center;
+}
+.details-bottom {
+	padding-left: 3rem;
+	padding: 1rem 1rem 6rem 3rem;
+
+	h2 {
+		margin-bottom: 2.5rem;
+	}
+
+	.user:not(:last-child) {
+		margin-bottom: 1.5rem;
+	}
+	.user {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 40%;
+		img {
+			margin-right: 1rem;
+			z-index: 10;
+			width: 5rem;
+			height: 5rem;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+	}
 }
 </style>

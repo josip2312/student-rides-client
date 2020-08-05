@@ -12,7 +12,7 @@
 				>
 					<img
 						:class="{ active: visible }"
-						src="../assets/img/menu.svg"
+						src="../assets/img/icons/menu.svg"
 						alt="Menu icon"
 						ref="menu-icon"
 					/>
@@ -44,65 +44,84 @@
 					<li @click="userLogout">Odjavi se</li>
 				</ul>
 			</nav>
+
 			<div class="user" v-if="isLoggedIn" @click="sendToProfile">
-				<img src="../assets/img/user.svg" alt="User icon" />
+				<img
+					:src="
+						getPhoto
+							? backendUrl + '/uploads/' + getPhoto
+							: makeUrl('user.svg')
+					"
+					:class="{ userimage: getPhoto }"
+					alt="User photo"
+				/>
 			</div>
 		</header>
 		<div class="mobile-nav" v-if="isMobile">
 			<ul class="mobile-nav-wrapper" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Index' }" tag="li">
-					<img src="../assets/img/home.svg" alt="Home icon" />
+					<img src="../assets/img/icons/home.svg" alt="Home icon" />
 					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Login' }" tag="li">
-					<img src="../assets/img/login.svg" alt="Login icon" />
+					<img src="../assets/img/icons/login.svg" alt="Login icon" />
 					<span>Prijava</span>
 				</router-link>
 				<router-link :to="{ name: 'Register' }" tag="li">
-					<img src="../assets/img/useradd.svg" alt="Sign up icon" />
+					<img
+						src="../assets/img/icons/useradd.svg"
+						alt="Sign up icon"
+					/>
 					<span>Registracija</span>
 				</router-link>
 			</ul>
 			<ul class="mobile-nav-wrapper" v-else>
 				<router-link :to="{ name: 'Index' }" tag="li">
-					<img src="../assets/img/home.svg" alt="Home icon" />
+					<img src="../assets/img/icons/home.svg" alt="Home icon" />
 					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Rides' }" tag="li">
-					<img src="../assets/img/rides.svg" alt="Car icon" />
+					<img src="../assets/img/icons/rides.svg" alt="Car icon" />
 					<span>Vožnje</span>
 				</router-link>
-				<li @click="userLogout">
+				<router-link :to="{ name: 'Profile' }" tag="li">
 					<img
-						src="../assets/img/logout.svg"
-						@click="userLogout"
-						alt="Log out icon"
+						src="../assets/img/icons/user.svg"
+						alt="Profile icon"
 					/>
-					<span>Odjavi se</span>
-				</li>
+					<span>Moj Profil</span>
+				</router-link>
 			</ul>
 		</div>
 	</div>
 </template>
 
 <script>
+import dotenv from "dotenv";
+dotenv.config();
+
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Header",
 	data() {
 		return {
+			backendUrl: process.env.VUE_APP_BACKEND_URL,
+
 			windowWidth: window.innerWidth,
 			visible: false
 		};
 	},
 	computed: {
-		...mapGetters(["isLoggedIn"]),
+		...mapGetters(["isLoggedIn", "getPhoto"]),
 		isMobile() {
 			return this.windowWidth <= 700;
 		}
 	},
 	methods: {
 		...mapActions(["userLogout"]),
+		makeUrl(filename) {
+			return require(`../assets/img/icons/${filename}`);
+		},
 		showSidebar() {
 			this.visible = !this.visible;
 			const cont = document.querySelector(".container-cover");
@@ -163,7 +182,6 @@ export default {
 	align-items: center;
 	height: 11vh;
 	width: 100%;
-
 	background: $blue;
 
 	&-wrapper {
@@ -226,7 +244,7 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 
-	width: 70%;
+	width: 75%;
 	height: 100%;
 	margin: 0 auto;
 	@media only screen and(max-width:$bp-smallest) {
@@ -259,7 +277,7 @@ nav {
 		justify-content: space-between;
 		list-style: none;
 
-		@media only screen and(max-width:$bp-smaller) {
+		@media only screen and(max-width:$bp-small) {
 			transform: translateX(50vw);
 			flex-direction: column;
 			justify-content: flex-start;
@@ -280,7 +298,7 @@ nav {
 			transition: all 0.3s;
 			cursor: pointer;
 
-			@media only screen and(max-width:$bp-smaller) {
+			@media only screen and(max-width:$bp-small) {
 				flex-basis: 10%;
 				display: flex;
 				justify-content: center;
@@ -296,7 +314,7 @@ nav {
 		li:hover {
 			color: $color-secondary;
 			background: $color-tertiary;
-			@media only screen and(max-width:$bp-small) {
+			@media only screen and(max-width:$bp-smaller) {
 				background: $color-secondary;
 				color: $font-primary;
 			}
@@ -308,21 +326,18 @@ nav {
 }
 .user {
 	position: absolute;
-	top: 26%;
+
+	top: 25%;
 	right: 5%;
 	cursor: pointer;
-	@media only screen and(max-width:$bp-large) {
-		top: 30%;
-	}
-	@media only screen and(max-width:$bp-small) {
-		top: 33%;
-	}
-	@media only screen and(max-width:$bp-smallest) {
-		top: 34%;
-	}
 
 	img {
-		width: 3.5rem;
+		border-radius: 50%;
+		width: 4rem;
+	}
+	.userimage {
+		width: 4rem;
+		height: 4rem;
 	}
 }
 .router-link-exact-active {

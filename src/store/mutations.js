@@ -3,9 +3,17 @@ import moment from "moment";
 
 export const ERROR = (state, error) => {
 	state.error = error.response.data;
+	state.isError = true;
+};
+export const CLEAR_ERROR = state => {
+	state.isError = false;
 };
 export const SUCCESS = (state, message) => {
 	state.success = message;
+	state.isSuccess = true;
+};
+export const CLEAR_SUCCESS = state => {
+	state.isSuccess = false;
 };
 export const SET_RIDES = (state, rides) => {
 	state.rides = rides;
@@ -17,7 +25,7 @@ export const SET_USER_RIDES = (state, rides) => {
 export const ADD_RIDE = (state, ride) => {
 	state.rides.push(ride);
 	router.push({ name: "Rides" });
-	location.reload();
+	//dispatch("fetchRides");
 };
 export const SET_RIDE_DETAILS = (state, data) => {
 	data.ride._id = data.id;
@@ -36,7 +44,7 @@ export const RIDE_UPDATED = (state, data) => {
 		return ride._id !== data.id;
 	});
 	router.push({ name: "Profile" });
-	location.reload();
+	//dispatch("fetchUserRides");
 };
 export const SET_EDITING_RIDE = (state, data) => {
 	const formattedDate = moment(data.date).format("YYYY-MM-DD");

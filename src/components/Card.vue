@@ -2,10 +2,10 @@
 	<div class="card">
 		<div class="card-top">
 			<div class="card-left">
-				<slot name="card-left">Default left</slot>
+				<slot name="card-left">Content not loaded</slot>
 			</div>
 			<div class="card-right">
-				<slot name="card-right">Default right</slot>
+				<slot name="card-right">Content not loaded</slot>
 			</div>
 		</div>
 		<div class="card-down">
@@ -26,20 +26,21 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
-	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
 	justify-self: flex-start;
 	flex: 1;
 
+	border-radius: 3px;
 	width: 50rem;
 	padding: 2rem 1rem;
 	margin-bottom: 3rem;
-	background-color: #fff;
+	background-color: #e3eef2;
+
+	box-shadow: 0 3px 6px 0 hsla(0, 0%, 0%, 0.3);
 	cursor: pointer;
 	position: relative;
-	@media only screen and(max-width:$bp-small) {
+	@media only screen and(max-width:$bp-smaller) {
 		width: 40rem;
 	}
 	@media only screen and(min-width:$bp-largest) {
@@ -53,7 +54,7 @@ export default {
 		width: 100%;
 	}
 	&-left {
-		flex-basis: 50%;
+		flex: 1;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -74,15 +75,13 @@ export default {
 			margin-top: -0.75rem;
 			height: 8rem;
 		}
-		.start {
-			font-weight: 600;
-		}
+		.start,
 		.end {
 			font-weight: 600;
 		}
 	}
 	&-right {
-		flex-basis: 50%;
+		flex: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -106,8 +105,11 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-
 			font-size: 1.8rem;
+			img {
+				width: 2.5rem;
+				height: 2.5rem;
+			}
 		}
 	}
 	&-down {

@@ -2,11 +2,11 @@
 	<main class="container" ref="container">
 		<div class="rides-up">
 			<div class="rides-up-left" @click="showLeft">
-				<img src="../assets/img/car.svg" alt="Car icon" />
+				<img src="../assets/img/icons/car.svg" alt="Car icon" />
 				<span :class="{ active: showRidesLeft }">Pronadi voznju</span>
 			</div>
 			<div class="rides-up-right" @click="showRight">
-				<img src="../assets/img/coin.svg" alt="Coin icon" />
+				<img src="../assets/img/icons/coin.svg" alt="Coin icon" />
 				<span :class="{ active: showRidesRight }">Postavi voznju</span>
 			</div>
 		</div>
@@ -82,6 +82,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+
 	height: 90vh;
 	width: 100%;
 	background-color: #000;
@@ -98,17 +99,13 @@ export default {
 		box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 		background-color: #fff;
 		position: relative;
-		width: 50%;
+		width: 60rem;
 		height: 25vh;
 		z-index: 10;
-		@media only screen and(max-width:$bp-large) {
-			width: 65%;
-		}
-		@media only screen and(max-width:$bp-medium) {
-			width: 75%;
-		}
+
 		@media only screen and(max-width:$bp-smallest) {
-			width: 95%;
+			width: 90vw;
+			margin-top: -5rem;
 		}
 		&-left {
 			display: flex;
@@ -169,18 +166,13 @@ export default {
 	.rides-down {
 		display: flex;
 		align-items: center;
-		width: 50%;
-		height: 25rem;
 
+		width: 60rem;
+		height: 25rem;
 		z-index: 10;
-		@media only screen and(max-width:$bp-large) {
-			width: 65%;
-		}
-		@media only screen and(max-width:$bp-medium) {
-			width: 75%;
-		}
 		@media only screen and(max-width:$bp-smallest) {
-			width: 95%;
+			width: 90vw;
+			height: 17.5rem;
 		}
 		&-left,
 		&-right {
@@ -199,6 +191,9 @@ export default {
 			margin-right: 1px;
 			padding: 1rem;
 			height: 25rem;
+			@media only screen and(max-width:$bp-smallest) {
+				height: 17.5rem;
+			}
 			transition: all 0.3s;
 			h3 {
 				text-align: center;
@@ -206,6 +201,7 @@ export default {
 				margin-bottom: 3rem;
 			}
 			a {
+				width: 75%;
 			}
 		}
 		.isVisible {

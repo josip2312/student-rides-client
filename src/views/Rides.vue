@@ -3,7 +3,10 @@
 		<div class="search">
 			<div class="search-top">
 				<h3 class="heading-3">Pretrazi voznje</h3>
-				<img src="../assets/img/magnifier.svg" alt="Search icon" />
+				<img
+					src="../assets/img/icons/magnifier.svg"
+					alt="Search icon"
+				/>
 			</div>
 			<div class="search-bottom">
 				<div class="search-start">
@@ -28,7 +31,7 @@
 		</div>
 		<div class="all-rides">
 			<div class="no-rides" v-if="filteredRides.length < 1">
-				No rides
+				Trenutno nema aktivnih voznji!
 			</div>
 			<Card
 				v-for="(ride, index) in filteredRides"
@@ -37,7 +40,10 @@
 			>
 				<template v-slot:card-left>
 					<div class="path">
-						<img src="../assets/img/path.svg" alt="Right arrow" />
+						<img
+							src="../assets/img/icons/path.svg"
+							alt="Right arrow"
+						/>
 					</div>
 					<div class="path-text">
 						<div class="start">{{ ride.start }}</div>
@@ -48,7 +54,7 @@
 					<div class="date">
 						<span>
 							<img
-								src="../assets/img/date.svg"
+								src="../assets/img/icons/date.svg"
 								alt="Calendar icon"
 							/>
 						</span>
@@ -115,6 +121,16 @@ export default {
 <style lang="scss" scoped>
 .rides {
 	padding: 0 1rem 5rem 1rem;
+	width: 75%;
+	margin: 0 auto;
+	background-color: $white;
+
+	@media only screen and(max-width:$bp-medium) {
+		width: 90%;
+	}
+	@media only screen and(max-width:$bp-smallest) {
+		width: 100%;
+	}
 }
 .search {
 	display: flex;
@@ -123,16 +139,19 @@ export default {
 	align-items: center;
 
 	color: $font-secondary;
-	width: 50%;
+	width: 60%;
 	margin: 0 auto;
 	padding: 3rem 0;
-	background-color: #fff;
+	border-radius: 3px;
+
 	@media only screen and(max-width:$bp-smallest) {
 		width: 70%;
 	}
 	&-top {
 		display: flex;
-		margin-bottom: 2.5rem;
+		border-bottom: 1px solid $color-tertiary;
+		padding-bottom: 1.25rem;
+		margin-bottom: 1.25rem;
 		h3 {
 			margin-right: 2rem;
 		}
@@ -143,7 +162,7 @@ export default {
 		justify-content: space-around;
 
 		width: 80%;
-		@media only screen and(max-width:$bp-small) {
+		@media only screen and(max-width:$bp-smaller) {
 			flex-direction: column;
 		}
 		.search-start {
@@ -153,7 +172,7 @@ export default {
 			align-items: center;
 
 			margin-right: 1rem;
-			@media only screen and(max-width:$bp-small) {
+			@media only screen and(max-width:$bp-smaller) {
 				margin: 0;
 			}
 			label {
@@ -162,7 +181,7 @@ export default {
 			}
 			input {
 				@include input;
-				@media only screen and(max-width:$bp-small) {
+				@media only screen and(max-width:$bp-smaller) {
 					margin-bottom: 1.5rem;
 				}
 			}
@@ -177,7 +196,7 @@ export default {
 			align-items: center;
 
 			margin-left: 1rem;
-			@media only screen and(max-width:$bp-small) {
+			@media only screen and(max-width:$bp-smaller) {
 				margin: 0;
 			}
 
@@ -206,5 +225,9 @@ export default {
 	margin: 0 auto;
 	margin-top: 5rem;
 	padding: 1rem;
+
+	.no-rides {
+		font-size: 2rem;
+	}
 }
 </style>
