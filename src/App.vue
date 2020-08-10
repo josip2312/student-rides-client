@@ -6,6 +6,7 @@
 		</transition>
 		<Footer />
 		<Success />
+		<Loader v-if="isLoading" />
 	</div>
 </template>
 
@@ -15,15 +16,22 @@ import { mapActions, mapGetters } from "vuex";
 import Success from "./components/Success";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Loader from "./components/Loader";
 
 export default {
 	components: {
 		Header,
 		Footer,
-		Success
+		Success,
+		Loader
 	},
 	computed: {
-		...mapGetters(["getRides", "getLoggedInUser", "isLoggedIn"])
+		...mapGetters([
+			"getRides",
+			"getLoggedInUser",
+			"isLoggedIn",
+			"isLoading"
+		])
 	},
 	methods: {
 		...mapActions([

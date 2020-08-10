@@ -93,17 +93,19 @@
 				</button>
 			</div>
 		</div>
+		<Error />
 	</section>
 </template>
 
 <script>
-/* import dotenv from "dotenv";
-dotenv.config(); */
-
+import Error from "@/components/Error";
 import moment from "moment";
 import { mapActions, mapGetters } from "vuex";
 export default {
 	name: "RideDetails",
+	components: {
+		Error
+	},
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL

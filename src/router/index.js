@@ -48,7 +48,18 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: loggedOutGuard
+		beforeEnter: (to, from, next) => {
+			if (to.matched.some(rec => rec.meta.requiresAuth)) {
+				if (store.state.loggedIn) {
+					/* if (!store.state.editMode) {
+						store.state.editingRide = {};
+					} */
+					next();
+				} else {
+					next({ name: "Login" });
+				}
+			}
+		}
 	},
 	{
 		path: "/rides/ride-details",

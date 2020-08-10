@@ -1,8 +1,12 @@
 import router from "../router/index";
 import moment from "moment";
 
+//////////////
+/* ERRORS AND SUCCESSES */
+//////////////
 export const ERROR = (state, error) => {
 	state.error = error.response.data;
+
 	state.isError = true;
 };
 export const CLEAR_ERROR = state => {
@@ -15,6 +19,11 @@ export const SUCCESS = (state, message) => {
 export const CLEAR_SUCCESS = state => {
 	state.isSuccess = false;
 };
+
+//////////////
+/* RIDE RELATED */
+//////////////
+
 export const SET_RIDES = (state, rides) => {
 	state.rides = rides;
 };
@@ -25,7 +34,6 @@ export const SET_USER_RIDES = (state, rides) => {
 export const ADD_RIDE = (state, ride) => {
 	state.rides.push(ride);
 	router.push({ name: "Rides" });
-	//dispatch("fetchRides");
 };
 export const SET_RIDE_DETAILS = (state, data) => {
 	data.ride._id = data.id;
@@ -43,8 +51,9 @@ export const RIDE_UPDATED = (state, data) => {
 	state.rides = state.rides.filter(ride => {
 		return ride._id !== data.id;
 	});
+	state.editMode = false;
+	state.editingRide = {};
 	router.push({ name: "Profile" });
-	//dispatch("fetchUserRides");
 };
 export const SET_EDITING_RIDE = (state, data) => {
 	const formattedDate = moment(data.date).format("YYYY-MM-DD");
@@ -62,11 +71,10 @@ export const SET_EDITING_RIDE = (state, data) => {
 	};
 	state.editMode = true;
 };
-/* SET_RESERVATION: (state) => {
-	state.success =
-}, */
 
-//authentication
+//////////////
+/* AUTH */
+//////////////
 export const SET_LOGGED_IN = (state, userData) => {
 	state.loggedIn = true;
 	state.jwtToken = userData.token;

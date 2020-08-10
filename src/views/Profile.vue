@@ -100,12 +100,12 @@
 					</div>
 				</template>
 				<template v-slot:card-down v-if="isLoggedIn">
-					<button class="btn" @click="deleteRide(ride._id)">
+					<button class="btn" @click.stop="deleteRide(ride._id)">
 						Delete
 					</button>
 					<button
 						class="btn"
-						@click="
+						@click.stop="
 							goEditMode({
 								id: ride._id,
 								start: ride.start,
@@ -124,6 +124,7 @@
 				</template>
 			</Card>
 		</div>
+		<Error />
 		<Success />
 	</section>
 </template>
@@ -135,12 +136,14 @@ dotenv.config();
 import moment from "moment";
 import Card from "../components/Card";
 import Success from "../components/Success";
+import Error from "../components/Error";
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Profile",
 	components: {
 		Card,
-		Success
+		Success,
+		Error
 	},
 	data() {
 		return {
@@ -171,7 +174,7 @@ export default {
 	},
 	filters: {
 		moment: function(date) {
-			return moment(date).calendar();
+			return moment(date).format("MMM Do YY");
 		}
 	}
 };

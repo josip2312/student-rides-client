@@ -33,17 +33,19 @@ export default {
 	bottom: 0;
 	left: 50%;
 	background-color: #f53f5b;
+	border-radius: 3px;
 	z-index: 20;
 	transform: translateX(-50%);
 	transition: all 0.2s;
 	min-height: 17.5vh;
 	width: 50rem;
 	text-align: center;
-	font-size: 1.8rem;
+	font-size: 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 2rem;
+	color: $font-primary;
 	@media only screen and(max-width:$bp-small) {
 		width: 35rem;
 	}

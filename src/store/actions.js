@@ -39,6 +39,9 @@ export const postRide = async ({ commit, getters }, data) => {
 
 		commit("ADD_RIDE", res.data.ride);
 	} catch (error) {
+		timeout = setTimeout(() => {
+			commit("CLEAR_ERROR");
+		}, 3000);
 		console.log(error);
 	}
 };
@@ -48,6 +51,9 @@ export const rideDetails = async ({ commit }, id) => {
 
 		commit("SET_RIDE_DETAILS", { ride: ride.data, id });
 	} catch (error) {
+		timeout = setTimeout(() => {
+			commit("CLEAR_ERROR");
+		}, 3000);
 		console.log(error.response);
 	}
 };
@@ -102,6 +108,9 @@ export const reserveRide = async ({ commit, dispatch }, data) => {
 			commit("CLEAR_SUCCESS");
 		}, 3000);
 	} catch (error) {
+		timeout = setTimeout(() => {
+			commit("CLEAR_ERROR");
+		}, 3000);
 		console.log(error.response);
 	}
 };
@@ -143,6 +152,9 @@ export const registerUser = async ({ commit }, data) => {
 		console.log(req);
 		commit("REGISTER_USER");
 	} catch (error) {
+		timeout = setTimeout(() => {
+			commit("CLEAR_ERROR");
+		}, 3000);
 		console.log(error.response);
 	}
 };
@@ -196,6 +208,9 @@ export const uploadPhoto = async ({ commit, getters }, payload) => {
 		}, 3000);
 	} catch (error) {
 		console.log(error.response);
+		timeout = setTimeout(() => {
+			commit("CLEAR_ERROR");
+		}, 3000);
 	}
 };
 

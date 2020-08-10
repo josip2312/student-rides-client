@@ -327,7 +327,7 @@ nav {
 .user {
 	position: absolute;
 
-	top: 25%;
+	top: 22.5%;
 	right: 5%;
 	cursor: pointer;
 

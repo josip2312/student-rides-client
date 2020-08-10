@@ -1,6 +1,6 @@
 <template>
 	<section class="create">
-		<transition name="fade" mode="in-out">
+		<transition name="fade" mode="out-in">
 			<form class="step-1 form-control" v-if="step === 1">
 				<div class="form-group">
 					<h2 class="heading-2">Postavi voznju</h2>
@@ -40,14 +40,26 @@
 				</div>
 				<div class="form-group">
 					<label for="date">Datum polaska</label>
-					<input
+					<datepicker
+						:class="{ invalid: $v.date.$error }"
+						id="date"
+						@blur="setDate"
+						v-model="date"
+						name="date"
+						:disabled-dates="disabledDates"
+						:language="hr"
+						:input-class="$style.datepicker"
+						placeholder="Izaberi datum"
+					></datepicker>
+
+					<!-- <input
 						:class="{ invalid: $v.date.$error }"
 						@blur="setDate"
 						v-model="date"
 						type="date"
 						name="date"
 						id="date"
-					/>
+					/> -->
 					<transition name="fade" mode="out-in">
 						<p v-if="!dateValidate">
 							Ne moze biti prazno
@@ -61,7 +73,7 @@
 				</div>
 			</form>
 		</transition>
-		<transition name="fade" mode="in-out">
+		<transition name="fade" mode="out-in">
 			<form
 				class="step-2 form-control"
 				v-if="step === 2"
@@ -96,7 +108,7 @@
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!seatsValidate">
-							Vrijednost mora biti izmedju 1 i 10
+							Vrijednost mora biti izmedju 1 i 4
 						</p>
 					</transition>
 				</div>
@@ -246,10 +258,23 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { required } from "vuelidate/lib/validators";
+import Datepicker from "vuejs-datepicker";
+//import moment from "moment";
+import { hr } from "vuejs-datepicker/dist/locale";
 
 export default {
+	components: {
+		Datepicker
+	},
 	data() {
 		return {
+			datepicker: {
+				padding: "2rem"
+			},
+			disabledDates: {
+				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
+			},
+			hr: hr,
 			step: 1,
 
 			startValidate: true,
@@ -293,7 +318,7 @@ export default {
 		},
 		seats: {
 			length(num) {
-				return num >= 1 && num <= 10;
+				return num >= 1 && num <= 4;
 			}
 		},
 		price: {
@@ -352,18 +377,25 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/css/form";
 .create {
-	height: 90vh;
+	min-height: 90vh;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	@media only screen and(max-width:$bp-smallest) {
+		min-height: 80vh;
+	}
 }
 form {
 	position: absolute;
 }
 .form-control {
 	@media only screen and(max-width:$bp-smallest) {
-		width: 86%;
+		width: 75vw;
+	}
+	@media only screen and(max-width:$bp-small-phone) {
+		width: 85vw;
 	}
 }
 .btn-secondary {
@@ -373,5 +405,23 @@ form {
 }
 .btn-secondary:hover {
 	background-color: $color-tertiary;
+}
+</style>
+
+<style lang="scss" module>
+.datepicker {
+	color: $font-secondary;
+	padding: 1.2rem 1rem;
+	width: 100%;
+	outline: none;
+	border: none;
+	background-color: $color-tertiary;
+
+	border-bottom: 1px solid $color-tertiary;
+	transition: all 0.2s ease-out;
+
+	@media only screen and(max-width:$bp-smallest) {
+		padding: 1.2rem 1rem;
+	}
 }
 </style>

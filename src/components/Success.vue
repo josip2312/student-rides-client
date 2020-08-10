@@ -43,10 +43,11 @@ export default {
 	min-height: 17.5vh;
 	width: 50rem;
 	background-color: $blue;
+	border-radius: 3px;
 	transform: translateX(-50%);
 	transition: all 0.2s;
 	text-align: center;
-	font-size: 1.8rem;
+	font-size: 2rem;
 	color: #fff;
 	padding: 2rem;
 	@media only screen and(max-width:$bp-small) {

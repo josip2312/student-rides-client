@@ -34,12 +34,15 @@ export default {
 	border-radius: 3px;
 	width: 50rem;
 	padding: 2rem 1rem;
-	margin-bottom: 3rem;
 	background-color: #e3eef2;
 
 	box-shadow: 0 3px 6px 0 hsla(0, 0%, 0%, 0.3);
 	cursor: pointer;
 	position: relative;
+
+	&:not(:last-child) {
+		margin-bottom: 3rem;
+	}
 	@media only screen and(max-width:$bp-smaller) {
 		width: 40rem;
 	}

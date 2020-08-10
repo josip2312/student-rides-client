@@ -18,6 +18,7 @@ export default new Vuex.Store({
 		detailsRide: {},
 		photo: null,
 
+		loading: false,
 		success: {},
 		isSuccess: false,
 		error: {},
