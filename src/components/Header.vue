@@ -2,13 +2,9 @@
 	<header>
 		<nav>
 			<div class="nav-left">
-				<h1
-					:class="{ loggedInHeading: isLoggedIn }"
-					class="heading-1"
-					@click="sendToIndex"
-				>
+				<div class="logo" @click="sendToIndex">
 					StudentRides
-				</h1>
+				</div>
 			</div>
 
 			<!-- navbar logged out -->
@@ -252,7 +248,7 @@ export default {
 	computed: {
 		...mapGetters(["isLoggedIn", "getPhoto", "getUserData"]),
 		isMobile() {
-			return this.windowWidth <= 700;
+			return this.windowWidth <= 600;
 		},
 		notificationNumber() {
 			if (!this.getUserData.notifications) {
@@ -307,11 +303,12 @@ export default {
 
 <style lang="scss" scoped>
 header {
-	display: block;
+	display: flex;
+	align-items: center;
 	background-color: $primary;
 	position: sticky;
 	top: 0;
-	width: 100%;
+
 	height: 9vh;
 	z-index: 20;
 }
@@ -326,14 +323,15 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 
-	width: 75%;
-	height: 100%;
+	width: 90%;
+	max-width: 120rem;
 	margin: 0 auto;
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$vp-5) {
 		width: 90%;
 	}
 
-	h1 {
+	.logo {
+		font-size: 3rem;
 		cursor: pointer;
 	}
 	.nav-right {
@@ -361,7 +359,7 @@ nav {
 			&:not(:last-child) {
 				margin-right: 0rem;
 			}
-			@media only screen and(min-width:$bp-small) {
+			@media only screen and(min-width:$vp-6) {
 				&:not(:last-child) {
 					margin-right: 2rem;
 				}
@@ -370,13 +368,7 @@ nav {
 
 		a:hover,
 		a:focus {
-			background: $tertiary;
-			color: $secondary;
-			outline: none;
-			@media only screen and(max-width:$bp-smaller) {
-				background: $tertiary;
-				color: $font-secondary;
-			}
+			opacity: 0.8;
 		}
 	}
 	.mobileItems {
@@ -395,13 +387,13 @@ nav {
 		justify-content: flex-start;
 
 		position: fixed;
-		top: 10vh;
+		top: 9vh;
 		right: 0;
 		height: 91vh;
 		width: 30vw;
 		background-color: $primary;
-		transition: all 0.2s ease;
-		@media only screen and(max-width:$bp-smaller) {
+		transition: all 0.2s ease-out;
+		@media only screen and(max-width:$vp-6) {
 			transform: translateX(50vw);
 			width: 50vw;
 		}
@@ -490,7 +482,7 @@ nav {
 				background: $tertiary;
 				color: $secondary;
 				outline: none;
-				@media only screen and(max-width:$bp-smaller) {
+				@media only screen and(max-width:$vp-6) {
 					background: $tertiary;
 					color: $font-secondary;
 				}
@@ -570,7 +562,7 @@ nav {
 
 		width: 90%;
 		margin: 0 auto;
-		@media only screen and(max-width:$bp-smallest) {
+		@media only screen and(max-width:$vp-5) {
 			width: 100%;
 		}
 		a {

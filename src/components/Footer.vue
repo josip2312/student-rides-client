@@ -56,7 +56,7 @@ export default {};
 		padding: 2rem 15%;
 		width: 100%;
 		min-height: 30rem;
-		@media only screen and(max-width:$bp-smallest) {
+		@media only screen and(max-width:$vp-5) {
 			padding: 2rem 10%;
 			flex-direction: column;
 		}
@@ -69,7 +69,7 @@ export default {};
 			padding-left: 0.8rem;
 			height: 100%;
 
-			@media only screen and(min-width:$bp-smallest) {
+			@media only screen and(min-width:$vp-5) {
 				align-self: flex-start;
 			}
 			h4 {
@@ -95,10 +95,10 @@ export default {};
 
 			padding: 2.5rem 0;
 			height: 100%;
-			@media only screen and(min-width:$bp-smallest) {
+			@media only screen and(min-width:$vp-5) {
 				align-self: flex-start;
 			}
-			@media only screen and(min-width:$bp-x-large) {
+			@media only screen and(min-width:$vp-14) {
 				flex: 0.5;
 			}
 			h4 {
@@ -141,7 +141,7 @@ export default {};
 		width: 100%;
 		background-color: $secondary;
 		color: $grey;
-		@media only screen and(max-width:$bp-smallest) {
+		@media only screen and(max-width:$vp-5) {
 			margin-bottom: 9vh;
 		}
 	}

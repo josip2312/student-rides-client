@@ -125,10 +125,10 @@ export default {
 	margin: 0 auto;
 	background-color: $white;
 	min-height: 70vh;
-	@media only screen and(max-width:$bp-medium) {
+	@media only screen and(max-width:$vp-8) {
 		width: 90%;
 	}
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$vp-5) {
 		width: 100%;
 	}
 }
@@ -161,7 +161,7 @@ export default {
 		justify-content: space-around;
 		width: 100%;
 
-		@media only screen and(max-width:$bp-smaller) {
+		@media only screen and(max-width:$vp-6) {
 			flex-direction: column;
 		}
 		.search-start {
@@ -175,7 +175,7 @@ export default {
 			}
 			input {
 				@include input;
-				@media only screen and(max-width:$bp-smaller) {
+				@media only screen and(max-width:$vp-6) {
 					margin-bottom: 1.5rem;
 				}
 			}

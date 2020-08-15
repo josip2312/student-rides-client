@@ -27,45 +27,54 @@ reset
 *::after {
 	box-sizing: inherit;
 }
-$bp-4k: 156.25em; //2500 px
-$bp-largest: 116em; //1856px
-$bp-x-large: 87.5em; //1400px
-$bp-larger: 75em; //1200px
+$vp-4k: 156.25em; //2500 px
+$vp-19: 116em; //1856px
+$vp-19: 116em; //1856px
+$vp-14: 87.5em; //1400px
+$vp-14: 87.5em; //1400px
+$vp-12: 75em; //1200px
+$vp-12: 75em; //1200px
 
-$bp-large: 62.5em; //1000px
-$bp-medium: 50em; //800px
-$bp-small: 43.75em; //700
-$bp-smaller: 37.5em; //600
-$bp-smallest: 31.25em; //500px
-$bp-small-phone: 21.875em; //350px
+$vp-10: 62.5em; //1000px
+$vp-10: 62.5em; //1000px
+$vp-8: 50em; //800px
+$vp-8: 50em; //800px
+$vp-7: 43.75em; //700
+$vp-7: 43.75em; //700
+$vp-6: 37.5em; //600
+$vp-6: 37.5em; //600
+$vp-5: 31.25em; //500px
+$vp-5: 31.25em; //500px
+$vp-5: 21.875em; //350px
+$vp-3: 21.875em; //350px
 html {
 	box-sizing: border-box;
 	font-size: 60%;
 	scroll-behavior: smooth;
 
-	@media only screen and(min-width:$bp-x-large) {
+	@media only screen and(min-width:$vp-14) {
 		font-size: 75%;
 	}
-	@media only screen and(min-width:$bp-largest) {
+	@media only screen and(min-width:$vp-19) {
 		font-size: 100%;
 	}
-	@media only screen and(min-width:$bp-4k) {
+	@media only screen and(min-width:$vp-4k) {
 		font-size: 120%;
 	}
-	@media only screen and(max-width:$bp-larger) {
+	@media only screen and(max-width:$vp-12) {
 		font-size: 55%;
 	}
 
-	@media only screen and(max-width:$bp-large) {
+	@media only screen and(max-width:$vp-10) {
 		font-size: 50%;
 	}
-	@media only screen and(max-width:$bp-medium) {
+	@media only screen and(max-width:$vp-8) {
 		font-size: 47.5%;
 	}
-	@media only screen and(max-width:$bp-smaller) {
+	@media only screen and(max-width:$vp-6) {
 		font-size: 47.5%;
 	}
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$vp-5) {
 		font-size: 45%;
 	}
 }

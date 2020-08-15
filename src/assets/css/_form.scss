@@ -11,7 +11,7 @@
 	background: $white;
 	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$vp-5) {
 		padding: 1.5rem 3rem;
 	}
 
@@ -25,10 +25,16 @@
 		h2 {
 			text-align: center;
 		}
+
 		label {
 			font-size: 1.8rem;
 			font-weight: 500;
 			margin-bottom: 0.75rem;
+		}
+		span {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
 		}
 		input {
 			@include input;
@@ -78,5 +84,5 @@ p {
 .form-control .form-group input:focus {
 }
 .form-group button.disabled {
-	opacity: 0.7;
+	opacity: 0.8;
 }

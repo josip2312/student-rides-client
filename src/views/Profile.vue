@@ -186,10 +186,10 @@ export default {
 	padding: 5rem 0;
 	color: $font-secondary;
 	background-color: $white;
-	@media only screen and(max-width:$bp-medium) {
+	@media only screen and(max-width:$vp-8) {
 		width: 90%;
 	}
-	@media only screen and(max-width:$bp-smallest) {
+	@media only screen and(max-width:$vp-5) {
 		width: 100%;
 	}
 }
@@ -199,7 +199,7 @@ export default {
 	align-items: center;
 
 	margin-bottom: 5rem;
-	@media only screen and(max-width:$bp-small) {
+	@media only screen and(max-width:$vp-7) {
 		flex-direction: column;
 	}
 	.profile-image {
@@ -208,7 +208,7 @@ export default {
 
 		position: relative;
 		padding: 0 5rem;
-		@media only screen and(max-width:$bp-small) {
+		@media only screen and(max-width:$vp-7) {
 			margin-bottom: 5rem;
 		}
 		img {

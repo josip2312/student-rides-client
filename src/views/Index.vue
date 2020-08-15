@@ -102,7 +102,7 @@ export default {
 		height: 20rem;
 		z-index: 10;
 
-		@media only screen and(max-width:$bp-smallest) {
+		@media only screen and(max-width:$vp-5) {
 			margin-top: -5rem;
 		}
 		&-left,
@@ -151,7 +151,7 @@ export default {
 		max-width: 60rem;
 		height: 20rem;
 		z-index: 10;
-		@media only screen and(max-width:$bp-smallest) {
+		@media only screen and(max-width:$vp-5) {
 			height: 17.5rem;
 		}
 		&-left,
@@ -173,7 +173,7 @@ export default {
 			height: 20rem;
 
 			transition: all 0.2s;
-			@media only screen and(max-width:$bp-smallest) {
+			@media only screen and(max-width:$vp-5) {
 				height: 17.5rem;
 			}
 
