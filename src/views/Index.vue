@@ -1,5 +1,5 @@
 <template>
-	<main class="container" ref="container">
+	<main class="container">
 		<div class="rides-up">
 			<div class="rides-up-left" @click="showLeft">
 				<img src="../assets/img/icons/car.svg" alt="Car icon" />
@@ -50,7 +50,7 @@
 import Success from "@/components/Success";
 import { mapGetters } from "vuex";
 export default {
-	name: "Home",
+	name: "Index",
 	components: {
 		Success
 	},
@@ -83,57 +83,29 @@ export default {
 	align-items: center;
 	flex-direction: column;
 
-	height: 90vh;
+	min-height: 91vh;
 	width: 100%;
 	background-color: #000;
 	color: $font-secondary;
-	position: relative;
 
-	z-index: 1;
-	transition: all 0.3s ease-out;
+	position: relative;
+	transition: all 0.2s;
 	.rides-up {
 		display: flex;
 		align-items: center;
-		justify-content: space-around;
 
 		box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 		background-color: #fff;
 		position: relative;
-		width: 60rem;
-		height: 25vh;
+		width: 90%;
+		max-width: 60rem;
+		height: 20rem;
 		z-index: 10;
 
 		@media only screen and(max-width:$bp-smallest) {
-			width: 90vw;
 			margin-top: -5rem;
 		}
-		&-left {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-
-			height: 100%;
-			border-right: 1px solid $color-primary;
-			flex: 1;
-			cursor: pointer;
-
-			span {
-				transition: all 0.3s;
-				border-bottom: 4px solid $color-tertiary;
-				padding: 1rem 0;
-				font-weight: 500;
-			}
-			img {
-				width: 3rem;
-				height: 3rem;
-				transition: all 0.3s;
-			}
-		}
-		&-left:hover {
-			color: $grey;
-		}
-
+		&-left,
 		&-right {
 			flex: 1;
 			display: flex;
@@ -142,12 +114,15 @@ export default {
 			flex-direction: column;
 
 			height: 100%;
+			border-right: 1px solid $grey;
 			cursor: pointer;
+
 			span {
-				transition: all 0.3s;
-				border-bottom: 4px solid $color-tertiary;
+				border-bottom: 4px solid $tertiary;
+				border-radius: 3px;
 				padding: 1rem 0;
 				font-weight: 500;
+				transition: all 0.2s;
 			}
 			img {
 				width: 3rem;
@@ -155,11 +130,16 @@ export default {
 				transition: all 0.3s;
 			}
 		}
+		&-left:hover,
 		&-right:hover {
 			color: $grey;
 		}
+		&-right {
+			border: none;
+		}
+
 		.active {
-			border-bottom: 4px solid $color-primary;
+			border-bottom: 4px solid $primary;
 		}
 	}
 
@@ -167,11 +147,11 @@ export default {
 		display: flex;
 		align-items: center;
 
-		width: 60rem;
-		height: 25rem;
+		width: 90%;
+		max-width: 60rem;
+		height: 20rem;
 		z-index: 10;
 		@media only screen and(max-width:$bp-smallest) {
-			width: 90vw;
 			height: 17.5rem;
 		}
 		&-left,
@@ -190,19 +170,24 @@ export default {
 
 			margin-right: 1px;
 			padding: 1rem;
-			height: 25rem;
+			height: 20rem;
+
+			transition: all 0.2s;
 			@media only screen and(max-width:$bp-smallest) {
 				height: 17.5rem;
 			}
-			transition: all 0.3s;
+
 			h3 {
 				text-align: center;
-				font-size: 2.2rem;
-				margin-bottom: 3rem;
+				font-size: 2rem;
+				margin-bottom: 2rem;
 			}
 			a {
 				width: 75%;
 			}
+		}
+		&-right {
+			margin-right: 0;
 		}
 		.isVisible {
 			opacity: 1;
@@ -213,12 +198,11 @@ export default {
 .container::after {
 	content: "";
 	position: absolute;
-	height: 90vh;
+	height: 91vh;
 	width: 100%;
 
-	background-color: #ccc8c8;
+	background-color: $tertiary;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='199' viewBox='0 0 100 199'%3E%3Cg fill='%23486bd6' fill-opacity='0.19'%3E%3Cpath d='M0 199V0h1v1.99L100 199h-1.12L1 4.22V199H0zM100 2h-.12l-1-2H100v2z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
-	opacity: 0.6;
-	z-index: 2;
+	opacity: 0.4;
 }
 </style>

@@ -5,15 +5,36 @@
 				<div class="form-group">
 					<h2 class="heading-2">Postavi voznju</h2>
 				</div>
+
+				<div class="form-group">
+					<label for="date">Datum polaska</label>
+					<datepicker
+						id="date"
+						:class="{ invalid: $v.date.$error }"
+						@blur="setDate"
+						v-model="date"
+						name="date"
+						:disabled-dates="disabledDates"
+						:language="hr"
+						:input-class="$style.datepicker"
+						placeholder="Izaberi datum"
+					></datepicker>
+
+					<transition name="fade" mode="out-in">
+						<p v-if="!dateValidate">
+							Ne moze biti prazno
+						</p>
+					</transition>
+				</div>
 				<div class="form-group">
 					<label for="start">Mjesto polaska</label>
 					<input
+						id="start"
 						:class="{ invalid: $v.start.$error }"
 						@blur="setStart"
 						v-model="start"
 						type="text"
 						name="start"
-						id="start"
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!startValidate">
@@ -24,44 +45,16 @@
 				<div class="form-group">
 					<label for="end">Odrediste</label>
 					<input
+						id="end"
 						:class="{ invalid: $v.end.$error }"
 						@blur="setEnd"
 						v-model="end"
 						type="text"
 						name="end"
-						id="end"
 						placeholder="Mostar"
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!endValidate">
-							Ne moze biti prazno
-						</p>
-					</transition>
-				</div>
-				<div class="form-group">
-					<label for="date">Datum polaska</label>
-					<datepicker
-						:class="{ invalid: $v.date.$error }"
-						id="date"
-						@blur="setDate"
-						v-model="date"
-						name="date"
-						:disabled-dates="disabledDates"
-						:language="hr"
-						:input-class="$style.datepicker"
-						placeholder="Izaberi datum"
-					></datepicker>
-
-					<!-- <input
-						:class="{ invalid: $v.date.$error }"
-						@blur="setDate"
-						v-model="date"
-						type="date"
-						name="date"
-						id="date"
-					/> -->
-					<transition name="fade" mode="out-in">
-						<p v-if="!dateValidate">
 							Ne moze biti prazno
 						</p>
 					</transition>
@@ -82,12 +75,12 @@
 				<div class="form-group">
 					<label for="email">Kontakt broj</label>
 					<input
+						id="contact"
 						:class="{ invalid: $v.contact.$error }"
 						@blur="setContact"
 						v-model="contact"
 						type="text"
 						name="contact"
-						id="contact"
 						placeholder="063 ### ###"
 					/>
 					<transition name="fade" mode="out-in">
@@ -98,29 +91,45 @@
 				</div>
 				<div class="form-group">
 					<label for="seats">Broj slobodnih mjesta</label>
+					<div class="seats">
+						<div class="minus">
+							<img
+								:class="{ disabled: seats === 1 }"
+								src="../assets/img/icons/minus.svg"
+								alt=""
+								@click="seats > 1 ? seats-- : seats"
+							/>
+						</div>
+						<div class="value">
+							{{ seats }}
+						</div>
+						<div class="plus">
+							<img
+								:class="{ disabled: seats === 4 }"
+								src="../assets/img/icons/plus.svg"
+								alt=""
+								@click="seats < 4 ? seats++ : seats"
+							/>
+						</div>
+					</div>
 					<input
+						id="seats"
 						:class="{ invalid: $v.seats.$error }"
 						@blur="setSeats"
 						v-model="seats"
-						type="number"
+						type="hidden"
 						name="seats"
-						id="seats"
 					/>
-					<transition name="fade" mode="out-in">
-						<p v-if="!seatsValidate">
-							Vrijednost mora biti izmedju 1 i 4
-						</p>
-					</transition>
 				</div>
 				<div class="form-group">
 					<label for="price">Cijena</label>
 					<input
+						id="price"
 						:class="{ invalid: $v.price.$error }"
 						@blur="setPrice"
 						v-model="price"
 						type="number"
 						name="price"
-						id="price"
 						placeholder="KM"
 					/>
 					<transition name="fade" mode="out-in">
@@ -167,22 +176,22 @@
 					<div class="radio-buttons">
 						<label for="smokingYes">Da</label>
 						<input
+							id="smokingYes"
 							:class="{ invalid: $v.smoking.$error }"
 							@blur="setSmoking"
 							v-model="smoking"
 							type="radio"
 							name="smoking"
-							id="smokingYes"
 							value="yes"
 						/>
 						<label for="smokingNo">Ne</label>
 						<input
+							id="smokingNo"
 							:class="{ invalid: $v.smoking.$error }"
 							@blur="setSmoking"
 							v-model="smoking"
 							type="radio"
 							name="smoking"
-							id="smokingNo"
 							value="no"
 						/>
 					</div>
@@ -196,12 +205,12 @@
 				<div class="form-group">
 					<label for="seats">Marka i tip automobila</label>
 					<input
+						id="car"
 						:class="{ invalid: $v.seats.$error }"
 						@blur="setCar"
 						v-model="car"
 						type="text"
 						name="car"
-						id="car"
 					/>
 					<transition name="fade" mode="out-in">
 						<p v-if="!carValidate">
@@ -216,6 +225,7 @@
 						class="btn"
 						type="submit"
 						:class="{ disabled: $v.$invalid }"
+						:disabled="$v.$invalid"
 					>
 						Postavi
 					</button>
@@ -223,6 +233,7 @@
 						v-else
 						class="btn"
 						type="submit"
+						:disabled="$v.$invalid"
 						@click.prevent="
 							editRide({
 								id,
@@ -259,18 +270,17 @@
 import { mapActions, mapGetters } from "vuex";
 import { required } from "vuelidate/lib/validators";
 import Datepicker from "vuejs-datepicker";
-//import moment from "moment";
 import { hr } from "vuejs-datepicker/dist/locale";
 
 export default {
 	components: {
 		Datepicker
 	},
+	computed: {
+		...mapGetters(["getLoggedInUser", "isEditMode"])
+	},
 	data() {
 		return {
-			datepicker: {
-				padding: "2rem"
-			},
 			disabledDates: {
 				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
@@ -291,7 +301,7 @@ export default {
 			end: this.$store.state.editingRide.end || null,
 			date: this.$store.state.editingRide.date || null,
 			contact: this.$store.state.editingRide.contact || null,
-			seats: this.$store.state.editingRide.seats || null,
+			seats: this.$store.state.editingRide.seats || 1,
 			price: this.$store.state.editingRide.price || null,
 			smoking:
 				this.$store.state.editingRide.smoking === true ? "yes" : "no",
@@ -333,9 +343,7 @@ export default {
 			required
 		}
 	},
-	computed: {
-		...mapGetters(["getLoggedInUser", "isEditMode"])
-	},
+
 	methods: {
 		...mapActions(["postRide", "editRide"]),
 		setStart() {
@@ -377,12 +385,11 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/css/form";
 .create {
-	min-height: 90vh;
+	min-height: 91vh;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	@media only screen and(max-width:$bp-smallest) {
 		min-height: 80vh;
 	}
@@ -390,38 +397,51 @@ export default {
 form {
 	position: absolute;
 }
-.form-control {
-	@media only screen and(max-width:$bp-smallest) {
-		width: 75vw;
+.seats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 50%;
+	padding: 2rem 0;
+	.value {
+		font-size: 3rem;
+		font-weight: 500;
+		font-family: "Nunito", sans-serif;
 	}
-	@media only screen and(max-width:$bp-small-phone) {
-		width: 85vw;
+	img {
+		cursor: pointer;
+		width: 3rem;
+		height: 3rem;
 	}
 }
 .btn-secondary {
-	background-color: $color-tertiary;
+	background-color: $tertiary;
 	color: $font-secondary;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 .btn-secondary:hover {
-	background-color: $color-tertiary;
+	background-color: $tertiary;
+}
+.disabled {
+	pointer-events: none;
+	opacity: 0.3;
 }
 </style>
 
 <style lang="scss" module>
+//datepicker component styling
 .datepicker {
 	color: $font-secondary;
 	padding: 1.2rem 1rem;
 	width: 100%;
 	outline: none;
 	border: none;
-	background-color: $color-tertiary;
+	background-color: $tertiary;
 
-	border-bottom: 1px solid $color-tertiary;
+	border-bottom: 1px solid $tertiary;
 	transition: all 0.2s ease-out;
-
-	@media only screen and(max-width:$bp-smallest) {
-		padding: 1.2rem 1rem;
-	}
+}
+.datepicker:focus {
+	border-bottom: 1px solid $blue;
 }
 </style>

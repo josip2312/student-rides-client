@@ -8,7 +8,7 @@
 					@click="setSuccess"
 				/>
 				<span>
-					{{ getSuccess }}
+					{{ getSuccessMessage }}
 				</span>
 			</span>
 		</div>
@@ -21,7 +21,7 @@ export default {
 	name: "Success",
 
 	computed: {
-		...mapGetters(["getSuccess", "isSuccess"])
+		...mapGetters(["getSuccessMessage", "isSuccess"])
 	},
 	methods: {
 		...mapActions(["setSuccess"])
@@ -41,18 +41,18 @@ export default {
 	z-index: 20;
 
 	min-height: 17.5vh;
-	width: 50rem;
+	width: 75%;
+	max-width: 60rem;
 	background-color: $blue;
 	border-radius: 3px;
-	transform: translateX(-50%);
-	transition: all 0.2s;
 	text-align: center;
 	font-size: 2rem;
-	color: #fff;
+	color: $white;
 	padding: 2rem;
-	@media only screen and(max-width:$bp-small) {
-		width: 35rem;
-	}
+
+	transform: translateX(-50%);
+	transition: all 0.2s;
+
 	img {
 		position: absolute;
 		right: 1.5rem;

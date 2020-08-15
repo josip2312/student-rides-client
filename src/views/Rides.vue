@@ -89,6 +89,7 @@ export default {
 
 	computed: {
 		...mapGetters(["getRides"]),
+
 		filteredRides() {
 			return this.getRides.filter(ride => {
 				if (this.searchStart || this.searchEnd) {
@@ -111,7 +112,6 @@ export default {
 	},
 	filters: {
 		moment: function(date) {
-			//return moment(date).calendar();
 			return moment(date).format("MMM Do YY");
 		}
 	}
@@ -124,7 +124,7 @@ export default {
 	width: 75%;
 	margin: 0 auto;
 	background-color: $white;
-
+	min-height: 70vh;
 	@media only screen and(max-width:$bp-medium) {
 		width: 90%;
 	}
@@ -139,19 +139,18 @@ export default {
 	align-items: center;
 
 	color: $font-secondary;
-	width: 60%;
+	width: 75%;
+	max-width: 50rem;
 	margin: 0 auto;
 	padding: 3rem 0;
 	border-radius: 3px;
 
-	@media only screen and(max-width:$bp-smallest) {
-		width: 70%;
-	}
 	&-top {
 		display: flex;
-		border-bottom: 1px solid $color-tertiary;
+		border-bottom: 1px solid $tertiary;
 		padding-bottom: 1.25rem;
 		margin-bottom: 1.25rem;
+
 		h3 {
 			margin-right: 2rem;
 		}
@@ -160,21 +159,16 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
+		width: 100%;
 
-		width: 80%;
 		@media only screen and(max-width:$bp-smaller) {
 			flex-direction: column;
 		}
 		.search-start {
 			display: flex;
 			flex-direction: column;
-			justify-content: space-around;
 			align-items: center;
 
-			margin-right: 1rem;
-			@media only screen and(max-width:$bp-smaller) {
-				margin: 0;
-			}
 			label {
 				font-weight: 500;
 				margin-bottom: 1rem;
@@ -192,13 +186,7 @@ export default {
 		.search-end {
 			flex-direction: column;
 			display: flex;
-			justify-content: space-around;
 			align-items: center;
-
-			margin-left: 1rem;
-			@media only screen and(max-width:$bp-smaller) {
-				margin: 0;
-			}
 
 			label {
 				font-weight: 500;
@@ -221,10 +209,7 @@ export default {
 	flex-direction: column;
 
 	color: $font-secondary;
-	width: 100%;
-	margin: 0 auto;
 	margin-top: 5rem;
-	padding: 1rem;
 
 	.no-rides {
 		font-size: 2rem;

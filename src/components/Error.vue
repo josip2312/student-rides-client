@@ -7,7 +7,7 @@
 				@click="setError"
 			/>
 			<span>
-				{{ getError.error }}
+				{{ getErrorMessage.error }}
 			</span>
 		</div>
 	</transition>
@@ -19,7 +19,7 @@ export default {
 	name: "Error",
 
 	computed: {
-		...mapGetters(["getError", "isError"])
+		...mapGetters(["getErrorMessage", "isError"])
 	},
 	methods: {
 		...mapActions(["setError"])
@@ -32,13 +32,13 @@ export default {
 	position: fixed;
 	bottom: 0;
 	left: 50%;
+	z-index: 20;
+
 	background-color: #f53f5b;
 	border-radius: 3px;
-	z-index: 20;
-	transform: translateX(-50%);
-	transition: all 0.2s;
 	min-height: 17.5vh;
-	width: 50rem;
+	width: 75%;
+	max-width: 60rem;
 	text-align: center;
 	font-size: 2rem;
 	display: flex;
@@ -46,9 +46,9 @@ export default {
 	justify-content: center;
 	padding: 2rem;
 	color: $font-primary;
-	@media only screen and(max-width:$bp-small) {
-		width: 35rem;
-	}
+
+	transform: translateX(-50%);
+	transition: all 0.2s;
 	img {
 		position: absolute;
 		right: 1rem;

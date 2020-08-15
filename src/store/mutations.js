@@ -5,7 +5,7 @@ import moment from "moment";
 /* ERRORS AND SUCCESSES */
 //////////////
 export const ERROR = (state, error) => {
-	state.error = error.response.data;
+	state.errorMessage = error.response.data;
 
 	state.isError = true;
 };
@@ -13,7 +13,7 @@ export const CLEAR_ERROR = state => {
 	state.isError = false;
 };
 export const SUCCESS = (state, message) => {
-	state.success = message;
+	state.successMessage = message;
 	state.isSuccess = true;
 };
 export const CLEAR_SUCCESS = state => {
@@ -31,8 +31,9 @@ export const SET_RIDES = (state, rides) => {
 export const SET_USER_RIDES = (state, rides) => {
 	state.userRides = rides;
 };
+
 export const ADD_RIDE = (state, ride) => {
-	state.rides.push(ride);
+	state.userRides.push(ride);
 	router.push({ name: "Rides" });
 };
 export const SET_RIDE_DETAILS = (state, data) => {
@@ -88,9 +89,17 @@ export const REGISTER_USER = () => {
 export const SET_USER_DATA = (state, data) => {
 	state.userData = data;
 };
-export const SET_PHOTO = (state, data) => {
-	state.photo = data;
+export const SET_USER_NOTIFICATIONS = (state, id) => {
+	state.userData.notifications = state.userData.notifications.filter(
+		notification => {
+			return notification._id !== id;
+		}
+	);
 };
+
 export const LOGIN_FAILED = (state, data) => {
 	state.error = data;
+};
+export const SET_PHOTO = (state, data) => {
+	state.photo = data;
 };

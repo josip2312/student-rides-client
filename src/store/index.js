@@ -19,10 +19,11 @@ export default new Vuex.Store({
 		photo: null,
 
 		loading: false,
-		success: {},
+		successMessage: {},
 		isSuccess: false,
-		error: {},
+		errorMessage: {},
 		isError: false,
+
 		loggedIn: false,
 		jwtToken: null,
 		loggedInUser: null,

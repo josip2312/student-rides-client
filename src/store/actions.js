@@ -1,16 +1,21 @@
 import axios from "axios";
 import router from "../router/index";
-let timeout;
 
+//errors and succeses
+let timeout;
 //////////////
 /* RIDES RELATED  */
 //////////////
-export const fetchRides = async ({ commit }) => {
+export const fetchRides = async ({ commit, getters }) => {
 	try {
 		const res = await axios.get("rides");
-		commit("SET_RIDES", res.data);
+		const rides = res.data.filter(ride => {
+			return ride.user !== getters.getLoggedInUser;
+		});
+
+		commit("SET_RIDES", rides);
 	} catch (error) {
-		console.log(error);
+		console.error(error.response);
 	}
 };
 export const fetchUserRides = async ({ commit, getters }) => {
@@ -19,7 +24,16 @@ export const fetchUserRides = async ({ commit, getters }) => {
 
 		commit("SET_USER_RIDES", res.data);
 	} catch (error) {
-		console.log(error);
+		console.error(error.response);
+	}
+};
+export const fetchUserInfo = async ({ commit, getters }) => {
+	try {
+		const req = await axios.get(`auth/user/${getters.getLoggedInUser}`);
+
+		commit("SET_USER_DATA", req.data);
+	} catch (error) {
+		console.error(error.response);
 	}
 };
 
@@ -42,7 +56,7 @@ export const postRide = async ({ commit, getters }, data) => {
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
-		console.log(error);
+		console.error(error.response);
 	}
 };
 export const rideDetails = async ({ commit }, id) => {
@@ -54,7 +68,7 @@ export const rideDetails = async ({ commit }, id) => {
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 
@@ -67,9 +81,10 @@ export const deleteRide = async ({ commit }, id) => {
 			commit("CLEAR_SUCCESS");
 		}, 3000);
 	} catch (error) {
-		console.log(error);
+		console.error(error.response);
 	}
 };
+
 export const goEditMode = ({ commit }, data) => {
 	commit("SET_EDITING_RIDE", data);
 	router.push({ name: "Create" });
@@ -91,17 +106,20 @@ export const editRide = async ({ commit }, data) => {
 		});
 
 		const res = await axios.get(`rides/user/${data.id}`);
-		console.log(res);
+
 		commit("RIDE_UPDATED", res.data);
 	} catch (error) {
-		console.log(error);
+		console.error(error.response);
 	}
 };
 export const reserveRide = async ({ commit, dispatch }, data) => {
 	try {
 		await axios.post(`rides/${data.rideId}`, { userId: data.userId });
 
+		//get updated details
 		dispatch("rideDetails", data.rideId);
+		//get updated user notifications
+		dispatch("fetchUserInfo");
 
 		commit("SUCCESS", "Voznja rezervirana");
 		timeout = setTimeout(() => {
@@ -111,7 +129,7 @@ export const reserveRide = async ({ commit, dispatch }, data) => {
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 //////////////
@@ -126,6 +144,7 @@ export const postLogin = async ({ commit }, data) => {
 
 		commit("SET_LOGGED_IN", req.data);
 		commit("SUCCESS", "Ulogirani ste");
+
 		timeout = setTimeout(() => {
 			commit("CLEAR_SUCCESS");
 		}, 3000);
@@ -133,7 +152,7 @@ export const postLogin = async ({ commit }, data) => {
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 
@@ -143,19 +162,19 @@ export const userLogout = () => {
 };
 export const registerUser = async ({ commit }, data) => {
 	try {
-		const req = await axios.post("auth/register", {
+		await axios.post("auth/register", {
 			name: data.name,
 			lastname: data.lastname,
 			email: data.email,
 			password: data.password
 		});
-		console.log(req);
+
 		commit("REGISTER_USER");
 	} catch (error) {
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 export const requestResetPassword = async ({ commit }, email) => {
@@ -164,7 +183,7 @@ export const requestResetPassword = async ({ commit }, email) => {
 		await axios.post(`auth/forgotpassword`, { email });
 		commit("REQUEST_RESET_PASSWORD");
 	} catch (error) {
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 
@@ -175,17 +194,17 @@ export const resetPassword = async ({ commit }, data) => {
 		});
 		commit("SET_LOGGED_IN", req.data);
 	} catch (error) {
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
-export const fetchUserInfo = async ({ commit, getters }) => {
-	try {
-		const req = await axios.get(`auth/user/${getters.getLoggedInUser}`);
 
-		commit("SET_USER_DATA", req.data);
-	} catch (error) {
-		console.log(error.response);
-	}
+//eslint-disable-next-line
+export const readNotification = async ({ commit, dispatch }, data) => {
+	await axios.put(`/rides/notifications/`, {
+		userId: data.userId,
+		notificationId: data.notificationId
+	});
+	commit("SET_USER_NOTIFICATIONS", data.notificationId);
 };
 
 //////////////
@@ -203,18 +222,19 @@ export const uploadPhoto = async ({ commit, getters }, payload) => {
 
 		commit("SET_PHOTO", res.data.data);
 		commit("SUCCESS", "Photo uploaded");
+
 		timeout = setTimeout(() => {
 			commit("CLEAR_SUCCESS");
 		}, 3000);
 	} catch (error) {
-		console.log(error.response);
+		console.error(error.response);
 		timeout = setTimeout(() => {
 			commit("CLEAR_ERROR");
 		}, 3000);
 	}
 };
 
-export const getPhoto = async ({ commit, getters }) => {
+export const fetchPhoto = async ({ commit, getters }) => {
 	try {
 		const res = await axios.get(
 			`auth/user/${getters.getLoggedInUser}/photo`
@@ -222,7 +242,7 @@ export const getPhoto = async ({ commit, getters }) => {
 		console.log(res);
 		commit("SET_PHOTO", res.data);
 	} catch (error) {
-		console.log(error.response);
+		console.error(error.response);
 	}
 };
 

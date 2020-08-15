@@ -3,10 +3,12 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	width: 45rem;
+
+	width: 90%;
+	max-width: 50rem;
 	min-height: 50vh;
 	padding: 2rem 5rem;
-	background: #fff;
+	background: $white;
 	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 
 	@media only screen and(max-width:$bp-smallest) {
@@ -14,32 +16,23 @@
 	}
 
 	.form-group {
-		position: relative;
-		margin: 1.3rem 0;
 		display: flex;
 		flex-direction: column;
-		flex: 1;
-		justify-content: center;
+
+		position: relative;
+		margin: 1.4rem 0;
+
 		h2 {
 			text-align: center;
 		}
 		label {
-			margin-bottom: 0.8rem;
+			font-size: 1.8rem;
+			font-weight: 500;
+			margin-bottom: 0.75rem;
 		}
 		input {
-			color: $font-secondary;
-			padding: 1.2rem 1rem;
-			width: 100%;
-			outline: none;
-			border: none;
-			background-color: $color-tertiary;
-
-			border-bottom: 1px solid $color-tertiary;
-			transition: all 0.2s ease-out;
-
-			@media only screen and(max-width:$bp-smallest) {
-				padding: 1.2rem 1rem;
-			}
+			@include input;
+			margin-bottom: 0.4rem;
 		}
 
 		input:focus {
@@ -50,15 +43,18 @@
 			align-items: center;
 			justify-content: flex-start;
 
-			background-color: $color-tertiary;
-			padding: 1.2rem 1rem;
+			background-color: $tertiary;
+			padding: 1.4rem;
 			width: 100%;
 			input {
 				flex-basis: 20%;
 			}
+			label[for="smokingNo"] {
+				margin-left: 1rem;
+			}
 			label {
 				margin: 0;
-				margin-right: -1rem;
+				margin-right: -1.5rem;
 			}
 		}
 	}
@@ -71,7 +67,7 @@ p {
 	color: #ff0033;
 	display: inline-block;
 	position: absolute;
-	top: 98%;
+	top: 95%;
 }
 .form-control .form-group .invalid {
 	border-bottom: 1px solid #ff0033;
@@ -82,6 +78,5 @@ p {
 .form-control .form-group input:focus {
 }
 .form-group button.disabled {
-	pointer-events: none;
 	opacity: 0.7;
 }

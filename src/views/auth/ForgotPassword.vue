@@ -32,6 +32,7 @@
 					type="submit"
 					@click.prevent="requestResetPassword(email)"
 					:class="{ disabled: $v.$invalid }"
+					:disabled="$v.$invalid"
 				>
 					Posalji link za ponovno postavljanje
 				</button>
@@ -74,10 +75,10 @@ export default {
 @import "../../assets/css/form";
 
 .forgot-password {
-	min-height: 90vh;
+	min-height: 70vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 3rem;
+	padding: 5rem 0;
 }
 </style>

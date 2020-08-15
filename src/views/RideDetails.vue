@@ -36,10 +36,9 @@
 			<div class="details-mid">
 				<div class="seats">
 					<img src="../assets/img/icons/seat.svg" alt="Seat icon" />
-
 					<span>{{ getDetailsRide.seats }} mjesta</span>
 				</div>
-				<div class="price">
+				<div class="smoking">
 					<img
 						src="../assets/img/icons/yes.svg"
 						v-if="getDetailsRide.smoking"
@@ -79,7 +78,7 @@
 					Nema putnika
 				</div>
 			</div>
-			<div class="buttons">
+			<div class="buttons" v-if="getDetailsRide.user !== getLoggedInUser">
 				<button
 					class="btn"
 					@click="
@@ -127,28 +126,23 @@ export default {
 
 <style lang="scss" scoped>
 .details {
-	display: flex;
-	align-items: center;
-	padding: 5rem 1rem;
+	padding: 5rem 0;
+	min-height: 60vh;
 	color: $font-secondary;
 }
 .container {
 	display: flex;
 	flex-direction: column;
-	justify-self: flex-start;
+	justify-content: center;
 
 	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 	background-color: #fff;
 	border-radius: 3px;
-	padding: 2.5rem 1rem;
-	width: 50rem;
+
+	padding: 5rem 3.5rem;
+	max-width: 50rem;
+	width: 90%;
 	margin: 0 auto;
-	@media only screen and(max-width:$bp-smaller) {
-		width: 40rem;
-	}
-	@media only screen and(max-width:$bp-smallest) {
-		width: 37.5rem;
-	}
 }
 .details-top {
 	display: flex;
@@ -156,8 +150,8 @@ export default {
 	justify-content: space-between;
 
 	width: 100%;
-	padding: 2rem 0;
-	border-bottom: 1px solid $color-tertiary;
+	padding-bottom: 5rem;
+	border-bottom: 1px solid $tertiary;
 	font-size: 1.8rem;
 }
 .details-top-left {
@@ -166,7 +160,6 @@ export default {
 	justify-content: flex-start;
 	align-items: center;
 
-	padding-left: 3rem;
 	height: 100%;
 	.path {
 		margin-right: 1.5rem;
@@ -192,10 +185,9 @@ export default {
 .details-top-right {
 	flex: 1;
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	.price {
-		flex: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -213,15 +205,16 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
 		font-size: 1.8rem;
-		flex: 1;
+		img {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
 	}
 }
 .details-mid {
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
 
 	width: 100%;
 	padding: 5rem 0;
@@ -236,7 +229,7 @@ export default {
 		width: 3rem;
 		height: 3rem;
 	}
-	.price {
+	.smoking {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
@@ -254,15 +247,11 @@ export default {
 		}
 	}
 }
-.buttons {
-	text-align: center;
-}
-.details-bottom {
-	padding-left: 3rem;
-	padding: 1rem 1rem 6rem 3rem;
 
+.details-bottom {
+	padding-bottom: 5rem;
 	h2 {
-		margin-bottom: 2.5rem;
+		margin-bottom: 2rem;
 	}
 
 	.user:not(:last-child) {
@@ -272,7 +261,8 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
-		width: 40%;
+		width: 100%;
+
 		img {
 			margin-right: 1rem;
 			z-index: 10;
@@ -281,6 +271,12 @@ export default {
 			object-fit: cover;
 			border-radius: 50%;
 		}
+	}
+}
+.buttons {
+	text-align: center;
+	button {
+		width: 75%;
 	}
 }
 </style>

@@ -2,10 +2,10 @@
 	<div class="card">
 		<div class="card-top">
 			<div class="card-left">
-				<slot name="card-left">Content not loaded</slot>
+				<slot name="card-left">Loading</slot>
 			</div>
 			<div class="card-right">
-				<slot name="card-right">Content not loaded</slot>
+				<slot name="card-right">Loading</slot>
 			</div>
 		</div>
 		<div class="card-down">
@@ -28,32 +28,24 @@ export default {
 .card {
 	display: flex;
 	flex-direction: column;
-	justify-self: flex-start;
 	flex: 1;
-
-	border-radius: 3px;
-	width: 50rem;
-	padding: 2rem 1rem;
-	background-color: #e3eef2;
-
-	box-shadow: 0 3px 6px 0 hsla(0, 0%, 0%, 0.3);
-	cursor: pointer;
 	position: relative;
 
+	border-radius: 3px;
+	width: 90%;
+	max-width: 50rem;
+	padding: 3rem 3rem;
+	background-color: #e3eef2;
+	box-shadow: 0 3px 6px 0 hsla(0, 0%, 0%, 0.3);
+	cursor: pointer;
 	&:not(:last-child) {
-		margin-bottom: 3rem;
-	}
-	@media only screen and(max-width:$bp-smaller) {
-		width: 40rem;
-	}
-	@media only screen and(min-width:$bp-largest) {
-		width: 60rem;
+		margin-bottom: 2.5rem;
 	}
 
 	&-top {
 		display: flex;
 
-		margin: 2.5rem 0;
+		margin: 1rem 0;
 		width: 100%;
 	}
 	&-left {
@@ -62,7 +54,6 @@ export default {
 		justify-content: flex-start;
 		align-items: center;
 
-		padding-left: 3rem;
 		height: 100%;
 		.path {
 			margin-right: 1.5rem;
@@ -86,10 +77,9 @@ export default {
 	&-right {
 		flex: 1;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
 		.price {
-			flex: 1;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -104,7 +94,6 @@ export default {
 			}
 		}
 		.date {
-			flex: 1;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -120,7 +109,8 @@ export default {
 		justify-content: center;
 		align-items: center;
 		button {
-			margin: 0 1rem;
+			width: 40%;
+			margin: 1rem 1rem 0 1rem;
 		}
 	}
 }

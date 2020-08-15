@@ -11,8 +11,8 @@ export const getPhoto = state => state.photo;
 export const isLoading = state => state.loading;
 export const isError = state => state.isError;
 export const isSuccess = state => state.isSuccess;
-export const getError = state => state.error;
-export const getSuccess = state => state.success;
+export const getErrorMessage = state => state.errorMessage;
+export const getSuccessMessage = state => state.successMessage;
 
 //auth
 export const isLoggedIn = state => state.loggedIn;

@@ -24,7 +24,6 @@
 						@click="$refs.fileInput.click()"
 					/>
 					<div class="overlay" :class="{ show: showOverlay }"></div>
-
 					<span v-if="showOverlay">Promijeni fotografiju</span>
 				</div>
 
@@ -184,7 +183,7 @@ export default {
 .profile {
 	width: 75%;
 	margin: 0 auto;
-	padding: 5rem 3rem;
+	padding: 5rem 0;
 	color: $font-secondary;
 	background-color: $white;
 	@media only screen and(max-width:$bp-medium) {
@@ -196,28 +195,27 @@ export default {
 }
 .profile-info {
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 
 	margin-bottom: 5rem;
 	@media only screen and(max-width:$bp-small) {
 		flex-direction: column;
-		align-items: center;
 	}
 	.profile-image {
-		align-self: center;
 		display: flex;
 		flex-direction: column;
-		position: relative;
 
+		position: relative;
+		padding: 0 5rem;
 		@media only screen and(max-width:$bp-small) {
 			margin-bottom: 5rem;
 		}
 		img {
 			display: block;
-			width: 100%;
-			width: 35rem;
-			height: 22.5rem;
+
+			width: 25rem;
+			height: 25rem;
 			object-fit: cover;
 			border-radius: 3px;
 			transition: all 0.2s;
@@ -228,69 +226,66 @@ export default {
 		}
 
 		.overlay {
-			opacity: 0;
 			position: absolute;
+			opacity: 0;
 			top: 0;
-			left: 0;
+			left: 5rem;
 			display: block;
-			width: 35rem;
-			height: 22.5rem;
+			width: 25rem;
+			height: 25rem;
 
 			border-radius: 3px;
 			transition: all 0.2s;
-			background-color: rgba(0, 0, 0, 0.5);
+			background-color: rgba(0, 0, 0, 0.6);
 			z-index: 10;
 			pointer-events: none;
 		}
 		.show {
 			opacity: 1;
 		}
+
 		span {
 			position: absolute;
 			top: 35%;
 			left: 50%;
 			transform: translate(-50%, -35%);
-			pointer-events: none;
 			z-index: 11;
 			font-size: 1.8rem;
 			color: $font-primary;
 			text-align: center;
 			font-weight: 500;
+			pointer-events: none;
 		}
 	}
 
 	.profile-desc {
-		align-self: center;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
 		border-radius: 3px;
-		padding: 2rem 2rem;
+		padding: 0 5rem;
 
 		img {
 			width: 2.2rem;
 			height: 2.2rem;
 		}
-		& > * {
+		& > *:not(:last-child) {
 			width: 100%;
 			margin-bottom: 3rem;
 		}
-		h2 {
-			font-family: "Montserrat", sans-serif;
-			font-weight: 600;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			span {
-				margin-right: 3rem;
-			}
+		button {
+			width: 100%;
 		}
+		h2,
 		.email {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+
+			font-family: "Montserrat", sans-serif;
 			font-weight: 500;
+
 			span {
 				margin-right: 3rem;
 			}
@@ -300,8 +295,8 @@ export default {
 
 .heading-2:not(:first-child) {
 	text-align: center;
-	border-bottom: 1px solid $color-tertiary;
-	padding-bottom: 1.5rem;
+	border-bottom: 1px solid $tertiary;
+	padding-bottom: 2rem;
 }
 
 .profile-rides {
@@ -309,7 +304,7 @@ export default {
 	justify-items: center;
 	align-items: center;
 	flex-direction: column;
-	margin-top: 3.5rem;
+	padding-top: 3rem;
 	color: $font-secondary;
 
 	.no-rides {
@@ -319,6 +314,7 @@ export default {
 
 .buttons {
 	button {
+		width: 50%;
 		margin: 0 1rem;
 	}
 }

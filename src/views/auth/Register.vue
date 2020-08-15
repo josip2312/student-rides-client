@@ -171,6 +171,8 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions(["registerUser"]),
+
 		setName() {
 			this.$v.name.$touch();
 			this.nameValidate = this.$v.name.required;
@@ -193,20 +195,18 @@ export default {
 		setConfirmPassword() {
 			this.$v.confirmPassword.$touch();
 			this.confirmPasswordValidate = this.$v.confirmPassword.sameAs;
-		},
-
-		...mapActions(["registerUser"])
+		}
 	}
 };
 </script>
 <style lang="scss" scoped>
 @import "../../assets/css/form";
 .register {
-	min-height: 90vh;
+	min-height: 70vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 3rem;
+	padding: 5rem 0;
 }
 .form-register-group {
 	display: flex;

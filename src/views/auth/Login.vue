@@ -153,11 +153,11 @@ export default {
 @import "../../assets/css/form";
 
 .login {
-	min-height: 90vh;
+	min-height: 70vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 3rem;
+	padding: 5rem 0;
 }
 .form-footer {
 	display: flex;
@@ -166,11 +166,12 @@ export default {
 
 	a {
 		text-decoration: none;
-		color: $color-secondary;
+		color: $secondary;
 		font-weight: 500;
 		color: #0984e3;
 	}
-	a:hover {
+	a:focus {
+		outline: 1px solid $blue;
 	}
 }
 </style>

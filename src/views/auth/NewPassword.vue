@@ -109,7 +109,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/css/form";
 .new-password {
-	min-height: 90vh;
+	min-height: 91vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

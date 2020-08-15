@@ -47,7 +47,7 @@ export default {};
 	justify-content: space-between;
 	align-items: center;
 
-	background-color: $color-primary;
+	background-color: $primary;
 	&-up {
 		display: flex;
 		align-items: center;
@@ -111,8 +111,8 @@ export default {};
 					@include input;
 					margin: 1rem 0;
 					font-size: 1.2rem;
-					background-color: $color-secondary;
-					border-bottom: 1px solid $color-secondary;
+					background-color: $secondary;
+					border-bottom: 1px solid $secondary;
 					color: $font-primary;
 				}
 				input:hover,
@@ -139,10 +139,10 @@ export default {};
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		background-color: $color-secondary;
+		background-color: $secondary;
 		color: $grey;
 		@media only screen and(max-width:$bp-smallest) {
-			margin-bottom: 11vh;
+			margin-bottom: 9vh;
 		}
 	}
 }
