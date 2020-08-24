@@ -1,18 +1,18 @@
 <template>
-	<section class="register">
+	<section class="edit">
 		<ValidationObserver v-slot="{ handleSubmit }" slim>
 			<form
 				class="form-control"
 				@submit.prevent="
 					handleSubmit(() =>
-						registerUser({ name, lastname, email, password })
+						editProfile({ name, lastname, email, contact, desc })
 					)
 				"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Registracija</h2>
+					<h2 class="heading-2">Osobni podaci</h2>
 				</div>
-				<div class="form-register-group">
+				<div class="form-edit-group">
 					<div class="form-group">
 						<label for="name">Ime</label>
 						<ValidationProvider rules="required|alpha" v-slot="v">
@@ -57,97 +57,85 @@
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
-					<label for="password">Lozinka</label>
-					<ValidationProvider
-						rules="required|min:6"
-						v-slot="v"
-						vid="confirmation"
-					>
+					<label for="contact">Kontakt broj</label>
+					<ValidationProvider v-slot="v">
 						<input
 							:class="v.classes"
-							v-model="password"
-							type="password"
-							name="password"
-							id="password"
+							v-model="contact"
+							type="number"
+							name="contact"
+							id="contact"
 						/>
 
 						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
-					<label for="confirmPassword">Potvrdi lozinku</label>
-					<ValidationProvider
-						rules="required|confirmed:confirmation"
-						v-slot="v"
-					>
-						<input
+					<label for="desc">Kratka biografija</label>
+					<ValidationProvider v-slot="v" rules="max:200|min:10">
+						<textarea
 							:class="v.classes"
-							v-model="confirmPassword"
-							type="password"
-							name="confirmPassword"
-							id="confirmPassword"
-						/>
+							v-model="desc"
+							name="desc"
+							id="desc"
+							cols="5"
+							rows="4"
+						></textarea>
 
 						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
 					<button class="btn" type="submit">
-						Registriraj se
+						Potvrdi
 					</button>
 				</div>
 			</form>
 		</ValidationObserver>
-
-		<Error />
 	</section>
 </template>
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
-import { mapActions } from "vuex";
-import Error from "@/components/Error";
-
+import { mapGetters, mapActions } from "vuex";
 export default {
-	name: "Register",
+	name: "EditProfile",
 	components: {
-		Error,
-		ValidationProvider,
-		ValidationObserver
+		ValidationObserver,
+		ValidationProvider
 	},
 	data() {
 		return {
-			name: null,
-			lastname: null,
-			email: null,
-			password: null,
-			confirmPassword: null
+			name: this.$store.state.userData.name || null,
+			lastname: this.$store.state.userData.lastname || null,
+			email: this.$store.state.userData.email || null,
+			contact: this.$store.state.userData.contact || null,
+			desc: this.$store.state.userData.description || null
 		};
 	},
-
+	computed: {
+		...mapGetters(["getUserData"])
+	},
 	methods: {
-		...mapActions(["registerUser"])
+		...mapActions(["editProfile"])
 	}
 };
 </script>
+
 <style lang="scss" scoped>
 @import "../../assets/css/form";
-.register {
+.edit {
 	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 5rem 0;
-
 	@media only screen and(max-width:$vp-5) {
 		min-height: 82vh;
 	}
 }
-.form-control {
-	max-width: 50rem;
-}
-.form-register-group {
+.form-edit-group {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -157,5 +145,13 @@ export default {
 		flex: 0;
 		flex-basis: 47.5%;
 	}
+}
+textarea {
+	padding: 1.5rem 1rem;
+	border: 1px solid $tertiary;
+	outline: none;
+	font-size: 1.8rem;
+	font-family: "Work Sans", sans-serif;
+	background-color: $tertiary-light;
 }
 </style>

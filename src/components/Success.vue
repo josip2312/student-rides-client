@@ -43,7 +43,7 @@ export default {
 	min-height: 17.5vh;
 	width: 75%;
 	max-width: 60rem;
-	background-color: $blue;
+	background-color: $accent;
 	border-radius: 3px;
 	text-align: center;
 	font-size: 2rem;

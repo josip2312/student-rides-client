@@ -28,44 +28,41 @@
 								:input-class="$style.datepicker"
 								placeholder="Izaberi datum"
 							></datepicker>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
+							<p>{{ v.errors[0] }}</p>
 						</ValidationProvider>
 					</div>
 					<div class="form-group">
 						<label for="start">Mjesto polaska</label>
-						<ValidationProvider rules="required|alpha" v-slot="v">
+						<ValidationProvider rules="required" v-slot="v">
 							<input
+								ref="start"
 								id="start"
 								:class="v.classes"
 								v-model="start"
 								type="text"
 								name="start"
+								placeholder="npr. Tomislavgrad"
 							/>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
+							<p>{{ v.errors[0] }}</p>
 						</ValidationProvider>
 					</div>
 					<div class="form-group">
 						<label for="end">Odrediste</label>
-						<ValidationProvider rules="required|alpha" v-slot="v">
+						<ValidationProvider rules="required" v-slot="v">
 							<input
+								ref="end"
 								id="end"
 								:class="v.classes"
 								v-model="end"
 								type="text"
 								name="end"
-								placeholder="Mostar"
+								placeholder="npr. Mostar"
 							/>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
+							<p>{{ v.errors[0] }}</p>
 						</ValidationProvider>
 					</div>
 					<div class="form-group">
-						<button class="btn" type="submit">
+						<button class="btn">
 							Dalje
 						</button>
 					</div>
@@ -95,9 +92,21 @@
 								name="contact"
 								placeholder="063 ### ###"
 							/>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
+							<p>{{ v.errors[0] }}</p>
+						</ValidationProvider>
+					</div>
+					<div class="form-group">
+						<label for="price">Cijena</label>
+						<ValidationProvider rules="required" v-slot="v">
+							<input
+								id="price"
+								:class="v.classes"
+								v-model="price"
+								type="number"
+								name="price"
+								placeholder="KM"
+							/>
+							<p>{{ v.errors[0] }}</p>
 						</ValidationProvider>
 					</div>
 					<div class="form-group">
@@ -106,7 +115,7 @@
 							<div class="minus">
 								<img
 									:class="{ disabled: seats === 1 }"
-									src="../assets/img/icons/minus.svg"
+									src="@/assets/img/icons/minus.svg"
 									alt=""
 									@click="seats > 1 ? seats-- : seats"
 								/>
@@ -117,7 +126,7 @@
 							<div class="plus">
 								<img
 									:class="{ disabled: seats === 4 }"
-									src="../assets/img/icons/plus.svg"
+									src="@/assets/img/icons/plus.svg"
 									alt=""
 									@click="seats < 4 ? seats++ : seats"
 								/>
@@ -130,27 +139,9 @@
 							name="seats"
 						/>
 					</div>
+
 					<div class="form-group">
-						<label for="price">Cijena</label>
-						<ValidationProvider
-							rules="required|min_value:1|max_value:100"
-							v-slot="v"
-						>
-							<input
-								id="price"
-								:class="v.classes"
-								v-model="price"
-								type="number"
-								name="price"
-								placeholder="KM"
-							/>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<button class="btn" type="submit">
+						<button class="btn">
 							Dalje
 						</button>
 					</div>
@@ -222,9 +213,7 @@
 								type="text"
 								name="car"
 							/>
-							<transition name="fade" mode="out-in">
-								<p>{{ v.errors[0] }}</p>
-							</transition>
+							<p>{{ v.errors[0] }}</p>
 						</ValidationProvider>
 					</div>
 
@@ -272,11 +261,12 @@
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import Datepicker from "vuejs-datepicker";
 import { hr } from "vuejs-datepicker/dist/locale";
-
 import { mapActions, mapGetters } from "vuex";
 
+//import VueGoogleAutocomplete from "vue-google-autocomplete";
+
 export default {
-	name: "Create",
+	name: "CreateRide",
 	components: {
 		Datepicker,
 		ValidationProvider,
@@ -296,6 +286,7 @@ export default {
 			disabledDates: {
 				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
+
 			hr: hr,
 			activeStep: 0,
 
@@ -327,15 +318,65 @@ export default {
 	methods: {
 		...mapActions(["postRide", "editRide"]),
 
+		checkAndAttachScript(callback) {
+			//eslint-disable-next-line
+			if (!!window.google) {
+				callback();
+				return true;
+			}
+			window.mapApiInitialized = callback;
+			let script = document.createElement("script");
+			script.src =
+				"https://maps.googleapis.com/maps/api/js?key=AIzaSyCwB0fUQDB8t-YzmxsbCNRg3m6l3OU6UoQ&libraries=places&callback=mapApiInitialized";
+			document.body.appendChild(script);
+		},
+		initLocationStart() {
+			let autocomplete = new window.google.maps.places.Autocomplete(
+				document.getElementById(this.$refs.start.id),
+				{
+					types: ["(cities)"],
+					componentRestrictions: { country: ["hr", "ba"] },
+					fields: ["name"]
+				}
+			);
+
+			autocomplete.addListener("place_changed", () => {
+				let place = autocomplete.getPlace();
+				console.log(place);
+				if (place) {
+					this.start = place.name;
+				}
+			});
+		},
+		initLocationEnd() {
+			let autocomplete = new window.google.maps.places.Autocomplete(
+				document.getElementById(this.$refs.end.id),
+				{
+					types: ["(cities)"],
+					componentRestrictions: { country: ["hr", "ba"] },
+					fields: ["name"]
+				}
+			);
+			autocomplete.addListener("place_changed", () => {
+				let place = autocomplete.getPlace();
+				if (place) {
+					this.end = place.name;
+				}
+			});
+		},
 		nextStep() {
 			this.activeStep++;
 		}
+	},
+	mounted() {
+		this.checkAndAttachScript(this.initLocationStart);
+		this.checkAndAttachScript(this.initLocationEnd);
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/css/form";
+@import "../../assets/css/form";
 .create {
 	min-height: 91vh;
 	width: 100%;
@@ -343,7 +384,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 	@media only screen and(max-width:$vp-5) {
-		min-height: 80vh;
+		min-height: 82vh;
 	}
 }
 
@@ -369,7 +410,7 @@ export default {
 }
 .btn-secondary {
 	background-color: $tertiary;
-	color: $font-secondary;
+	color: $font-black;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 .btn-secondary:hover {
@@ -384,8 +425,10 @@ export default {
 <style lang="scss" module>
 //datepicker component styling
 .datepicker {
-	color: $font-secondary;
+	color: $font-black;
 	padding: 1.2rem 1rem;
+	font-size: 1.6rem;
+	font-family: "Work Sans", sans-serif;
 	width: 100%;
 	outline: none;
 	border: none;
@@ -395,6 +438,6 @@ export default {
 	transition: all 0.2s ease-out;
 }
 .datepicker:focus {
-	border-bottom: 1px solid $blue;
+	border-bottom: 1px solid $accent;
 }
 </style>

@@ -2,10 +2,23 @@
 	<div class="card">
 		<div class="card-top">
 			<div class="card-left">
-				<slot name="card-left">Loading</slot>
+				<div class="path">
+					<img src="../assets/img/icons/path.svg" alt="Right arrow" />
+				</div>
+				<div class="path-text">
+					<div class="start">{{ ride.start }}</div>
+					<div class="end">{{ ride.end }}</div>
+				</div>
 			</div>
 			<div class="card-right">
-				<slot name="card-right">Loading</slot>
+				<div class="price">
+					<span>KM {{ ride.price }}</span>
+				</div>
+				<div class="date">
+					<span>
+						{{ ride.date | moment }}
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="card-down">
@@ -15,11 +28,19 @@
 </template>
 
 <script>
+import "moment/locale/hr";
+import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
 	name: "Card",
+	props: ["ride"],
 	computed: {
 		...mapGetters(["isLoggedIn"])
+	},
+	filters: {
+		moment: function(date) {
+			return moment(date).format("LL");
+		}
 	}
 };
 </script>
@@ -34,9 +55,10 @@ export default {
 	border-radius: 3px;
 	width: 90%;
 	max-width: 50rem;
-	padding: 3rem 3rem;
-	background-color: #e3eef2;
-	box-shadow: 0 3px 6px 0 hsla(0, 0%, 0%, 0.3);
+
+	padding: 2rem 3rem;
+	background-color: #fffffe;
+	box-shadow: 0 2px 8px 0 hsla(0, 0%, 0%, 0.3);
 	cursor: pointer;
 	&:not(:last-child) {
 		margin-bottom: 2.5rem;
@@ -44,7 +66,6 @@ export default {
 
 	&-top {
 		display: flex;
-
 		margin: 1rem 0;
 		width: 100%;
 	}
@@ -52,22 +73,25 @@ export default {
 		flex: 1;
 		display: flex;
 		justify-content: flex-start;
-		align-items: center;
 
 		height: 100%;
 		.path {
 			margin-right: 1.5rem;
 			img {
-				height: 7rem;
+				height: 11rem;
 			}
 		}
 		.path-text {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-
+			font-size: 1.7rem;
+			max-width: 25rem;
 			margin-top: -0.75rem;
-			height: 8rem;
+			height: 12rem;
+		}
+		.start {
+			flex: 1;
 		}
 		.start,
 		.end {
@@ -75,33 +99,20 @@ export default {
 		}
 	}
 	&-right {
-		flex: 1;
+		//flex: 1;
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-end;
+
 		.price {
 			display: flex;
-			flex-direction: column;
 			align-items: center;
-
-			font-size: 1.8rem;
-			span:first-child {
-				font-weight: 600;
-				color: $grey;
-			}
-			span:first-child + span {
-				font-size: 2.2rem;
-			}
+			font-weight: 600;
+			font-size: 2rem;
 		}
 		.date {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			font-size: 1.8rem;
-			img {
-				width: 2.5rem;
-				height: 2.5rem;
-			}
+			font-size: 1.7rem;
 		}
 	}
 	&-down {
@@ -109,8 +120,10 @@ export default {
 		justify-content: center;
 		align-items: center;
 		button {
-			width: 40%;
-			margin: 1rem 1rem 0 1rem;
+			margin-top: 3rem;
+		}
+		button + button {
+			margin-left: 2.5rem;
 		}
 	}
 }

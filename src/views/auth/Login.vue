@@ -4,7 +4,7 @@
 			<form
 				class="form-control"
 				@submit.prevent="
-					handleSubmit(() => postLogin({ email, password }))
+					handleSubmit(() => loginUser({ email, password }))
 				"
 			>
 				<div class="form-group">
@@ -21,9 +21,8 @@
 							id="email"
 							:class="v.classes"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
@@ -41,9 +40,8 @@
 							id="password"
 							:class="v.classes"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
@@ -59,9 +57,8 @@
 							id="confirmPassword"
 							:class="v.classes"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
@@ -104,7 +101,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions(["postLogin"])
+		...mapActions(["loginUser"])
 	}
 };
 </script>
@@ -134,7 +131,7 @@ span {
 		color: #0984e3;
 	}
 	a:focus {
-		outline: 1px solid $blue;
+		outline: 1px solid $accent;
 	}
 }
 </style>

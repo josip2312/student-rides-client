@@ -1,19 +1,18 @@
 import { extend } from "vee-validate";
-
+import { configure } from "vee-validate";
+import { setInteractionMode } from "vee-validate";
 import {
 	required,
 	email,
 	alpha,
 	between,
 	min,
+	max,
 	confirmed,
 	numeric,
 	max_value,
 	min_value
 } from "vee-validate/dist/rules";
-import { configure } from "vee-validate";
-
-import { setInteractionMode } from "vee-validate";
 
 setInteractionMode("eager");
 
@@ -23,13 +22,12 @@ configure({
 		invalid: "invalid"
 	}
 });
-// No message specified.
+
 extend("email", {
 	...email,
 	message: "Unesite valjan email"
 });
 
-// Override the default message.
 extend("required", {
 	...required,
 	message: "Ovo polje ne moze biti prazno"
@@ -46,6 +44,10 @@ extend("between", {
 extend("min", {
 	...min,
 	message: `Polje mora imati najmanje 6 znakova`
+});
+extend("max", {
+	...max,
+	message: `Polje moze imati najvise 200 znakova`
 });
 extend("confirmed", {
 	...confirmed,

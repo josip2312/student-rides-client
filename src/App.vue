@@ -16,8 +16,8 @@
 import { mapActions, mapGetters } from "vuex";
 
 import Success from "./components/Success";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 import Loader from "./components/Loader";
 
 export default {
@@ -32,28 +32,37 @@ export default {
 			"isLoggedIn",
 			"isLoading",
 			"getRides",
-			"getLoggedInUser"
+			"getLoggedInUser",
+			"getUserData"
 		])
 	},
 	methods: {
 		...mapActions([
 			"fetchRides",
 			"fetchUserRides",
-			"fetchUserInfo",
-			"fetchPhoto"
+			"fetchUserData",
+			"fetchPhoto",
+			"fetchReservedRides"
 		])
 	},
 	watch: {
 		getLoggedInUser: function() {
-			this.fetchUserRides();
-			this.fetchUserInfo();
+			//this.fetchUserRides();
+			this.fetchUserData();
+			//this.fetchPhoto();
+			//this.fetchRides();
+		},
+		getUserData: function() {
+			this.fetchReservedRides();
 			this.fetchPhoto();
-			this.fetchRides();
+			this.fetchUserRides();
 		}
-
-		/* getRides: function() {
-			if (this.isLoggedIn) this.fetchUserRides();
-		} */
+	},
+	created() {
+		this.fetchRides();
+		if (this.getLoggedInUser) {
+			this.fetchUserData();
+		}
 	}
 };
 </script>
@@ -74,13 +83,44 @@ export default {
 
 .grow-enter-active,
 .grow-leave-active {
-	transition-duration: 0.2s;
-	transition-property: transform;
-	transition-timing-function: ease;
-	transform-origin: top;
+	transition: all 0.15s ease-out;
 }
 .grow-enter,
 .grow-leave-to {
-	transform: scaleY(0);
+	opacity: 0;
+	//transform: translateY(-50%);
+}
+
+@keyframes up {
+	0% {
+		opacity: 0;
+		transform: translateY(5rem);
+	}
+
+	100% {
+		opacity: 1;
+
+		transform: translateY(0rem);
+	}
+}
+@keyframes down {
+	0% {
+		opacity: 0;
+		transform: translateY(-5rem);
+	}
+
+	100% {
+		opacity: 1;
+
+		transform: translateY(0rem);
+	}
+}
+
+.before-enter {
+	opacity: 0;
+	animation: none;
+}
+.enter {
+	animation: up 1s ease-in-out forwards;
 }
 </style>

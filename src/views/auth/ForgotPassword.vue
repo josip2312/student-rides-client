@@ -18,9 +18,7 @@
 							name="email"
 							id="email"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 
@@ -36,7 +34,6 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import "@/validations.js";
 
 import { mapActions } from "vuex";
 export default {

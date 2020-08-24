@@ -3,10 +3,7 @@
 		<div class="search">
 			<div class="search-top">
 				<h3 class="heading-3">Pretrazi voznje</h3>
-				<img
-					src="../assets/img/icons/magnifier.svg"
-					alt="Search icon"
-				/>
+				<img src="@/assets/img/icons/magnifier.svg" alt="Search icon" />
 			</div>
 			<div class="search-bottom">
 				<div class="search-start">
@@ -33,50 +30,23 @@
 			<div class="no-rides" v-if="filteredRides.length < 1">
 				Trenutno nema aktivnih voznji!
 			</div>
+
 			<Card
 				v-for="(ride, index) in filteredRides"
 				:key="index"
-				@click.native="rideDetails(ride._id)"
-			>
-				<template v-slot:card-left>
-					<div class="path">
-						<img
-							src="../assets/img/icons/path.svg"
-							alt="Right arrow"
-						/>
-					</div>
-					<div class="path-text">
-						<div class="start">{{ ride.start }}</div>
-						<div class="end">{{ ride.end }}</div>
-					</div>
-				</template>
-				<template v-slot:card-right>
-					<div class="date">
-						<span>
-							<img
-								src="../assets/img/icons/date.svg"
-								alt="Calendar icon"
-							/>
-						</span>
-						<span>
-							{{ ride.date | moment }}
-						</span>
-					</div>
-					<div class="price">
-						<span>KM</span>
-						<span>{{ ride.price }}</span>
-					</div>
-				</template>
-			</Card>
+				:ride="ride"
+				@click.native="fetchRideDetails(ride._id)"
+			/>
 		</div>
 	</section>
 </template>
 
 <script>
-import Card from "../components/Card";
+import Card from "@/components/Card";
 import { mapActions, mapGetters } from "vuex";
-import moment from "moment";
+
 export default {
+	name: "Rides",
 	data() {
 		return {
 			searchStart: "",
@@ -108,28 +78,22 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchRides", "rideDetails"])
-	},
-	filters: {
-		moment: function(date) {
-			return moment(date).format("MMM Do YY");
-		}
+		...mapActions(["fetchRides", "fetchRideDetails"])
 	}
 };
 </script>
 
 <style lang="scss" scoped>
 .rides {
-	padding: 0 1rem 5rem 1rem;
-	width: 75%;
+	padding: 5rem 0;
+	width: 80%;
+	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
-	min-height: 70vh;
-	@media only screen and(max-width:$vp-8) {
-		width: 90%;
-	}
+	min-height: 91vh;
 	@media only screen and(max-width:$vp-5) {
-		width: 100%;
+		width: 90%;
+		min-height: 82vh;
 	}
 }
 .search {
@@ -138,11 +102,10 @@ export default {
 	justify-content: space-around;
 	align-items: center;
 
-	color: $font-secondary;
+	color: $font-black;
 	width: 75%;
 	max-width: 50rem;
 	margin: 0 auto;
-	padding: 3rem 0;
 	border-radius: 3px;
 
 	&-top {
@@ -180,7 +143,7 @@ export default {
 				}
 			}
 			input:focus {
-				border-bottom: 1px solid $blue;
+				border-bottom: 1px solid $accent;
 			}
 		}
 		.search-end {
@@ -196,7 +159,7 @@ export default {
 				@include input;
 			}
 			input:focus {
-				border-bottom: 1px solid $blue;
+				border-bottom: 1px solid $accent;
 			}
 		}
 	}
@@ -208,11 +171,14 @@ export default {
 	align-items: center;
 	flex-direction: column;
 
-	color: $font-secondary;
-	margin-top: 5rem;
+	color: $font-black;
+	margin-top: 7.5rem;
 
 	.no-rides {
 		font-size: 2rem;
 	}
+}
+.none {
+	display: none;
 }
 </style>

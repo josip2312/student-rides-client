@@ -1,20 +1,24 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Login from "../views/auth/Login.vue";
-import Register from "../views/auth/Register.vue";
-import ForgotPassword from "../views/auth/ForgotPassword.vue";
-import NewPassword from "../views/auth/NewPassword.vue";
+import Login from "@/views/auth/Login.vue";
+import Register from "@/views/auth/Register.vue";
+import ForgotPassword from "@/views/auth/ForgotPassword.vue";
+import NewPassword from "@/views/auth/NewPassword.vue";
 
-import Index from "../views/Index.vue";
-import Create from "../views/Create.vue";
-import Rides from "../views/Rides.vue";
-import Profile from "../views/Profile.vue";
-import RideDetails from "../views/RideDetails.vue";
-
-import store from "../store/index";
+import Landing from "@/views/Landing.vue";
+import CreateRide from "@/views/rides/CreateRide.vue";
+import Rides from "@/views/rides/Rides.vue";
+import Profile from "@/views/users/Profile.vue";
+import RideDetails from "@/views/rides/RideDetails.vue";
+import UserDetails from "@/views/users/UserDetails.vue";
+import EditProfile from "@/views/users/EditProfile.vue";
+import NotFound from "@/views/NotFound.vue";
+import store from "@/store/index";
 
 Vue.use(VueRouter);
+
+//lazy loading ---- const Foo = () => import(/* webpackChunkName: "group-foo" */ './Foo.vue')
 
 const loggedOutGuard = (to, from, next) => {
 	if (to.matched.some(rec => rec.meta.requiresAuth)) {
@@ -30,28 +34,34 @@ const loggedInGuard = (to, from, next) => {
 	if (!store.state.loggedIn) {
 		next();
 	} else {
-		next({ name: "Index" });
+		next({ name: "Landing" });
 	}
 };
 
 //props:true ako zelim nesto prebacit u redirectu
 const routes = [
 	{
+		// will match everything
+		path: "*",
+		name: "NotFound",
+		component: NotFound
+	},
+	{
 		path: "/",
-		name: "Index",
-		component: Index
+		name: "Landing",
+		component: Landing
 	},
 	{
 		path: "/rides/create",
-		name: "Create",
-		component: Create,
+		name: "CreateRide",
+		component: CreateRide,
 		meta: {
 			requiresAuth: true
 		},
 		beforeEnter: (to, from, next) => {
 			if (to.matched.some(rec => rec.meta.requiresAuth)) {
 				if (store.state.loggedIn) {
-					/* if (!store.state.editMode) {
+					/* if (!store.state.editRideMode) {
 						store.state.editingRide = {};
 					} */
 					next();
@@ -110,6 +120,25 @@ const routes = [
 		path: "/auth/profile",
 		name: "Profile",
 		component: Profile,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: loggedOutGuard
+	},
+	{
+		props: true,
+		path: "/users/:name",
+		name: "UserDetails",
+		component: UserDetails,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: loggedOutGuard
+	},
+	{
+		path: "/profile/edit",
+		name: "EditProfile",
+		component: EditProfile,
 		meta: {
 			requiresAuth: true
 		},

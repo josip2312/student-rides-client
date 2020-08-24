@@ -26,9 +26,7 @@
 							name="password"
 							id="password"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
@@ -44,18 +42,11 @@
 							name="confirmPassword"
 							id="confirmPassword"
 						/>
-						<transition name="fade" mode="out-in">
-							<p>{{ v.errors[0] }}</p>
-						</transition>
+						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
 				<div class="form-group">
-					<button
-						class="btn"
-						type="submit"
-						:class="{ disabled: invalid }"
-						:disabled="invalid"
-					>
+					<button class="btn" type="submit">
 						Promijeni lozinku
 					</button>
 				</div>

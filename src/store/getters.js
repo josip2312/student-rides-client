@@ -1,11 +1,14 @@
 //rides
 export const getRides = state => state.rides;
+export const getReservedRides = state => state.reservedRides;
 export const getUserRides = state => state.userRides;
-export const getDetailsRide = state => state.detailsRide;
-export const getEditingRide = state => state.editingRide;
-export const isEditMode = state => state.editMode;
 export const getUserData = state => state.userData;
+export const getRideDetails = state => state.rideDetails;
+export const getSearchedUserData = state => state.searchedUserData;
+export const getEditingRide = state => state.editingRide;
+export const getEditingUser = state => state.editingUser;
 export const getPhoto = state => state.photo;
+export const isEditMode = state => state.editRideMode;
 
 //states
 export const isLoading = state => state.loading;

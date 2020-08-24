@@ -45,7 +45,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	padding: 2rem;
-	color: $font-primary;
+	color: $font-white;
 
 	transform: translateX(-50%);
 	transition: all 0.2s;

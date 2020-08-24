@@ -5,8 +5,7 @@ import moment from "moment";
 /* ERRORS AND SUCCESSES */
 //////////////
 export const ERROR = (state, error) => {
-	state.errorMessage = error.response.data;
-
+	state.errorMessage = error;
 	state.isError = true;
 };
 export const CLEAR_ERROR = state => {
@@ -27,18 +26,20 @@ export const CLEAR_SUCCESS = state => {
 export const SET_RIDES = (state, rides) => {
 	state.rides = rides;
 };
-
+export const SET_RESERVED_RIDES = (state, reservedRides) => {
+	state.reservedRides = reservedRides;
+};
 export const SET_USER_RIDES = (state, rides) => {
 	state.userRides = rides;
 };
 
 export const ADD_RIDE = (state, ride) => {
 	state.userRides.push(ride);
-	router.push({ name: "Rides" });
+	router.push({ name: "Profile" });
 };
 export const SET_RIDE_DETAILS = (state, data) => {
 	data.ride._id = data.id;
-	state.detailsRide = data.ride;
+	state.rideDetails = data.ride;
 
 	if (router.currentRoute.name !== "RideDetails") {
 		router.push({ name: "RideDetails" });
@@ -52,8 +53,12 @@ export const RIDE_UPDATED = (state, data) => {
 	state.rides = state.rides.filter(ride => {
 		return ride._id !== data.id;
 	});
-	state.editMode = false;
+	state.editRideMode = false;
 	state.editingRide = {};
+	router.push({ name: "Profile" });
+};
+export const USER_UPDATED = (state, data) => {
+	state.userData = data;
 	router.push({ name: "Profile" });
 };
 export const SET_EDITING_RIDE = (state, data) => {
@@ -70,7 +75,7 @@ export const SET_EDITING_RIDE = (state, data) => {
 		smoking: data.smoking,
 		car: data.car
 	};
-	state.editMode = true;
+	state.editRideMode = true;
 };
 
 //////////////
@@ -81,22 +86,34 @@ export const SET_LOGGED_IN = (state, userData) => {
 	state.jwtToken = userData.token;
 	state.loggedInUser = userData.userId;
 
-	router.push({ name: "Index" });
+	router.push({ name: "Rides" });
 };
+
 export const REGISTER_USER = () => {
 	router.push({ name: "Login" });
 };
 export const SET_USER_DATA = (state, data) => {
 	state.userData = data;
 };
-export const SET_USER_NOTIFICATIONS = (state, id) => {
+export const SET_SEARCHED_USER_DATA = (state, data) => {
+	state.searchedUserData = data;
+	router.push({ name: "UserDetails", params: { name: data.name } });
+};
+export const SET_USER_NOTIFICATIONS = (state, data) => {
 	state.userData.notifications = state.userData.notifications.filter(
 		notification => {
-			return notification._id !== id;
+			return notification._id !== data.id;
 		}
 	);
-};
 
+	state.rideDetails = data.ride;
+	if (router.history.current.name !== "RideDetails") {
+		router.push({ name: "RideDetails" });
+	}
+};
+export const DELETE_NOTIFICATIONS = state => {
+	state.userData.notifications = [];
+};
 export const LOGIN_FAILED = (state, data) => {
 	state.error = data;
 };

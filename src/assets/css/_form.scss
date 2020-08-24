@@ -1,20 +1,17 @@
 .form-control {
-	color: $font-secondary;
+	color: $font-black;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 
 	width: 90%;
-	max-width: 50rem;
+	max-width: 45rem;
 	min-height: 50vh;
-	padding: 2rem 5rem;
+	padding: 1.5rem 4rem;
 	background: $white;
-	box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+	box-shadow: 0 2px 8px 0 hsla(0, 0%, 0%, 0.3);
 
-	@media only screen and(max-width:$vp-5) {
-		padding: 1.5rem 3rem;
-	}
-
+	animation: down 0.5s forwards;
 	.form-group {
 		display: flex;
 		flex-direction: column;
@@ -27,9 +24,8 @@
 		}
 
 		label {
-			font-size: 1.8rem;
 			font-weight: 500;
-			margin-bottom: 0.75rem;
+			margin-bottom: 0.5rem;
 		}
 		span {
 			width: 100%;
@@ -38,11 +34,11 @@
 		}
 		input {
 			@include input;
-			margin-bottom: 0.4rem;
+			margin-bottom: 0.2rem;
 		}
 
 		input:focus {
-			border-bottom: 1px solid $blue;
+			border-bottom: 1px solid $accent;
 		}
 		.radio-buttons {
 			display: flex;

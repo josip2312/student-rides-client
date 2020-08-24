@@ -5,6 +5,7 @@ module.exports = {
 				prependData: `
             @import "@/assets/css/_base.scss";
             @import "@/assets/css/_elements.scss";
+
           `
 			}
 		}

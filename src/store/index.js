@@ -13,9 +13,15 @@ export default new Vuex.Store({
 	state: {
 		rides: [],
 		userRides: [],
-		editMode: false,
+		reservedRides: [],
+		userData: {},
+		searchedUserData: {},
+
 		editingRide: {},
-		detailsRide: {},
+		rideDetails: {},
+
+		editingUser: {},
+		editRideMode: false,
 		photo: null,
 
 		loading: false,
@@ -26,22 +32,24 @@ export default new Vuex.Store({
 
 		loggedIn: false,
 		jwtToken: null,
-		loggedInUser: null,
-		userData: {}
+		loggedInUser: null
 	},
 	plugins: [
 		createPersistedState({
 			storage: window.sessionStorage,
 			reducer: state => ({
 				rides: state.rides,
+				reservedRides: state.reservedRides,
 				userRides: state.userRides,
-				detailsRide: state.detailsRide,
+				rideDetails: state.rideDetails,
 				photo: state.photo,
+
+				userData: state.userData,
+				searchedUserData: state.searchedUserData,
 
 				loggedIn: state.loggedIn,
 				jwtToken: state.jwtToken,
-				loggedInUser: state.loggedInUser,
-				userData: state.userData
+				loggedInUser: state.loggedInUser
 			})
 		})
 	],
