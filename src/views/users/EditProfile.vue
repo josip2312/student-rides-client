@@ -125,6 +125,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/css/form";
+.form-control {
+	max-width: 50rem;
+}
 .edit {
 	min-height: 90vh;
 	display: flex;

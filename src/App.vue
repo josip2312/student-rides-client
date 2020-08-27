@@ -47,10 +47,10 @@ export default {
 	},
 	watch: {
 		getLoggedInUser: function() {
-			//this.fetchUserRides();
 			this.fetchUserData();
+			this.fetchRides();
+			//this.fetchUserRides();
 			//this.fetchPhoto();
-			//this.fetchRides();
 		},
 		getUserData: function() {
 			this.fetchReservedRides();

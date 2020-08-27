@@ -27,6 +27,25 @@
 					{{ getRideDetails.car }}
 				</div>
 			</div>
+			<div class="details-user">
+				<div class="photo" @click="fetchUserById(getRideDetails.user)">
+					<img
+						v-if="getRideDetails.userPhoto"
+						:src="
+							backendUrl + '/uploads/' + getRideDetails.userPhoto
+						"
+						alt=""
+					/>
+					<img
+						v-else
+						:src="backendUrl + '/uploads/user.svg'"
+						alt=""
+					/>
+				</div>
+				<div class="name">
+					{{ getRideDetails.fullName }}
+				</div>
+			</div>
 			<div class="details-bottom">
 				<h2 class="heading-2">Putnici</h2>
 				<div
@@ -154,6 +173,26 @@ export default {
 	img {
 		width: 2.5rem;
 		height: 2.5rem;
+	}
+}
+.details-user {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 5rem;
+	.photo {
+		cursor: pointer;
+		margin-right: 1.5rem;
+		img {
+			width: 6rem;
+			height: 6rem;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+	}
+	.name {
+		font-size: 2rem;
+		font-weight: 500;
 	}
 }
 

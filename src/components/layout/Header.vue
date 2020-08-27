@@ -1,6 +1,6 @@
 <template>
 	<header>
-		<nav>
+		<div class="wrapper">
 			<div class="nav-left">
 				<div class="logo" @click="sendToLanding">
 					StudentRides
@@ -9,7 +9,7 @@
 
 			<!-- navbar logged out -->
 			<div class="nav-right">
-				<ul
+				<nav
 					v-if="!isLoggedIn"
 					:class="{ isVisible: visible, mobileList: isMobile }"
 					v-click-outside="hideSidebar"
@@ -35,10 +35,10 @@
 					>
 						Registracija
 					</router-link>
-				</ul>
+				</nav>
 
 				<!-- navbar when logged in -->
-				<ul
+				<nav
 					:class="{ isVisible: visible, mobileList: isMobile }"
 					v-if="isLoggedIn"
 					v-click-outside="hideSidebar"
@@ -65,7 +65,7 @@
 					>
 						Odjavi se</a
 					>
-				</ul>
+				</nav>
 
 				<!-- logged in additional elements -->
 				<div class="profile-info" v-if="isLoggedIn">
@@ -171,6 +171,12 @@
 								:to="{ name: 'Profile' }"
 								>Profil</router-link
 							>
+							<router-link
+								@click.native="hideUserDropdown"
+								class="messages"
+								:to="{ name: 'Chat' }"
+								>Poruke</router-link
+							>
 							<a
 								tabindex="0"
 								class="logout"
@@ -193,7 +199,7 @@
 					</button>
 				</div>
 			</div>
-		</nav>
+		</div>
 
 		<!-- mobile navigation -->
 		<div class="mobile-nav" v-if="isMobile">
@@ -323,7 +329,7 @@ header {
 navbar
 /////////////
 */
-nav {
+.wrapper {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -346,7 +352,7 @@ nav {
 		align-items: center;
 	}
 
-	ul {
+	nav {
 		display: flex;
 		justify-content: space-between;
 
@@ -491,11 +497,13 @@ nav {
 			top: 7vh;
 			right: 0;
 			z-index: 20;
-			.profile {
-				margin-bottom: 2rem;
+			.profile,
+			.messages {
+				margin-bottom: 1.5rem;
 			}
 			.profile,
-			.logout {
+			.logout,
+			.messages {
 				padding: 0.8rem 1.6rem;
 				border-radius: 10rem;
 				cursor: pointer;

@@ -14,6 +14,7 @@ import RideDetails from "@/views/rides/RideDetails.vue";
 import UserDetails from "@/views/users/UserDetails.vue";
 import EditProfile from "@/views/users/EditProfile.vue";
 import NotFound from "@/views/NotFound.vue";
+import Chat from "@/views/Chat.vue";
 import store from "@/store/index";
 
 Vue.use(VueRouter);
@@ -139,6 +140,15 @@ const routes = [
 		path: "/profile/edit",
 		name: "EditProfile",
 		component: EditProfile,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: loggedOutGuard
+	},
+	{
+		path: "/user/chat",
+		name: "Chat",
+		component: Chat,
 		meta: {
 			requiresAuth: true
 		},

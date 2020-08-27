@@ -36,7 +36,25 @@
 				:key="index"
 				:ride="ride"
 				@click.native="fetchRideDetails(ride._id)"
-			/>
+			>
+				<template v-slot:card-down>
+					<div class="photo">
+						<img
+							v-if="ride.userPhoto"
+							:src="backendUrl + '/uploads/' + ride.userPhoto"
+							alt=""
+						/>
+						<img
+							v-else
+							:src="backendUrl + '/uploads/user.svg'"
+							alt=""
+						/>
+					</div>
+					<div class="name">
+						{{ ride.fullName }}
+					</div>
+				</template>
+			</Card>
 		</div>
 	</section>
 </template>
@@ -49,6 +67,7 @@ export default {
 	name: "Rides",
 	data() {
 		return {
+			backendUrl: process.env.VUE_APP_BACKEND_URL,
 			searchStart: "",
 			searchEnd: ""
 		};
@@ -180,5 +199,18 @@ export default {
 }
 .none {
 	display: none;
+}
+.name {
+	font-size: 2rem;
+	font-weight: 500;
+}
+.photo {
+	margin-right: 1.5rem;
+	img {
+		width: 6rem;
+		height: 6rem;
+		border-radius: 50%;
+		object-fit: cover;
+	}
 }
 </style>

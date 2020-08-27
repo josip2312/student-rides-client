@@ -107,17 +107,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../assets/css/form";
-//span due to veevalidate
-span {
-	width: 90%;
-	max-width: 50rem;
-}
+
 .login {
-	min-height: 70vh;
+	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 5rem 0;
+	@media only screen and(max-width:$vp-5) {
+		min-height: 82vh;
+	}
 }
 .form-footer {
 	display: flex;

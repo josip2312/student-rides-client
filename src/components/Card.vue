@@ -116,12 +116,11 @@ export default {
 		}
 	}
 	&-down {
+		margin-top: 3rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		button {
-			margin-top: 3rem;
-		}
+
 		button + button {
 			margin-left: 2.5rem;
 		}

@@ -22,6 +22,15 @@
 					</span>
 				</div>
 			</div>
+			<router-link
+				:to="{ name: 'Chat' }"
+				class="message"
+				tag="div"
+				@click="fetchUserById(data._id)"
+			>
+				<img src="@/assets/img/icons/message.svg" alt="" />
+				<span>Posalji poruku</span>
+			</router-link>
 			<div class="additional">
 				<p v-if="!data.description">
 					Nema dodatnih informacija
@@ -52,7 +61,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "UserDetails",
 	data() {
@@ -67,6 +76,9 @@ export default {
 		data() {
 			return this.getSearchedUserData;
 		}
+	},
+	methods: {
+		...mapActions(["fetchUserById"])
 	}
 };
 </script>
@@ -143,8 +155,18 @@ export default {
 		}
 	}
 }
+.message {
+	display: flex;
+	align-items: center;
+
+	cursor: pointer;
+	img {
+		margin-right: 1.5rem;
+	}
+}
 .additional,
-.contact {
+.contact,
+.message {
 	padding: 1.5rem;
 
 	font-size: 2rem;
@@ -161,7 +183,8 @@ export default {
 	}
 }
 .additional:hover,
-.contact:hover {
+.contact:hover,
+.message:hover {
 	background-color: $grey-light;
 }
 .contact {
