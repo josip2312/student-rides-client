@@ -37,6 +37,7 @@ export default {
 	align-items: center;
 
 	background-color: $primary;
+	margin-top: auto;
 	&-up {
 		display: flex;
 		width: 50%;
@@ -52,7 +53,7 @@ export default {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		color: $grey;
+		color: $font-p;
 		.email {
 			margin-bottom: 0.5rem;
 		}
@@ -64,7 +65,7 @@ export default {
 		align-items: center;
 		width: 100%;
 		background-color: $secondary;
-		color: $grey;
+		color: $font-p;
 		@media only screen and(max-width:$vp-5) {
 			margin-bottom: 9vh;
 		}

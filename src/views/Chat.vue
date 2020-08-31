@@ -1,32 +1,41 @@
 <template>
 	<div id="chat">
 		<h3 class="heading-3">
-			{{ getSearchedUserData.name }} {{ getSearchedUserData.lastname }}
+			{{ chat.members[0].name }}
 		</h3>
 		<ul ref="chat">
 			<li v-for="(message, index) in messages" :key="index">
-				<div class="name">{{ message.senderName }}</div>
-				<span> {{ message.message }}</span>
+				<div class="name">
+					{{ message.from }}
+				</div>
+				<span> {{ message.content }}</span>
 			</li>
-			<small v-if="isTyping"
-				>{{ getSearchedUserData.name }} is typing...</small
-			>
+			<small v-if="isTyping">{{ message.from }} is typing...</small>
 		</ul>
+
 		<form
 			@submit.prevent="
 				sendMessage({
+					room: chat._id,
 					sender: getUserData._id,
 					receiver: getSearchedUserData._id,
-					senderName: getUserData.name + ' ' + getUserData.lastname,
-					receiverName:
-						getSearchedUserData.name +
-						' ' +
-						getSearchedUserData.lastname,
-					message
+
+					message: {
+						from: getUserData.name,
+						to: getSearchedUserData.name,
+						content: message
+					}
 				})
 			"
 		>
 			<input
+				v-if="connected"
+				placeholder="Enter your message"
+				type="text"
+				v-model="message"
+			/>
+			<input
+				v-else
 				placeholder="Enter your message"
 				type="text"
 				v-model="message"
@@ -39,46 +48,50 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Chat",
+	props: ["index"],
 	data() {
 		return {
 			message: null,
-			//messages: this.$store.state.userData.messages || [],
-			isTyping: false
+			isTyping: false,
+			connected: false,
+
+			reload: false
 		};
 	},
 	computed: {
-		...mapGetters(["getUserData", "getSearchedUserData"]),
+		...mapGetters(["getChats", "getUserData", "getSearchedUserData"]),
 		messages() {
-			return this.getUserData.messages;
+			return this.getChats[this.index].messages;
+		},
+		chat() {
+			return this.getChats[this.index];
 		}
 	},
-	watch: {
-		message(value) {
-			value
-				? this.$socket.emit("typing", this.getSearchedUserData._id)
-				: this.$socket.emit("stopTyping", this.getSearchedUserData._id);
-		}
-	},
+	//reload page on enter because the sokcet doenst connet on regular route transition
+
 	sockets: {
 		connect() {
-			this.$socket.emit("connected", this.getUserData._id);
+			console.log("connected");
+			this.$socket.emit("connected", {
+				room: this.chat._id,
+				sender: this.chat.sender,
+				receiver: this.chat.receiver,
+				senderName: this.chat.senderName,
+				receiverName: this.chat.receiverName
+			});
+			this.connected = true;
 		},
 		message(data) {
 			this.messages.push(data);
-		},
-		typing() {
-			this.isTyping = true;
-		},
-		stopTyping() {
-			this.isTyping = false;
 		}
 	},
 	methods: {
+		...mapActions(["fetchChats"]),
 		sendMessage(data) {
-			this.messages.push(data);
+			this.messages.push(data.message);
 			this.message = null;
 
 			this.$socket.emit("message", data);
@@ -90,10 +103,21 @@ export default {
 	},
 	mounted() {
 		this.scrollBottom();
+		(function() {
+			if (window.localStorage) {
+				if (!localStorage.getItem("firstLoad")) {
+					localStorage["firstLoad"] = true;
+					window.location.reload();
+				} else localStorage.removeItem("firstLoad");
+			}
+		})();
 	},
 
 	updated() {
 		this.scrollBottom();
+	},
+	created() {
+		this.fetchChats();
 	}
 };
 </script>
@@ -105,15 +129,13 @@ export default {
 	justify-content: center;
 	flex-direction: column;
 
-	//position: fixed;
 	height: 91vh;
 	color: $font-black;
 
-	width: 80%;
-	max-width: 80rem;
+	width: 85%;
+	max-width: 60rem;
 	margin: 0 auto;
 	@media only screen and(max-width:$vp-5) {
-		width: 90%;
 		min-height: 82vh;
 	}
 }
@@ -125,7 +147,7 @@ ul {
 	width: 100%;
 	color: $font-black;
 	overflow-y: auto;
-	height: 40rem;
+	height: 35rem;
 
 	small {
 		display: block;

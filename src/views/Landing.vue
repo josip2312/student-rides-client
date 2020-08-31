@@ -33,7 +33,7 @@ export default {
 <style lang="scss" scoped>
 #reasons {
 	width: 100%;
-	background-color: $grey-light;
+	background-color: #eee;
 	height: 100%;
 	padding-bottom: 5rem;
 }

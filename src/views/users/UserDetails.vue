@@ -1,5 +1,5 @@
 <template>
-	<div class="profile">
+	<div class="profile container">
 		<div class="profile-top">
 			<div class="profile-image">
 				<img
@@ -22,15 +22,26 @@
 					</span>
 				</div>
 			</div>
-			<router-link
-				:to="{ name: 'Chat' }"
+			<!-- send this user id to the server, check if chat exists, if not create new chat   -->
+			<!-- ako ne postoji chat napravi se novi, i posalje se na ChatDashboard,
+			ime ce se prikazat i top -->
+			<div
 				class="message"
-				tag="div"
-				@click="fetchUserById(data._id)"
+				@click="
+					createNewChat({
+						chats: getUserData.chats,
+						sender: getUserData._id,
+						receiver: data._id,
+						senderName:
+							getUserData.name + ' ' + getUserData.lastname,
+						receiverName: data.name + ' ' + data.lastname
+					}),
+						sendToChatDashboard()
+				"
 			>
 				<img src="@/assets/img/icons/message.svg" alt="" />
 				<span>Posalji poruku</span>
-			</router-link>
+			</div>
 			<div class="additional">
 				<p v-if="!data.description">
 					Nema dodatnih informacija
@@ -58,9 +69,6 @@
 </template>
 
 <script>
-import dotenv from "dotenv";
-dotenv.config();
-
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "UserDetails",
@@ -72,30 +80,28 @@ export default {
 	},
 
 	computed: {
-		...mapGetters(["getSearchedUserData"]),
+		...mapGetters(["getSearchedUserData", "getUserData"]),
 		data() {
 			return this.getSearchedUserData;
 		}
 	},
 	methods: {
-		...mapActions(["fetchUserById"])
+		...mapActions(["fetchUserById", "createNewChat", "fetchUserData"]),
+		sendToChatDashboard() {
+			this.$router.push({ name: "ChatDashboard" });
+		}
+	},
+	created() {
+		this.fetchUserData();
 	}
 };
 </script>
 
 <style lang="scss" scoped>
 .profile {
-	width: 80%;
-	min-height: 91vh;
-
 	margin: 0 auto;
-	padding: 5rem 0;
 	color: $font-black;
 	background-color: $white;
-	@media only screen and(max-width:$vp-5) {
-		width: 90%;
-		min-height: 82vh;
-	}
 }
 .profile-top {
 	display: flex;
@@ -124,7 +130,7 @@ export default {
 			height: 100%;
 			object-fit: cover;
 			border-radius: 3px;
-			transition: all 0.2s;
+			transition: opacity 0.2s ease-in-out;
 		}
 	}
 
@@ -171,7 +177,7 @@ export default {
 
 	font-size: 2rem;
 	border-radius: 3px;
-	transition: all 0.2s ease-out;
+	transition: background-color 0.2s ease-in-out;
 
 	span {
 		font-size: 1.8rem;

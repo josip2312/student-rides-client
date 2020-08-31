@@ -39,16 +39,7 @@
 			>
 				<template v-slot:card-down>
 					<div class="photo">
-						<img
-							v-if="ride.userPhoto"
-							:src="backendUrl + '/uploads/' + ride.userPhoto"
-							alt=""
-						/>
-						<img
-							v-else
-							:src="backendUrl + '/uploads/user.svg'"
-							alt=""
-						/>
+						<img :src="ride.userPhoto" alt="" />
 					</div>
 					<div class="name">
 						{{ ride.fullName }}
@@ -104,14 +95,13 @@ export default {
 
 <style lang="scss" scoped>
 .rides {
-	padding: 5rem 0;
-	width: 80%;
+	padding: 5em 0;
+	width: 85%;
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
 	min-height: 91vh;
 	@media only screen and(max-width:$vp-5) {
-		width: 90%;
 		min-height: 82vh;
 	}
 }
@@ -207,8 +197,8 @@ export default {
 .photo {
 	margin-right: 1.5rem;
 	img {
-		width: 6rem;
-		height: 6rem;
+		width: 5rem;
+		height: 5rem;
 		border-radius: 50%;
 		object-fit: cover;
 	}

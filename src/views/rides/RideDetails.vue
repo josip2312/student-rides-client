@@ -29,18 +29,7 @@
 			</div>
 			<div class="details-user">
 				<div class="photo" @click="fetchUserById(getRideDetails.user)">
-					<img
-						v-if="getRideDetails.userPhoto"
-						:src="
-							backendUrl + '/uploads/' + getRideDetails.userPhoto
-						"
-						alt=""
-					/>
-					<img
-						v-else
-						:src="backendUrl + '/uploads/user.svg'"
-						alt=""
-					/>
+					<img :src="getRideDetails.userPhoto" alt="" />
 				</div>
 				<div class="name">
 					{{ getRideDetails.fullName }}
@@ -54,16 +43,8 @@
 					v-for="(user, index) in getRideDetails.users"
 					:key="index"
 				>
-					<img
-						v-if="user.photo"
-						:src="backendUrl + '/uploads/' + user.photo"
-						alt=""
-					/>
-					<img
-						v-else
-						:src="backendUrl + '/uploads/user.svg'"
-						alt=""
-					/>
+					<img v-if="user.photo" :src="user.photo" alt="" />
+
 					<span> {{ user.name }} {{ user.lastname }} </span>
 				</div>
 				<div class="no-users" v-if="!getRideDetails.users[0]">
@@ -116,16 +97,12 @@ export default {
 <style lang="scss" scoped>
 .details {
 	padding: 5rem 0;
-	width: 80%;
+	width: 85%;
 	max-width: 120rem;
 	background-color: $white;
 	margin: 0 auto;
 	min-height: 91vh;
 	color: $font-black;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-		width: 90%;
-	}
 }
 .container {
 	display: flex;

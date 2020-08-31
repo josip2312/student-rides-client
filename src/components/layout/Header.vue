@@ -68,8 +68,8 @@
 				</nav>
 
 				<!-- logged in additional elements -->
-				<div class="profile-info" v-if="isLoggedIn">
-					<button
+				<div class="nav-info" v-if="isLoggedIn">
+					<div
 						class="notification-icon"
 						@click="
 							(showNotifications = !showNotifications),
@@ -88,17 +88,17 @@
 								{{ notificationNumber }}
 							</span>
 						</div>
-					</button>
-					<transition name="grow" mode="out-in">
+					</div>
+					<transition name="fade" mode="out-in">
 						<div
 							v-click-outside="hideNotifications"
 							class="notifications-dropdown"
 							v-if="showNotifications"
 						>
-							<div class="title">
+							<div class="notifications-title">
 								<span>Obavijesti</span>
 								<div
-									class="image"
+									class="notifications-image"
 									title="Oznaci sve kao procitano"
 								>
 									<img
@@ -140,7 +140,7 @@
 						</div>
 					</transition>
 
-					<button
+					<div
 						class="user"
 						@click="
 							sendToProfile,
@@ -148,18 +148,11 @@
 								hideNotifications()
 						"
 					>
-						<img
-							:src="
-								getPhoto
-									? backendUrl + '/uploads/' + getPhoto
-									: makeUrl('user.svg')
-							"
-							:class="{ userimage: getPhoto }"
-							alt="User photo"
-						/>
+						<img :src="getPhoto" alt="User photo" />
+
 						<img src="@/assets/img/icons/arrow.svg" alt="" />
-					</button>
-					<transition name="grow" mode="out-in">
+					</div>
+					<transition name="fade" mode="out-in">
 						<div
 							v-if="showUserDropdown"
 							v-click-outside="hideUserDropdown"
@@ -167,22 +160,39 @@
 						>
 							<router-link
 								@click.native="hideUserDropdown"
-								class="profile"
+								class="user-dropdown-profile"
 								:to="{ name: 'Profile' }"
-								>Profil</router-link
 							>
+								<img src="@/assets/img/icons/user.svg" alt="" />
+								<span>
+									Profil
+								</span>
+							</router-link>
 							<router-link
 								@click.native="hideUserDropdown"
-								class="messages"
-								:to="{ name: 'Chat' }"
-								>Poruke</router-link
+								class="user-dropdown-messages"
+								:to="{ name: 'ChatDashboard' }"
 							>
+								<img
+									src="@/assets/img/icons/messagewhite.svg"
+									alt=""
+								/>
+								<span>
+									Poruke
+								</span>
+							</router-link>
 							<a
 								tabindex="0"
-								class="logout"
+								class="user-dropdown-logout"
 								@click="logout(), hideUserDropdown()"
 							>
-								Odjavi se
+								<img
+									src="@/assets/img/icons/logout.svg"
+									alt=""
+								/>
+								<span>
+									Odjavi se
+								</span>
 							</a>
 						</div>
 					</transition>
@@ -203,7 +213,7 @@
 
 		<!-- mobile navigation -->
 		<div class="mobile-nav" v-if="isMobile">
-			<ul class="mobile-nav-wrapper" v-if="!isLoggedIn">
+			<div class="mobile-nav-wrapper" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Landing' }" tag="a">
 					<img src="@/assets/img/icons/home.svg" alt="Home icon" />
 					<span>Početna</span>
@@ -219,8 +229,8 @@
 					/>
 					<span>Registracija</span>
 				</router-link>
-			</ul>
-			<ul class="mobile-nav-wrapper" v-else>
+			</div>
+			<div class="mobile-nav-wrapper" v-else>
 				<router-link :to="{ name: 'Landing' }" tag="a">
 					<img src="@/assets/img/icons/home.svg" alt="Home icon" />
 					<span>Početna</span>
@@ -233,7 +243,7 @@
 					<img src="@/assets/img/icons/user.svg" alt="Profile icon" />
 					<span>Moj Profil</span>
 				</router-link>
-			</ul>
+			</div>
 		</div>
 	</header>
 </template>
@@ -335,12 +345,9 @@ navbar
 	align-items: center;
 
 	position: relative;
-	width: 80%;
+	width: 85%;
 	max-width: 120rem;
 	margin: 0 auto;
-	@media only screen and(max-width:$vp-5) {
-		width: 90%;
-	}
 
 	.logo {
 		font-size: 3rem;
@@ -355,73 +362,53 @@ navbar
 	nav {
 		display: flex;
 		justify-content: space-between;
-
-		list-style: none;
-
 		a {
 			padding: 0.8rem 1.6rem;
-			border-radius: 10rem;
+			border-radius: 5em;
 			cursor: pointer;
 
-			transition: all 200ms ease-out;
-
-			&:not(:last-child) {
-				margin-right: 0rem;
-			}
-			@media only screen and(min-width:$vp-6) {
-				&:not(:last-child) {
-					margin-right: 2rem;
-				}
-			}
+			transition: opacity 0.2s ease-in-out,
+				background-color 0.2s ease-in-out;
 		}
 	}
 	.mobileItems {
-		flex-basis: 12%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		text-align: center;
 		font-size: 2.4rem;
-
 		margin: 1.5rem 0;
+		padding: 2.5rem 0;
 		border-radius: 0;
 	}
 	.mobileList {
-		transform: translateX(30vw);
 		flex-direction: column;
 		justify-content: center;
 
+		background-color: $primary;
 		position: fixed;
 		top: 0;
 		right: 0;
 		height: 91vh;
-		width: 30vw;
 
 		z-index: -1;
-		background-color: $primary;
-		transition: all 0.2s ease-out;
-
-		@media only screen and(max-width:$vp-6) {
-			transform: translateX(50vw);
-			width: 50vw;
-		}
+		transform: translateX(50vw);
+		width: 50vw;
+		transition: transform 0.2s ease-in-out;
 	}
 	.isVisible {
 		transform: translateX(0);
 	}
 
 	.menu {
-		margin-left: 2rem;
+		margin-left: 1rem;
 		display: flex;
-		margin-top: 0.5rem;
 
 		button {
 			cursor: pointer;
 		}
 		img {
-			transform: rotate(0);
 			width: 4.5rem;
 			height: 4.5rem;
-			transition: all 0.2s ease-out;
+			transform: rotate(0);
+			transition: transform 0.2s ease-in-out;
 		}
 		.active {
 			transform: rotate(180deg);
@@ -433,12 +420,10 @@ navbar
 	content when logged in
 	/////////
 	*/
-	.profile-info {
+	.nav-info {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 
-		margin-top: 0.5rem;
 		.user,
 		.notification-icon {
 			margin-left: 1.5rem;
@@ -458,20 +443,25 @@ navbar
 			justify-content: center;
 			text-align: center;
 
+			border-radius: 50%;
+			background-color: #f53f5b;
 			position: absolute;
 			top: -1.3rem;
 			right: -1.3rem;
-			border-radius: 50%;
 			width: 2.75rem;
 			height: 2.75rem;
-			background-color: #f53f5b;
 
 			span {
 				font-size: 2.2rem;
 			}
 		}
 		.user {
+			display: flex;
+			align-items: center;
 			img:first-child {
+				width: 3.5rem;
+				height: 3.5rem;
+				object-fit: cover;
 				margin-right: 0.5rem;
 			}
 			img + img {
@@ -482,14 +472,14 @@ navbar
 		.user-dropdown {
 			display: flex;
 			flex-direction: column;
-			align-items: center;
+			align-items: flex-start;
 
 			font-size: 1.8rem;
+			color: $font-white;
+
 			padding: 3rem 0;
 			border-radius: 3px;
-
 			background-color: $primary;
-			color: $font-white;
 
 			width: 150%;
 			max-width: 20rem;
@@ -497,19 +487,31 @@ navbar
 			top: 7vh;
 			right: 0;
 			z-index: 20;
-			.profile,
-			.messages {
+			&-profile,
+			&-messages {
 				margin-bottom: 1.5rem;
 			}
-			.profile,
-			.logout,
-			.messages {
+			&-profile,
+			&-logout,
+			&-messages {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				margin-left: 5%;
+				margin-left: auto;
+				margin-right: auto;
+
 				padding: 0.8rem 1.6rem;
 				border-radius: 10rem;
-				cursor: pointer;
 				font-weight: 400;
 
-				transition: all 0.2s ease-out;
+				transition: all 0.2s ease-in-out;
+				cursor: pointer;
+
+				img {
+					margin-right: 1rem;
+				}
 			}
 		}
 
@@ -531,7 +533,7 @@ navbar
 			right: 0;
 			z-index: 20;
 
-			.title {
+			.notifications-title {
 				display: flex;
 				align-items: center;
 				justify-content: space-around;
@@ -541,7 +543,7 @@ navbar
 				border-bottom: 1px solid $tertiary;
 				padding-bottom: 1rem;
 				margin-bottom: 2rem;
-				.image {
+				.notifications-image {
 					position: relative;
 				}
 				img {
@@ -552,13 +554,12 @@ navbar
 			}
 
 			.notification {
-				display: flex;
-				align-items: center;
 				background-color: $white;
-				cursor: pointer;
 				border-radius: 3px;
 				padding: 1rem 2rem;
-				transition: all 0.2s ease-out;
+
+				transition: background-color 0.2s ease-in-out;
+				cursor: pointer;
 				img {
 					width: 2.5rem;
 					height: 2.5rem;
@@ -590,36 +591,29 @@ navbar
 
 	&-wrapper {
 		display: flex;
-		justify-content: space-around;
 
-		width: 90%;
 		margin: 0 auto;
-		@media only screen and(max-width:$vp-5) {
-			width: 100%;
-		}
+		width: 90%;
+
 		a {
 			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
+
 			text-transform: uppercase;
+			text-align: center;
 			list-style: none;
 			font-size: 1.4rem;
 			cursor: pointer;
 
-			transition: all 0.2s ease;
+			transition: opacity 0.2s ease;
 			text-decoration: none;
 			color: $font-white;
 
 			img {
+				margin: 0 auto;
 				margin-bottom: 0.5rem;
 				width: 2.5rem;
 				height: 2.5rem;
 			}
-		}
-		a:focus {
-			outline: 1px solid $tertiary;
 		}
 
 		.router-link-exact-active {

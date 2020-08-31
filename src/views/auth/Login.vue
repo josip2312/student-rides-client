@@ -8,7 +8,7 @@
 				"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Prijava</h2>
+					<h3 class="heading-3">Prijava</h3>
 				</div>
 				<div class="form-group">
 					<label for="email">Email Adresa</label>
@@ -109,11 +109,11 @@ export default {
 @import "../../assets/css/form";
 
 .login {
-	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5rem 0;
+
+	padding: 5em 0;
 	@media only screen and(max-width:$vp-5) {
 		min-height: 82vh;
 	}

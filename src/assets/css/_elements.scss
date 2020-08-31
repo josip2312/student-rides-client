@@ -1,35 +1,30 @@
 a {
-	font-family: "Work Sans", sans-serif;
 	color: $font-white;
 	text-decoration: none;
 }
 a:hover {
 	opacity: 0.8;
 }
-a:focus {
-	outline: 1px solid $accent;
-}
+
 button {
-	font-family: "Work Sans", sans-serif;
 	background: none;
 	border: none;
 	color: $font-white;
 }
-button:focus {
-	outline: 1px solid $accent;
-}
+
 .btn {
+	display: inline-block;
 	text-decoration: none;
 	border: 0;
 	background-color: $accent;
-	padding: 0.8em 1.5em;
+	padding: 0.8em 1.4em;
 	color: $font-white;
 	font-size: 1.8rem;
-	border-radius: 3px;
+	border-radius: 0.25em;
 	text-transform: uppercase;
 	text-align: center;
 
-	transition: all 0.2s ease-out;
+	transition: opacity 0.2s ease-in-out;
 	cursor: pointer;
 }
 .btn:hover {
@@ -39,24 +34,24 @@ button:focus {
 	outline: 2px solid $secondary;
 }
 .btn-secondary {
-	background-color: $grey;
-
+	background-color: $font-p;
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 img {
 	max-width: 100%;
+	display: block;
 }
 
 @mixin input {
 	font-size: 1.6rem;
-	font-family: "Work Sans", sans-serif;
+
 	font-weight: 500;
 	color: $font-black;
-	padding: 0.8rem 1.2rem;
+	padding: 1rem 1.2rem;
 	width: 100%;
 	outline: none;
 	border: none;
 	border-bottom: 1px solid $tertiary-light;
-	transition: all 0.2s ease-out;
+	transition: border 0.2s ease-in-out;
 	background-color: $tertiary-light;
 }

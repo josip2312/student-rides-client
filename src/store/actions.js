@@ -185,7 +185,6 @@ export const registerUser = async ({ commit }, data) => {
 	}
 };
 export const requestResetPassword = async ({ commit }, email) => {
-	console.log(email);
 	try {
 		await axios.post(`auth/forgotpassword`, { email });
 		commit("REQUEST_RESET_PASSWORD");
@@ -260,6 +259,30 @@ export const fetchPhoto = async ({ commit, getters }) => {
 			`auth/user/${getters.getLoggedInUser}/photo`
 		);
 		commit("SET_PHOTO", res.data);
+	} catch (error) {
+		console.error(error.response);
+	}
+};
+//////////////
+/* CHATTING */
+//////////////
+//eslint-disable-next-line
+export const fetchChats = async ({ commit, getters }) => {
+	try {
+		const res = await axios.get(`/chat/${getters.getLoggedInUser}`);
+
+		commit("SET_CHATS", res.data);
+	} catch (error) {
+		console.error(error.response);
+	}
+};
+export const createNewChat = async ({ commit, dispatch }, payload) => {
+	try {
+		const res = await axios.post(`/chat/create`, payload);
+		console.log(res);
+		dispatch("fetchChats");
+		dispatch("fetchUserData");
+		commit("SET_CHATTING_WITH", res.data);
 	} catch (error) {
 		console.error(error.response);
 	}

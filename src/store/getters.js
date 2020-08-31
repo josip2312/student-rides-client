@@ -10,6 +10,8 @@ export const getEditingUser = state => state.editingUser;
 export const getPhoto = state => state.photo;
 export const isEditMode = state => state.editRideMode;
 
+export const getChats = state => state.chats;
+
 //states
 export const isLoading = state => state.loading;
 export const isError = state => state.isError;

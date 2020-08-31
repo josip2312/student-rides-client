@@ -4,6 +4,7 @@
 			v-slot="{ handleSubmit }"
 			v-if="activeStep === 0"
 			slim
+			:key="1"
 		>
 			<transition name="fade" mode="out-in">
 				<form
@@ -69,10 +70,12 @@
 				</form>
 			</transition>
 		</ValidationObserver>
+
 		<ValidationObserver
 			v-slot="{ handleSubmit }"
 			v-if="activeStep === 1"
 			slim
+			:key="2"
 		>
 			<transition name="fade" mode="out-in">
 				<form
@@ -157,10 +160,12 @@
 				</form>
 			</transition>
 		</ValidationObserver>
+
 		<ValidationObserver
 			v-slot="{ handleSubmit }"
 			v-if="activeStep === 2"
 			slim
+			:key="3"
 		>
 			<transition name="fade" mode="out-in">
 				<form
@@ -262,8 +267,6 @@ import { ValidationProvider, ValidationObserver } from "vee-validate";
 import Datepicker from "vuejs-datepicker";
 import { hr } from "vuejs-datepicker/dist/locale";
 import { mapActions, mapGetters } from "vuex";
-
-//import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
 	name: "CreateRide",
@@ -387,10 +390,15 @@ export default {
 		min-height: 82vh;
 	}
 }
-
-/* form {
+.heading-2 {
+	text-align: center;
+}
+form {
 	position: absolute;
-} */
+}
+.form-control {
+	animation: none;
+}
 .seats {
 	display: flex;
 	align-items: center;

@@ -17,6 +17,8 @@ export default new Vuex.Store({
 		userData: {},
 		searchedUserData: {},
 
+		chats: [],
+
 		editingRide: {},
 		rideDetails: {},
 
@@ -43,6 +45,8 @@ export default new Vuex.Store({
 				userRides: state.userRides,
 				rideDetails: state.rideDetails,
 				photo: state.photo,
+
+				chats: state.chats,
 
 				userData: state.userData,
 				searchedUserData: state.searchedUserData,

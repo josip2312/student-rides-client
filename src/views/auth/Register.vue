@@ -10,7 +10,7 @@
 				"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Registracija</h2>
+					<h3 class="heading-3">Registracija</h3>
 				</div>
 				<div class="form-register-group">
 					<div class="form-group">
@@ -134,11 +134,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/css/form";
 .register {
-	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5rem 0;
+	padding: 5em 0;
 
 	@media only screen and(max-width:$vp-5) {
 		min-height: 82vh;
@@ -151,6 +150,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	//seperate these 2
 
 	.form-group {
 		margin: 1.2rem 0;

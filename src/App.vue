@@ -68,7 +68,13 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/base";
+@import "~normalize.css";
 
+/* #app {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+} */
 //animations
 .fade-enter-active,
 .fade-leave-active {
@@ -79,16 +85,6 @@ export default {
 .fade-enter,
 .fade-leave-to {
 	opacity: 0;
-}
-
-.grow-enter-active,
-.grow-leave-active {
-	transition: all 0.15s ease-out;
-}
-.grow-enter,
-.grow-leave-to {
-	opacity: 0;
-	//transform: translateY(-50%);
 }
 
 @keyframes up {

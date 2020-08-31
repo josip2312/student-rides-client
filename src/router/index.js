@@ -8,6 +8,7 @@ import NewPassword from "@/views/auth/NewPassword.vue";
 
 import Landing from "@/views/Landing.vue";
 import CreateRide from "@/views/rides/CreateRide.vue";
+
 import Rides from "@/views/rides/Rides.vue";
 import Profile from "@/views/users/Profile.vue";
 import RideDetails from "@/views/rides/RideDetails.vue";
@@ -15,6 +16,7 @@ import UserDetails from "@/views/users/UserDetails.vue";
 import EditProfile from "@/views/users/EditProfile.vue";
 import NotFound from "@/views/NotFound.vue";
 import Chat from "@/views/Chat.vue";
+import ChatDashboard from "@/views/ChatDashboard.vue";
 import store from "@/store/index";
 
 Vue.use(VueRouter);
@@ -59,6 +61,7 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
+
 		beforeEnter: (to, from, next) => {
 			if (to.matched.some(rec => rec.meta.requiresAuth)) {
 				if (store.state.loggedIn) {
@@ -146,13 +149,31 @@ const routes = [
 		beforeEnter: loggedOutGuard
 	},
 	{
-		path: "/user/chat",
+		path: "/user/chat-dashboard/",
+		name: "ChatDashboard",
+		component: ChatDashboard,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: loggedOutGuard
+	},
+	{
+		props: true,
+		path: "/user/chat-dashboard/:index",
 		name: "Chat",
 		component: Chat,
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: loggedOutGuard
+		beforeEnter: (to, from, next) => {
+			if (to.matched.some(rec => rec.meta.requiresAuth)) {
+				if (store.state.loggedIn) {
+					next();
+				} else {
+					next({ name: "Login" });
+				}
+			}
+		}
 	}
 ];
 

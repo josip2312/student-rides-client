@@ -1,17 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap");
+@import "~normalize.css";
 $primary: #222222;
 $secondary: #161618;
-$tertiary: #c4d1d6;
-$tertiary-light: #d9e2e6;
+$tertiary: #ced8db;
+$tertiary-light: #e4e8eb;
 
-$grey: #6a6b6b;
 $grey-light: #ededed;
 $accent: #0d2de0;
 //$accent: #407bff;
 $blue: #113277;
 $white: #fffffe;
 
-$font-blue: #1f275e;
+$font-blue: #161c46;
 $font-white: #fffffe;
 $font-black: #171718;
 $font-p: #5a5a5a;
@@ -20,10 +20,6 @@ $font-p: #5a5a5a;
 reset
 ////////////////
 */
-* {
-	margin: 0;
-	padding: 0;
-}
 
 *,
 *::before,
@@ -34,16 +30,17 @@ reset
 $vp-4k: 156.25em; //2500 px
 $vp-19: 116em; //1856px
 $vp-14: 87.5em; //1400px
+
 $vp-12: 75em; //1200px
-$vp-10: 62.5em; //1000px
+
 $vp-8: 50em; //800px
-$vp-7: 43.75em; //700
+
 $vp-6: 37.5em; //600
 $vp-5: 31.25em; //500px
 $vp-3: 21.875em; //350px
 html {
 	box-sizing: border-box;
-	font-size: 62.5%;
+	font-size: 60%;
 	scroll-behavior: smooth;
 
 	@media only screen and(min-width:$vp-14) {
@@ -55,12 +52,9 @@ html {
 	@media only screen and(min-width:$vp-4k) {
 		font-size: 120%;
 	}
+
 	@media only screen and(max-width:$vp-12) {
 		font-size: 55%;
-	}
-
-	@media only screen and(max-width:$vp-10) {
-		font-size: 50%;
 	}
 	@media only screen and(max-width:$vp-8) {
 		font-size: 47.5%;
@@ -72,10 +66,15 @@ html {
 		font-size: 40%;
 	}
 }
-
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
 body {
 	font-family: "Work Sans", sans-serif;
-	font-weight: 400;
+
 	line-height: 1.5;
 	color: $font-white;
 	font-size: 1.6rem;
@@ -96,13 +95,13 @@ typography
 }
 .heading-2 {
 	color: $font-black;
-	font-size: 3.2rem;
+	font-size: 2.8rem;
 	line-height: 1;
 	font-weight: 500;
 }
 .heading-3 {
 	color: $font-black;
-	font-size: 2.4rem;
+	font-size: 2.5rem;
 	line-height: 1;
 	font-weight: 500;
 }
@@ -111,4 +110,17 @@ typography
 	letter-spacing: 1px;
 	font-size: 2.2rem;
 	line-height: 1;
+}
+
+////////////
+////HELPERS
+////////////
+
+.spacing > * + * {
+	margin-top: 3rem;
+}
+
+.container {
+	width: 85%;
+	padding: 5em 0;
 }

@@ -120,3 +120,6 @@ export const LOGIN_FAILED = (state, data) => {
 export const SET_PHOTO = (state, data) => {
 	state.photo = data;
 };
+export const SET_CHATS = (state, data) => {
+	state.chats = data;
+};

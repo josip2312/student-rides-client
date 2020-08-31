@@ -6,7 +6,7 @@
 				@submit="handleSubmit(() => requestResetPassword(email))"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Zaboravili ste lozinku?</h2>
+					<h3 class="heading-3">Zaboravili ste lozinku?</h3>
 				</div>
 				<div class="form-group">
 					<label for="email">Email Address</label>
@@ -58,10 +58,9 @@ export default {
 @import "../../assets/css/form";
 
 .forgot-password {
-	min-height: 70vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5rem 0;
+	padding: 7.5em 0;
 }
 </style>

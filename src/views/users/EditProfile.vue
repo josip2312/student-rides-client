@@ -10,7 +10,7 @@
 				"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Osobni podaci</h2>
+					<h3 class="heading-3">Osobni podaci</h3>
 				</div>
 				<div class="form-edit-group">
 					<div class="form-group">
@@ -129,14 +129,10 @@ export default {
 	max-width: 50rem;
 }
 .edit {
-	min-height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5rem 0;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
+	padding: 5em 0;
 }
 .form-edit-group {
 	display: flex;
@@ -148,6 +144,8 @@ export default {
 		flex: 0;
 		flex-basis: 47.5%;
 	}
+}
+.heading-3 {
 }
 textarea {
 	padding: 1.5rem 1rem;

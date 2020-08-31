@@ -10,7 +10,7 @@
 				"
 			>
 				<div class="form-group">
-					<h2 class="heading-2">Unesite novu lozinku</h2>
+					<h3 class="heading-3">Unesite novu lozinku</h3>
 				</div>
 				<div class="form-group">
 					<label for="password">Lozinka</label>
@@ -84,10 +84,9 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/css/form";
 .new-password {
-	min-height: 91vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 3rem;
+	padding: 5em 0;
 }
 </style>

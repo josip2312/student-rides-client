@@ -1,14 +1,10 @@
 <template>
-	<section class="profile">
+	<section class="profile container">
 		<div class="profile-top">
 			<div class="profile-image">
 				<img
 					v-if="!url"
-					:src="
-						getPhoto
-							? backendUrl + '/uploads/' + getPhoto
-							: backendUrl + '/uploads/user.svg'
-					"
+					:src="getPhoto"
 					alt="User picture"
 					@click="$refs.fileInput.click()"
 				/>
@@ -22,7 +18,7 @@
 					Promijeni fotografiju
 				</div>
 			</div>
-			<div class="image-caption">
+			<div class="profile-image-caption">
 				<h2 class="heading-2">
 					{{ getUserData.name }} {{ getUserData.lastname }}
 				</h2>
@@ -43,8 +39,8 @@
 				</button>
 			</div>
 
-			<div class="profile-info">
-				<div class="email">
+			<div class="profile-info spacing">
+				<div class="profile-email ">
 					<span>Email:</span>
 					<span>
 						{{ getUserData.email }}
@@ -57,16 +53,14 @@
 			<div class="profile-reserved" v-if="getReservedRides[0]">
 				<h3 class="heading-3">Rezervirane voznje</h3>
 				<div
-					class="reserved-ride"
+					class="profile-reserved-ride"
 					v-for="(ride, index) in getReservedRides"
 					:key="index"
 					@click="fetchRideDetails(ride._id)"
 				>
-					<div class="start">
-						{{ ride.start }}
-					</div>
-					<div class="end">
-						{{ ride.end }}
+					<div class="ride-start">{{ ride.start.split(",")[0] }}</div>
+					<div class="ride-end">
+						{{ ride.end.split(",")[0] }}
 					</div>
 				</div>
 			</div>
@@ -75,12 +69,12 @@
 				Nemate rezerviranih voznji
 			</div>
 			<div class="additional" @click="sendToEditProfile">
-				<p v-if="!getUserData.description">
+				<div class="additional-desc" v-if="!getUserData.description">
 					<img src="@/assets/img/icons/plus.svg" alt="" />
 					<span>
 						Dodaj dodatne informacije
 					</span>
-				</p>
+				</div>
 				<div v-else>
 					<span>Kratki opis:</span>
 					<p>
@@ -89,12 +83,12 @@
 				</div>
 			</div>
 			<div class="contact" @click="sendToEditProfile">
-				<p v-if="!getUserData.description">
+				<div class="contact-desc" v-if="!getUserData.description">
 					<img src="@/assets/img/icons/plus.svg" alt="" />
 					<span>
 						Dodaj kontakt
 					</span>
-				</p>
+				</div>
 				<div v-else>
 					<span>Kontakt broj:</span>
 					<p>
@@ -110,6 +104,7 @@
 				Trenutno nemate voznji!
 			</div>
 			<Card
+				v-else
 				v-for="(ride, index) in getUserRides"
 				:key="index"
 				:ride="ride"
@@ -203,23 +198,17 @@ export default {
 
 <style lang="scss" scoped>
 .profile {
-	width: 80%;
-	min-height: 91vh;
-
+	width: 85%;
+	padding: 5em 0;
 	margin: 0 auto;
-	padding: 5rem 0;
+
 	color: $font-black;
 	background-color: $white;
-	@media only screen and(max-width:$vp-5) {
-		width: 90%;
-		min-height: 82vh;
-	}
 }
 .profile-top {
 	display: flex;
 	flex-direction: column;
 
-	width: 90%;
 	max-width: 60rem;
 	margin: 0 auto;
 	& > *:not(:last-child) {
@@ -231,7 +220,7 @@ export default {
 	align-self: center;
 	position: relative;
 	width: 75%;
-	max-width: 35rem;
+	max-width: 30rem;
 
 	img {
 		display: block;
@@ -240,7 +229,7 @@ export default {
 		height: 100%;
 		object-fit: cover;
 		border-radius: 3px;
-		transition: all 0.2s;
+		transition: opacity 0.2s;
 		cursor: pointer;
 	}
 	img:hover ~ .overlay {
@@ -251,14 +240,12 @@ export default {
 	}
 
 	.overlay {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		text-align: center;
+		padding-top: 45%;
 		color: $font-white;
 		font-size: 1.8rem;
 
 		position: absolute;
-		opacity: 0;
 		top: 0;
 		left: 0;
 
@@ -266,8 +253,9 @@ export default {
 		height: 100%;
 
 		border-radius: 3px;
-		transition: all 0.2s;
 		background-color: rgba(0, 0, 0, 0.6);
+		opacity: 0;
+		transition: opacity 0.2s;
 		z-index: 10;
 		pointer-events: none;
 	}
@@ -275,10 +263,6 @@ export default {
 		opacity: 1;
 	}
 	span {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -35%);
 		z-index: 11;
 		font-size: 1.8rem;
 		color: $font-white;
@@ -287,26 +271,17 @@ export default {
 		pointer-events: none;
 	}
 }
-.image-caption {
+.profile-image-caption {
 	text-align: center;
-	.btn {
-		margin-top: 1rem;
-	}
 }
 .profile-info {
+	text-align: center;
 	align-self: center;
 
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	margin: 2rem 0;
 	margin-bottom: 4rem !important;
-	.email {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+	.profile-email {
 		font-size: 1.8rem;
-		margin-bottom: 2rem;
 		span {
 			margin-right: 1.5rem;
 		}
@@ -322,7 +297,7 @@ export default {
 	.heading-3 {
 		margin-bottom: 1.5rem;
 	}
-	.reserved-ride {
+	&-ride {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -331,7 +306,7 @@ export default {
 		padding: 1.5rem 3rem;
 		background-color: $tertiary-light;
 	}
-	.reserved-ride:not(:last-child) {
+	&-ride:not(:last-child) {
 		margin-bottom: 1rem;
 	}
 }
@@ -340,10 +315,7 @@ export default {
 }
 .profile {
 	.heading-2 {
-		max-width: 60rem;
-		margin: 0 auto;
 		text-align: center;
-		border-bottom: 1px solid $tertiary;
 		padding-bottom: 2rem;
 	}
 }
@@ -353,20 +325,22 @@ export default {
 
 	font-size: 2rem;
 	border-radius: 3px;
-	transition: all 0.2s ease-out;
+	transition: background-color 0.2s ease-in-out;
 	cursor: pointer;
 	span {
 		font-size: 1.8rem;
 		font-weight: 500;
 	}
-	p {
-		display: flex;
-		align-items: center;
-		img {
-			margin-right: 1.5rem;
-		}
+}
+.additional-desc,
+.contact-desc {
+	display: flex;
+	align-items: center;
+	img {
+		margin-right: 1.5rem;
 	}
 }
+
 .additional:hover,
 .contact:hover {
 	background-color: $grey-light;

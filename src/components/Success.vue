@@ -51,7 +51,7 @@ export default {
 	padding: 2rem;
 
 	transform: translateX(-50%);
-	transition: all 0.2s;
+	transition: transform 0.2s, opacity 0.2s;
 
 	img {
 		position: absolute;

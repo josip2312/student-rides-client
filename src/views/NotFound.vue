@@ -18,14 +18,11 @@ export default {
 <style lang="scss">
 .not-found {
 	position: relative;
-	min-height: 91vh;
+	padding: 15em 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
 	div {
 		margin-top: -3rem;
 		text-align: center;
@@ -40,7 +37,7 @@ export default {
 		}
 	}
 }
-.not-found::after {
+/* .not-found::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -53,5 +50,5 @@ export default {
 	background-repeat: no-repeat;
 	z-index: -1;
 	opacity: 0.6;
-}
+} */
 </style>

@@ -1,11 +1,11 @@
 <template>
 	<div class="showcase">
-		<div class="left">
+		<div class="showcase-heading spacing">
 			<h1 class="heading-1">Studentske voznje</h1>
-			<div class="desc">
+			<p class="desc">
 				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
 				Eveniet, dolores.
-			</div>
+			</p>
 			<div class="buttons" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Login' }" class="btn" tag="button"
 					>Pronadji voznju</router-link
@@ -29,7 +29,7 @@
 				>
 			</div>
 		</div>
-		<div class="right">
+		<div class="showcase-image">
 			<img src="@/assets/img/bg.svg" alt="" />
 		</div>
 	</div>
@@ -52,9 +52,10 @@ export default {
 
 <style lang="scss" scoped>
 .showcase {
-	width: 80%;
+	width: 85%;
 	max-width: 120rem;
 	height: 91vh;
+
 	margin: 0 auto;
 
 	display: grid;
@@ -62,35 +63,34 @@ export default {
 	grid-template-rows: repeat(6, 1fr);
 
 	@media only screen and(max-width:$vp-5) {
-		height: 82vh;
-		width: 90%;
+		text-align: center;
+		height: auto;
+		padding: 5em 0;
 	}
 }
 
-.left {
+.showcase-heading {
 	grid-column: 1 / -1;
 	grid-row: 2 / 5;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	align-self: center;
 
 	opacity: 0;
 	animation: down 1s forwards 0.5s;
-	@media only screen and(max-width:$vp-7) {
+	@media only screen and(max-width:$vp-8) {
 		justify-self: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
-	& > *:not(:last-child) {
-		margin-bottom: 1.5rem;
-	}
+
 	.desc {
 		font-size: 1.8rem;
-		width: 80%;
+
+		width: 100%;
 		max-width: 40rem;
 		color: $font-p;
 	}
 	.buttons {
-		margin-top: 1.5rem;
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
@@ -100,23 +100,20 @@ export default {
 		}
 	}
 }
-.right {
+.showcase-image {
 	grid-column: 6 / -1;
 	grid-row: 1 / -1;
 	z-index: -1;
 	margin-right: -5rem;
 
 	animation: down 1s forwards;
+
 	@media only screen and(max-width:$vp-8) {
-		grid-column: 5 / -1;
-	}
-	@media only screen and(max-width:$vp-7) {
 		display: none;
 	}
 	img {
 		width: 100%;
 		height: 100%;
-		//object-fit: cover;
 	}
 }
 </style>
