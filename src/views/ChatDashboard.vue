@@ -8,6 +8,7 @@
 				:key="index"
 				:to="{ name: 'Chat', params: { index: index } }"
 				tag="div"
+				:class="{ unread: messageIsRead(index) }"
 			>
 				<div class="name">
 					<!-- eslint-disable -->
@@ -20,15 +21,27 @@
 							  " " +
 							  chat.members[0].lastname
 					}}
-					<!-- eslint-enable -->
+				</div>
+				<div class="unread-message" v-if="messageIsRead(index)">
+					Novo
 				</div>
 				<div class="last-message" v-if="chat.messages.length > 0">
 					<span>
 						{{ chat.messages[chat.messages.length - 1].from }}:
 					</span>
+
 					<span>
-						{{ chat.messages[chat.messages.length - 1].content }}
+						{{
+							chat.messages[chat.messages.length - 1].content
+								.length > 30
+								? chat.messages[
+										chat.messages.length - 1
+								  ].content.slice(1, 30) + "..."
+								: chat.messages[chat.messages.length - 1]
+										.content
+						}}
 					</span>
+					<!-- eslint-disable -->
 				</div>
 			</router-link>
 		</div>
@@ -51,7 +64,19 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchChats"])
+		...mapActions(["fetchChats"]),
+		messageIsRead(chatIndex) {
+			if (this.chats[chatIndex].messages.length > 0) {
+				return (
+					!this.chats[chatIndex].messages[
+						this.chats[chatIndex].messages.length - 1
+					].receiverHasRead &&
+					this.chats[chatIndex].messages[
+						this.chats[chatIndex].messages.length - 1
+					].sender !== this.getUserData._id
+				);
+			}
+		}
 	},
 	created() {
 		this.fetchChats();
@@ -96,7 +121,7 @@ export default {
 		justify-content: space-between;
 		width: 100%;
 
-		padding: 1.5rem;
+		padding: 2.5rem;
 
 		font-size: 2rem;
 		border-radius: 3px;
@@ -105,6 +130,15 @@ export default {
 		background-color: $tertiary-light;
 
 		.name {
+		}
+		.unread-message {
+			background-color: $warning;
+			border-radius: 5rem;
+			padding: 0.5rem 1rem;
+			color: $white;
+			font-size: 1.5rem;
+			margin-left: 2.5rem;
+			margin-right: auto;
 		}
 		.last-message {
 			font-size: 1.5rem;
@@ -129,5 +163,8 @@ export default {
 	max-width: 60rem;
 
 	font-size: 1.8rem;
+}
+.unread {
+	font-weight: 600;
 }
 </style>

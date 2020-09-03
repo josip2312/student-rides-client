@@ -27,13 +27,15 @@ export default {
 		Success,
 		Loader
 	},
+
 	computed: {
 		...mapGetters([
 			"isLoggedIn",
 			"isLoading",
 			"getRides",
 			"getLoggedInUser",
-			"getUserData"
+			"getUserData",
+			"getChats"
 		])
 	},
 	methods: {
@@ -42,9 +44,11 @@ export default {
 			"fetchUserRides",
 			"fetchUserData",
 			"fetchPhoto",
-			"fetchReservedRides"
+			"fetchReservedRides",
+			"fetchChats"
 		])
 	},
+
 	watch: {
 		getLoggedInUser: function() {
 			this.fetchUserData();
@@ -56,12 +60,19 @@ export default {
 			this.fetchReservedRides();
 			this.fetchPhoto();
 			this.fetchUserRides();
+		},
+		"getChats.messages": function() {
+			if (this.getLoggedInUser) {
+				this.fetchChats();
+			}
 		}
 	},
 	created() {
 		this.fetchRides();
+
 		if (this.getLoggedInUser) {
 			this.fetchUserData();
+			this.fetchChats();
 		}
 	}
 };
@@ -70,23 +81,27 @@ export default {
 @import "assets/css/base";
 @import "~normalize.css";
 
-/* #app {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-} */
 //animations
 .fade-enter-active,
 .fade-leave-active {
 	transition-duration: 0.2s;
 	transition-property: opacity;
-	transition-timing-function: ease;
+	transition-timing-function: ease-in-out;
 }
 .fade-enter,
 .fade-leave-to {
 	opacity: 0;
 }
-
+.grow-enter-active,
+.grow-leave-active {
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease-in-out;
+}
+.grow-enter,
+.grow-leave-to {
+	opacity: 0;
+}
 @keyframes up {
 	0% {
 		opacity: 0;
@@ -111,7 +126,22 @@ export default {
 		transform: translateY(0rem);
 	}
 }
+@keyframes scale {
+	0% {
+		transform: scale(0.94);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
 
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
 .before-enter {
 	opacity: 0;
 	animation: none;

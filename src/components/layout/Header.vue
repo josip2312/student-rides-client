@@ -148,8 +148,7 @@
 								hideNotifications()
 						"
 					>
-						<img :src="getPhoto" alt="User photo" />
-
+						<img :src="getPhoto" alt="" />
 						<img src="@/assets/img/icons/arrow.svg" alt="" />
 					</div>
 					<transition name="fade" mode="out-in">
@@ -208,6 +207,17 @@
 						/>
 					</button>
 				</div>
+				<transition name="fade" mode="out-in">
+					<router-link
+						ref="unreadMessage"
+						:to="{ name: 'ChatDashboard' }"
+						class="unread-messages"
+						v-if="haveUnreadMessages"
+						:class="{ animate: isAnimated }"
+					>
+						{{ receivingMessage }}
+					</router-link>
+				</transition>
 			</div>
 		</div>
 
@@ -257,6 +267,7 @@ dotenv.config();
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Header",
+
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL,
@@ -264,11 +275,48 @@ export default {
 			showUserDropdown: false,
 			showNotifications: false,
 			windowWidth: window.innerWidth,
-			visible: false
+			visible: false,
+
+			//maybe take this to the store
+			haveUnread: false,
+			isAnimated: false,
+			receivingMessage: ""
 		};
 	},
+	sockets: {
+		connect() {
+			console.log("connectedGlobal");
+
+			if (this.getLoggedInUser) {
+				this.$socket.emit("connectedGlobal", {
+					id: this.getLoggedInUser
+				});
+			}
+		},
+		//eslint-disable-next-line
+		notification(data) {
+			this.haveUnread = true;
+			this.isAnimated = true;
+			this.receivingMessage = data;
+			setTimeout(() => {
+				this.isAnimated = false;
+			}, 1000);
+
+			let audio = new Audio(require("@/assets/message.mp3"));
+			audio.play();
+		},
+		clearNotification() {
+			this.haveUnread = false;
+		}
+	},
 	computed: {
-		...mapGetters(["isLoggedIn", "getPhoto", "getUserData"]),
+		...mapGetters([
+			"isLoggedIn",
+			"getPhoto",
+			"getUserData",
+			"getChats",
+			"getLoggedInUser"
+		]),
 		isMobile() {
 			return this.windowWidth <= 600;
 		},
@@ -277,10 +325,53 @@ export default {
 				return 0;
 			}
 			return this.getUserData.notifications.length;
+		},
+		haveUnreadMessages() {
+			let haveUnread = false;
+			if (this.haveUnread) {
+				return true;
+			}
+
+			this.getChats.forEach(chat => {
+				if (chat.messages.length > 0) {
+					if (
+						!chat.messages[chat.messages.length - 1]
+							.receiverHasRead &&
+						chat.messages[chat.messages.length - 1].sender !==
+							this.getUserData._id
+					) {
+						this.receivingMessage = "Imate nepročitanih poruka";
+						haveUnread = true;
+					}
+				}
+			});
+			return haveUnread;
 		}
 	},
 	methods: {
 		...mapActions(["logout", "readNotification", "readAllNotifications"]),
+
+		/* haveUnreadMessages() {
+			let haveUnread = false;
+			if (this.haveUnread) {
+				return true;
+			}
+
+			this.getChats.forEach(chat => {
+				if (chat.messages.length > 0) {
+					if (
+						!chat.messages[chat.messages.length - 1]
+							.receiverHasRead &&
+						chat.messages[chat.messages.length - 1].sender !==
+							this.getUserData._id
+					) {
+						this.receivingMessage = "Imate nepročitanih poruka";
+						haveUnread = true;
+					}
+				}
+			});
+			return haveUnread;
+		}, */
 
 		makeUrl(filename) {
 			return require(`@/assets/img/icons/${filename}`);
@@ -333,7 +424,9 @@ header {
 	height: 9vh;
 	z-index: 20;
 }
-
+.animate {
+	animation: scale 0.75s forwards;
+}
 /*
 /////////////
 navbar
@@ -357,6 +450,16 @@ navbar
 		height: 100%;
 		display: flex;
 		align-items: center;
+	}
+	.unread-messages {
+		position: absolute;
+		right: 0;
+		top: 8vh;
+		font-weight: 500;
+		background-color: $warning;
+		padding: 0.5rem 1.2rem;
+		border-radius: 1rem;
+		transform: scale(1);
 	}
 
 	nav {
@@ -429,8 +532,8 @@ navbar
 			margin-left: 1.5rem;
 			cursor: pointer;
 			img {
-				width: 3rem;
-				height: 3rem;
+				width: 2.5rem;
+				height: 2.5rem;
 				border-radius: 50%;
 			}
 		}
@@ -459,8 +562,8 @@ navbar
 			display: flex;
 			align-items: center;
 			img:first-child {
-				width: 3.5rem;
-				height: 3.5rem;
+				width: 2.5rem;
+				height: 2.5rem;
 				object-fit: cover;
 				margin-right: 0.5rem;
 			}

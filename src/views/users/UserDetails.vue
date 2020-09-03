@@ -2,14 +2,7 @@
 	<div class="profile container">
 		<div class="profile-top">
 			<div class="profile-image">
-				<img
-					:src="
-						data.photo
-							? backendUrl + '/uploads/' + data.photo
-							: backendUrl + '/uploads/user.svg'
-					"
-					alt="User picture"
-				/>
+				<img :src="data.photo" alt="User picture" />
 			</div>
 			<div class="image-caption">
 				<h2 class="heading-2">{{ data.name }} {{ data.lastname }}</h2>
@@ -22,9 +15,7 @@
 					</span>
 				</div>
 			</div>
-			<!-- send this user id to the server, check if chat exists, if not create new chat   -->
-			<!-- ako ne postoji chat napravi se novi, i posalje se na ChatDashboard,
-			ime ce se prikazat i top -->
+
 			<div
 				class="message"
 				@click="
@@ -35,8 +26,7 @@
 						senderName:
 							getUserData.name + ' ' + getUserData.lastname,
 						receiverName: data.name + ' ' + data.lastname
-					}),
-						sendToChatDashboard()
+					})
 				"
 			>
 				<img src="@/assets/img/icons/message.svg" alt="" />
@@ -86,13 +76,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchUserById", "createNewChat", "fetchUserData"]),
-		sendToChatDashboard() {
-			this.$router.push({ name: "ChatDashboard" });
-		}
-	},
-	created() {
-		this.fetchUserData();
+		...mapActions(["fetchUserById", "createNewChat", "fetchUserData"])
 	}
 };
 </script>
@@ -118,10 +102,6 @@ export default {
 		position: relative;
 		width: 75%;
 		max-width: 35rem;
-
-		.image {
-			width: 100%;
-		}
 
 		img {
 			display: block;

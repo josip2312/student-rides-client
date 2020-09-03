@@ -28,11 +28,7 @@
 				<div class="form-group">
 					<label for="password">Lozinka</label>
 
-					<ValidationProvider
-						rules="required|min:6"
-						vid="confirmation"
-						v-slot="v"
-					>
+					<ValidationProvider rules="required|min:6" v-slot="v">
 						<input
 							v-model="password"
 							type="password"
@@ -44,23 +40,7 @@
 						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
-				<div class="form-group">
-					<label for="confirmPassword">Potvrdi lozinku</label>
-					<ValidationProvider
-						rules="required|confirmed:confirmation"
-						v-slot="v"
-					>
-						<input
-							v-model="confirmPassword"
-							type="password"
-							name="confirmPassword"
-							id="confirmPassword"
-							:class="v.classes"
-						/>
 
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
-				</div>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Prijavi se
@@ -95,8 +75,7 @@ export default {
 	data() {
 		return {
 			email: null,
-			password: null,
-			confirmPassword: null
+			password: null
 		};
 	},
 
@@ -118,10 +97,13 @@ export default {
 		min-height: 82vh;
 	}
 }
+.form-control {
+	max-width: 40rem;
+}
 .form-footer {
 	display: flex;
 	justify-content: space-between;
-	font-size: 1.3rem;
+	font-size: 1.4rem;
 
 	a {
 		text-decoration: none;

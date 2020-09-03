@@ -46,6 +46,10 @@ export default {
 
 		padding-top: 4rem;
 		max-width: 50rem;
+		img {
+			width: 3rem;
+			height: 3rem;
+		}
 	}
 
 	&-mid {

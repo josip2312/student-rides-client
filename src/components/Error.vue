@@ -34,7 +34,7 @@ export default {
 	left: 50%;
 	z-index: 20;
 
-	background-color: #f53f5b;
+	background-color: $warning;
 	border-radius: 3px;
 	min-height: 17.5vh;
 	width: 75%;

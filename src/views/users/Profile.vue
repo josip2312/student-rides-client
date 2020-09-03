@@ -1,6 +1,6 @@
 <template>
 	<section class="profile container">
-		<div class="profile-top">
+		<div class="profile-top spacing">
 			<div class="profile-image">
 				<img
 					v-if="!url"
@@ -211,16 +211,13 @@ export default {
 
 	max-width: 60rem;
 	margin: 0 auto;
-	& > *:not(:last-child) {
-		margin-bottom: 2rem;
-	}
 }
 
 .profile-image {
 	align-self: center;
 	position: relative;
-	width: 75%;
-	max-width: 30rem;
+	width: 70%;
+	max-width: 25rem;
 
 	img {
 		display: block;
@@ -279,7 +276,7 @@ export default {
 	align-self: center;
 
 	margin: 2rem 0;
-	margin-bottom: 4rem !important;
+
 	.profile-email {
 		font-size: 1.8rem;
 		span {
@@ -294,8 +291,11 @@ export default {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+
+	margin-bottom: 5rem;
 	.heading-3 {
-		margin-bottom: 1.5rem;
+		text-align: center;
+		margin-bottom: 2rem;
 	}
 	&-ride {
 		display: flex;
@@ -305,9 +305,6 @@ export default {
 		cursor: pointer;
 		padding: 1.5rem 3rem;
 		background-color: $tertiary-light;
-	}
-	&-ride:not(:last-child) {
-		margin-bottom: 1rem;
 	}
 }
 .no-reserved-rides {

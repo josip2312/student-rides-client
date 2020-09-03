@@ -279,11 +279,13 @@ export const fetchChats = async ({ commit, getters }) => {
 export const createNewChat = async ({ commit, dispatch }, payload) => {
 	try {
 		const res = await axios.post(`/chat/create`, payload);
-		console.log(res);
+
 		dispatch("fetchChats");
 		dispatch("fetchUserData");
-		commit("SET_CHATTING_WITH", res.data);
+		console.log(res.data);
+		commit("SEND_CHAT_DASHBOARD");
 	} catch (error) {
+		commit("SEND_CHAT_DASHBOARD");
 		console.error(error.response);
 	}
 };

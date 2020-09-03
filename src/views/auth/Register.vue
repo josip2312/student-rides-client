@@ -137,7 +137,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5em 0;
+	padding: 2.5em 0;
 
 	@media only screen and(max-width:$vp-5) {
 		min-height: 82vh;
@@ -150,7 +150,6 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	//seperate these 2
 
 	.form-group {
 		margin: 1.2rem 0;

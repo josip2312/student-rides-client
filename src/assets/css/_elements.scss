@@ -3,7 +3,7 @@ a {
 	text-decoration: none;
 }
 a:hover {
-	opacity: 0.8;
+	opacity: 0.9;
 }
 
 button {
@@ -51,7 +51,7 @@ img {
 	width: 100%;
 	outline: none;
 	border: none;
-	border-bottom: 1px solid $tertiary-light;
+	border-bottom: 1px solid $tertiary;
 	transition: border 0.2s ease-in-out;
-	background-color: $tertiary-light;
+	background-color: $tertiary;
 }

@@ -1,7 +1,11 @@
 <template>
 	<div id="chat">
 		<h3 class="heading-3">
-			{{ chat.members[0].name }}
+			{{
+				chat.members[0].name === getUserData.name
+					? chat.members[1].name
+					: chat.members[0].name
+			}}
 		</h3>
 		<ul ref="chat">
 			<li v-for="(message, index) in messages" :key="index">
@@ -10,7 +14,6 @@
 				</div>
 				<span> {{ message.content }}</span>
 			</li>
-			<small v-if="isTyping">{{ message.from }} is typing...</small>
 		</ul>
 
 		<form
@@ -18,12 +21,22 @@
 				sendMessage({
 					room: chat._id,
 					sender: getUserData._id,
-					receiver: getSearchedUserData._id,
+
+					receiver:
+						chat.sender === getUserData._id
+							? chat.receiver
+							: chat.sender,
 
 					message: {
 						from: getUserData.name,
-						to: getSearchedUserData.name,
-						content: message
+
+						content: message,
+						receiverHasRead: false,
+						sender: getUserData._id,
+						receiver:
+							chat.sender === getUserData._id
+								? chat.receiver
+								: chat.sender
 					}
 				})
 			"
@@ -33,10 +46,15 @@
 				placeholder="Enter your message"
 				type="text"
 				v-model="message"
+				@focus="
+					readMessages({
+						sender: getUserData._id
+					})
+				"
 			/>
 			<input
 				v-else
-				placeholder="Enter your message"
+				placeholder="Connecting..."
 				type="text"
 				v-model="message"
 			/>
@@ -55,14 +73,19 @@ export default {
 	data() {
 		return {
 			message: null,
-			isTyping: false,
+
 			connected: false,
 
-			reload: false
+			messagesData: this.messages
 		};
 	},
 	computed: {
-		...mapGetters(["getChats", "getUserData", "getSearchedUserData"]),
+		...mapGetters([
+			"getChats",
+			"getUserData",
+			"getSearchedUserData",
+			"getLoggedInUser"
+		]),
 		messages() {
 			return this.getChats[this.index].messages;
 		},
@@ -70,28 +93,32 @@ export default {
 			return this.getChats[this.index];
 		}
 	},
-	//reload page on enter because the sokcet doenst connet on regular route transition
 
 	sockets: {
 		connect() {
 			console.log("connected");
+			this.$socket.emit("readMessages", {
+				room: this.chat._id,
+				sender: this.getUserData._id
+			});
 			this.$socket.emit("connected", {
 				room: this.chat._id,
 				sender: this.chat.sender,
-				receiver: this.chat.receiver,
-				senderName: this.chat.senderName,
-				receiverName: this.chat.receiverName
+				receiver: this.chat.receiver
 			});
 			this.connected = true;
+			this.messages[this.messages.length - 1].receiverHasRead = true;
 		},
 		message(data) {
-			this.messages.push(data);
+			this.fetchChats();
+			this.getChats[this.index].messages.push(data);
 		}
 	},
 	methods: {
 		...mapActions(["fetchChats"]),
 		sendMessage(data) {
 			this.messages.push(data.message);
+
 			this.message = null;
 
 			this.$socket.emit("message", data);
@@ -99,6 +126,14 @@ export default {
 		scrollBottom() {
 			const chat = this.$refs.chat;
 			chat.scrollTop = chat.scrollHeight;
+		},
+		readMessages(data) {
+			this.$socket.emit("readMessages", {
+				room: this.chat._id,
+				sender: this.getUserData._id
+			});
+			this.messages[this.messages.length - 1].receiverHasRead = true;
+			this.$socket.emit("clearNotifications", data);
 		}
 	},
 	mounted() {
@@ -145,23 +180,19 @@ export default {
 ul {
 	list-style: none;
 	width: 100%;
+
+	padding: 0;
 	color: $font-black;
 	overflow-y: auto;
 	height: 35rem;
 
-	small {
-		display: block;
-		padding-left: 2rem;
-		padding-bottom: 2rem;
-	}
 	li {
 		padding: 1rem 1rem;
 		margin: 1rem;
+		border-radius: 0.25em;
 		border-bottom: 1px solid $tertiary-light;
 		.name {
 			font-weight: 500;
-		}
-		span {
 		}
 	}
 }

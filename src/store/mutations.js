@@ -96,8 +96,12 @@ export const SET_USER_DATA = (state, data) => {
 	state.userData = data;
 };
 export const SET_SEARCHED_USER_DATA = (state, data) => {
-	state.searchedUserData = data;
-	router.push({ name: "UserDetails", params: { name: data.name } });
+	if (data._id === state.loggedInUser) {
+		router.push({ name: "Profile" });
+	} else {
+		state.searchedUserData = data;
+		router.push({ name: "UserDetails", params: { name: data.name } });
+	}
 };
 export const SET_USER_NOTIFICATIONS = (state, data) => {
 	state.userData.notifications = state.userData.notifications.filter(
@@ -122,4 +126,11 @@ export const SET_PHOTO = (state, data) => {
 };
 export const SET_CHATS = (state, data) => {
 	state.chats = data;
+};
+
+//eslint-disable-next-line
+export const SEND_CHAT_DASHBOARD = state => {
+	if (router.history.current.name !== "ChatDashboard") {
+		router.push({ name: "ChatDashboard" });
+	}
 };
