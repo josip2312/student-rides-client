@@ -15,8 +15,8 @@ import RideDetails from "@/views/rides/RideDetails.vue";
 import UserDetails from "@/views/users/UserDetails.vue";
 import EditProfile from "@/views/users/EditProfile.vue";
 import NotFound from "@/views/NotFound.vue";
-import Chat from "@/views/Chat.vue";
-import ChatDashboard from "@/views/ChatDashboard.vue";
+import Chat from "@/views/chat/Chat.vue";
+import ChatDashboard from "@/views/chat/ChatDashboard.vue";
 import store from "@/store/index";
 
 Vue.use(VueRouter);

@@ -9,8 +9,8 @@
 					<h3 class="heading-3">Zaboravili ste lozinku?</h3>
 				</div>
 				<div class="form-group">
-					<label for="email">Email Address</label>
-					<ValidationProvider rules="required" v-slot="v">
+					<label for="email">Email Adresa</label>
+					<ValidationProvider rules="required|email" v-slot="v">
 						<input
 							:class="v.classes"
 							v-model="email"

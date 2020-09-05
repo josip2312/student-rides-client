@@ -5,7 +5,10 @@
 			<router-view />
 		</transition>
 		<Footer />
-		<Success />
+
+		<transition name="fade" mode="out-in">
+			<Success />
+		</transition>
 		<transition name="fade" mode="out-in">
 			<Loader v-if="isLoading" />
 		</transition>
@@ -53,6 +56,7 @@ export default {
 		getLoggedInUser: function() {
 			this.fetchUserData();
 			this.fetchRides();
+			this.fetchChats();
 			//this.fetchUserRides();
 			//this.fetchPhoto();
 		},

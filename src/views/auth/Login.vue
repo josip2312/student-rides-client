@@ -61,16 +61,16 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-
 import Error from "@/components/Error";
 import { mapActions } from "vuex";
+
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
-	name: "About",
+	name: "Login",
 	components: {
-		Error,
 		ValidationProvider,
-		ValidationObserver
+		ValidationObserver,
+		Error
 	},
 	data() {
 		return {

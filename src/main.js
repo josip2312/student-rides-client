@@ -5,10 +5,10 @@ import router from "@/router";
 import store from "@/store";
 import VueSocketIO from "vue-socket.io";
 
-import "@/utils/validations.js";
-import "@/utils/axios.js";
+import "@/utilities/validations.js";
+import "@/utilities/axios.js";
 
-import scrollAnimation from "@/utils/scrollAnimation";
+import scrollAnimation from "@/utilities/scrollAnimation";
 Vue.directive("scrollanimation", scrollAnimation);
 
 Vue.use(

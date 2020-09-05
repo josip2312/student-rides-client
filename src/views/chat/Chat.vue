@@ -58,7 +58,12 @@
 				type="text"
 				v-model="message"
 			/>
-			<button class="btn" type="submit">
+			<button
+				class="btn"
+				type="submit"
+				:class="{ disabled: !message }"
+				:disabled="!message"
+			>
 				Send
 			</button>
 		</form>
@@ -153,6 +158,11 @@ export default {
 	},
 	created() {
 		this.fetchChats();
+		this.$socket.emit("readMessages", {
+			room: this.chat._id,
+			sender: this.getUserData._id
+		});
+		this.messages[this.messages.length - 1].receiverHasRead = true;
 	}
 };
 </script>

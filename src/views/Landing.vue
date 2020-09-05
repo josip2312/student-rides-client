@@ -6,17 +6,23 @@
 		<section id="reasons">
 			<Reasons />
 		</section>
+		<section id="start">
+			<Start />
+		</section>
 	</main>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import Reasons from "@/components/layout/Reasons.vue";
 import Showcase from "@/components/layout/Showcase.vue";
-import { mapGetters } from "vuex";
+import Start from "@/components/layout/Start.vue";
 export default {
 	components: {
 		Showcase,
-		Reasons
+		Reasons,
+		Start
 	},
 	name: "Landing",
 

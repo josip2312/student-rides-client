@@ -98,7 +98,7 @@
 							<div class="notifications-title">
 								<span>Obavijesti</span>
 								<div
-									class="notifications-image"
+									class="notifications-check-icon"
 									title="Oznaci sve kao procitano"
 								>
 									<img
@@ -277,7 +277,6 @@ export default {
 			windowWidth: window.innerWidth,
 			visible: false,
 
-			//maybe take this to the store
 			haveUnread: false,
 			isAnimated: false,
 			receivingMessage: ""
@@ -351,28 +350,6 @@ export default {
 	methods: {
 		...mapActions(["logout", "readNotification", "readAllNotifications"]),
 
-		/* haveUnreadMessages() {
-			let haveUnread = false;
-			if (this.haveUnread) {
-				return true;
-			}
-
-			this.getChats.forEach(chat => {
-				if (chat.messages.length > 0) {
-					if (
-						!chat.messages[chat.messages.length - 1]
-							.receiverHasRead &&
-						chat.messages[chat.messages.length - 1].sender !==
-							this.getUserData._id
-					) {
-						this.receivingMessage = "Imate nepročitanih poruka";
-						haveUnread = true;
-					}
-				}
-			});
-			return haveUnread;
-		}, */
-
 		makeUrl(filename) {
 			return require(`@/assets/img/icons/${filename}`);
 		},
@@ -397,8 +374,7 @@ export default {
 			if (this.$router.history.current.name !== "Profile") {
 				this.$router.push({ name: "Profile" });
 			}
-		},
-		sendToRideDetails() {}
+		}
 	},
 	mounted() {
 		window.addEventListener("resize", () => {
@@ -613,6 +589,8 @@ navbar
 				cursor: pointer;
 
 				img {
+					width: 2.5rem;
+					height: 2.5rem;
 					margin-right: 1rem;
 				}
 			}
@@ -646,9 +624,7 @@ navbar
 				border-bottom: 1px solid $tertiary;
 				padding-bottom: 1rem;
 				margin-bottom: 2rem;
-				.notifications-image {
-					position: relative;
-				}
+
 				img {
 					cursor: pointer;
 					width: 2rem;
@@ -694,12 +670,12 @@ navbar
 
 	&-wrapper {
 		display: flex;
-
 		margin: 0 auto;
 		width: 90%;
 
 		a {
 			flex: 1;
+			padding: 0.5rem 0;
 
 			text-transform: uppercase;
 			text-align: center;
@@ -720,7 +696,7 @@ navbar
 		}
 
 		.router-link-exact-active {
-			background-color: $accent;
+			background-color: $blue;
 		}
 	}
 }
