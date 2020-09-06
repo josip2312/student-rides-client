@@ -149,7 +149,7 @@
 						"
 					>
 						<img :src="getPhoto" alt="" />
-						<img src="@/assets/img/icons/arrow.svg" alt="" />
+						<img src="@/assets/img/icons/chevronDown.svg" alt="" />
 					</div>
 					<transition name="fade" mode="out-in">
 						<div

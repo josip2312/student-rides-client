@@ -59,6 +59,7 @@
 					@click="fetchRideDetails(ride._id)"
 				>
 					<div class="ride-start">{{ ride.start.split(",")[0] }}</div>
+
 					<div class="ride-end">
 						{{ ride.end.split(",")[0] }}
 					</div>
@@ -301,10 +302,9 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-
-		cursor: pointer;
-		padding: 1.5rem 3rem;
 		background-color: $tertiary-light;
+		padding: 1.5rem 3rem;
+		cursor: pointer;
 	}
 }
 .no-reserved-rides {
