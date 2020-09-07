@@ -168,7 +168,9 @@ export const loginUser = async ({ commit }, data) => {
 };
 export const logout = () => {
 	sessionStorage.clear();
+	localStorage.clear();
 	location.reload();
+	//router.push({ name: "Login" });
 };
 
 export const registerUser = async ({ commit }, data) => {

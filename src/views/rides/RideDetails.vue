@@ -115,10 +115,11 @@ export default {
 
 	padding: 3rem 2rem;
 	width: 90%;
-	max-width: 50rem;
+	max-width: 60rem;
 	margin: 0 auto;
 
 	.card {
+		max-width: 60rem;
 		box-shadow: none;
 		padding: 0;
 	}
@@ -128,7 +129,7 @@ export default {
 	justify-content: space-between;
 
 	width: 100%;
-	padding-bottom: 3rem;
+	padding-bottom: 2rem;
 	border-bottom: 1px solid $tertiary;
 }
 
@@ -137,7 +138,7 @@ export default {
 	align-items: center;
 
 	width: 100%;
-	padding: 5rem 0;
+	padding: 4rem 0;
 	font-size: 1.8rem;
 	.seats,
 	.smoking,
@@ -156,7 +157,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 5rem;
+	margin-bottom: 4rem;
 	.photo {
 		cursor: pointer;
 		margin-right: 1.5rem;
@@ -174,7 +175,7 @@ export default {
 }
 
 .details-bottom {
-	padding-bottom: 5rem;
+	padding-bottom: 4rem;
 	h2 {
 		margin-bottom: 2rem;
 	}
@@ -201,7 +202,7 @@ export default {
 	text-align: center;
 	button {
 		width: 75%;
-		max-width: 15rem;
+		max-width: 20rem;
 	}
 }
 </style>

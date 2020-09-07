@@ -129,8 +129,6 @@ export default {
 		cursor: pointer;
 		background-color: $tertiary-light;
 
-		/* .name {
-		} */
 		.unread-message {
 			background-color: $warning;
 			border-radius: 5rem;

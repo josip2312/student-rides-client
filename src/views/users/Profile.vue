@@ -69,7 +69,7 @@
 			<div class="no-reserved-rides" v-else>
 				Nemate rezerviranih voznji
 			</div>
-			<div class="additional" @click="sendToEditProfile">
+			<div title="Uredi" class="additional" @click="sendToEditProfile">
 				<div class="additional-desc" v-if="!getUserData.description">
 					<img src="@/assets/img/icons/plus.svg" alt="" />
 					<span>
@@ -83,7 +83,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="contact" @click="sendToEditProfile">
+			<div title="Uredi" class="contact" @click="sendToEditProfile">
 				<div class="contact-desc" v-if="!getUserData.description">
 					<img src="@/assets/img/icons/plus.svg" alt="" />
 					<span>
@@ -293,7 +293,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 
-	margin-bottom: 5rem;
+	margin-bottom: 3rem;
 	.heading-3 {
 		text-align: center;
 		margin-bottom: 2rem;
@@ -305,6 +305,9 @@ export default {
 		background-color: $tertiary-light;
 		padding: 1.5rem 3rem;
 		cursor: pointer;
+	}
+	&-ride + &-ride {
+		margin-top: 1rem;
 	}
 }
 .no-reserved-rides {

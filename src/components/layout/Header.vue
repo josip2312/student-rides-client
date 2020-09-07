@@ -69,7 +69,8 @@
 
 				<!-- logged in additional elements -->
 				<div class="nav-info" v-if="isLoggedIn">
-					<div
+					<button
+						tabindex="0"
 						class="notification-icon"
 						@click="
 							(showNotifications = !showNotifications),
@@ -88,7 +89,7 @@
 								{{ notificationNumber }}
 							</span>
 						</div>
-					</div>
+					</button>
 					<transition name="fade" mode="out-in">
 						<div
 							v-click-outside="hideNotifications"
@@ -140,7 +141,8 @@
 						</div>
 					</transition>
 
-					<div
+					<button
+						tabindex="0"
 						class="user"
 						@click="
 							sendToProfile,
@@ -150,7 +152,7 @@
 					>
 						<img :src="getPhoto" alt="" />
 						<img src="@/assets/img/icons/chevronDown.svg" alt="" />
-					</div>
+					</button>
 					<transition name="fade" mode="out-in">
 						<div
 							v-if="showUserDropdown"

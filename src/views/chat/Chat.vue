@@ -21,15 +21,12 @@
 				sendMessage({
 					room: chat._id,
 					sender: getUserData._id,
-
 					receiver:
 						chat.sender === getUserData._id
 							? chat.receiver
 							: chat.sender,
-
 					message: {
 						from: getUserData.name,
-
 						content: message,
 						receiverHasRead: false,
 						sender: getUserData._id,

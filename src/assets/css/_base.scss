@@ -45,10 +45,10 @@ html {
 	scroll-behavior: smooth;
 
 	@media only screen and(min-width:$vp-14) {
-		font-size: 75%;
+		font-size: 65%;
 	}
 	@media only screen and(min-width:$vp-19) {
-		font-size: 100%;
+		font-size: 90%;
 	}
 	@media only screen and(min-width:$vp-4k) {
 		font-size: 120%;
@@ -76,7 +76,7 @@ p {
 body {
 	font-family: "Work Sans", sans-serif;
 
-	line-height: 1.5;
+	line-height: 1.6;
 	color: $font-white;
 	font-size: 1.6rem;
 	background-color: $white;

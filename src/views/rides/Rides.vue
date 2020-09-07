@@ -79,10 +79,11 @@ export default {
 							.match(this.searchStart.toLowerCase()) &&
 						ride.end
 							.toLowerCase()
-							.match(this.searchEnd.toLowerCase())
+							.match(this.searchEnd.toLowerCase()) &&
+						ride.seats > 0
 					);
 				} else {
-					return this.getRides;
+					return ride.seats > 0;
 				}
 			});
 		}

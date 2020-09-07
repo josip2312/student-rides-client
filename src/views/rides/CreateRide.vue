@@ -263,11 +263,11 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-import Datepicker from "vuejs-datepicker";
-import { hr } from "vuejs-datepicker/dist/locale";
 import { mapActions, mapGetters } from "vuex";
 
+import { hr } from "vuejs-datepicker/dist/locale";
+import Datepicker from "vuejs-datepicker";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
 	name: "CreateRide",
 	components: {
@@ -286,6 +286,8 @@ export default {
 	},
 	data() {
 		return {
+			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
+
 			disabledDates: {
 				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
@@ -329,8 +331,7 @@ export default {
 			}
 			window.mapApiInitialized = callback;
 			let script = document.createElement("script");
-			script.src =
-				"https://maps.googleapis.com/maps/api/js?key=AIzaSyCwB0fUQDB8t-YzmxsbCNRg3m6l3OU6UoQ&libraries=places&callback=mapApiInitialized";
+			script.src = `https://maps.googleapis.com/maps/api/js?key=${this.googleKey}&libraries=places&callback=mapApiInitialized`;
 			document.body.appendChild(script);
 		},
 		initLocationStart() {
@@ -345,7 +346,6 @@ export default {
 
 			autocomplete.addListener("place_changed", () => {
 				let place = autocomplete.getPlace();
-				console.log(place);
 				if (place) {
 					this.start = place.name;
 				}
@@ -408,7 +408,6 @@ form {
 	.value {
 		font-size: 3rem;
 		font-weight: 500;
-		font-family: "Nunito", sans-serif;
 	}
 	img {
 		cursor: pointer;

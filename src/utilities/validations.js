@@ -27,7 +27,6 @@ extend("email", {
 	...email,
 	message: "Unesite valjan email"
 });
-
 extend("required", {
 	...required,
 	message: "Ovo polje ne moze biti prazno"

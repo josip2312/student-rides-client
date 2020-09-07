@@ -31,6 +31,10 @@ axios.interceptors.response.use(
 	function(error) {
 		store.state.loading = false;
 
+		if (error.response.status === 401) {
+			store.dispatch("logout");
+		}
+
 		if (error.response.data.error) {
 			store.commit("ERROR", error.response.data);
 			timeout = setTimeout(() => {

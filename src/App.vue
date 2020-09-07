@@ -72,9 +72,8 @@ export default {
 		}
 	},
 	created() {
-		this.fetchRides();
-
 		if (this.getLoggedInUser) {
+			this.fetchRides();
 			this.fetchUserData();
 			this.fetchChats();
 		}

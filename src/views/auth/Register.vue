@@ -22,6 +22,8 @@
 								type="name"
 								name="name"
 								id="name"
+								autofocus
+								autocomplete="name"
 							/>
 
 							<p>{{ v.errors[0] }}</p>

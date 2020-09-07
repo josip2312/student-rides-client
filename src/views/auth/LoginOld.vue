@@ -1,23 +1,6 @@
 <template>
-	<Form :formData="formData">
-		<template v-slot:form-down>
-			<div class="form-group">
-				<button class="btn" type="submit">
-					Prijavi se
-				</button>
-			</div>
-			<div class="form-footer">
-				<router-link :to="{ name: 'ForgotPassword' }" tag="a"
-					>Zaboravili ste lozinku?</router-link
-				>
-				<router-link :to="{ name: 'Register' }" tag="a"
-					>Registriraj se!</router-link
-				>
-			</div>
-		</template>
-	</Form>
-
-	<!-- <ValidationObserver v-slot="{ handleSubmit }" slim>
+	<section class="login">
+		<ValidationObserver v-slot="{ handleSubmit }" slim>
 			<form
 				class="form-control"
 				@submit.prevent="
@@ -75,13 +58,12 @@
 				</div>
 			</form>
 		</ValidationObserver>
-		<Error /> -->
+		<Error />
+	</section>
 </template>
 
 <script>
-/* eslint-disable */
 import Error from "@/components/Error";
-import Form from "@/components/Form";
 import { mapActions } from "vuex";
 
 import { ValidationProvider, ValidationObserver } from "vee-validate";
@@ -90,25 +72,12 @@ export default {
 	components: {
 		ValidationProvider,
 		ValidationObserver,
-		Form,
 		Error
 	},
 	data() {
 		return {
-			/* email: null,
-			password: null, */
-			formData: {
-				email: {
-					label: "Email adresa",
-					type: "email",
-					field: null
-				},
-				password: {
-					label: "Lozinka",
-					type: "password",
-					field: null
-				}
-			}
+			email: null,
+			password: null
 		};
 	},
 
