@@ -1,0 +1,68 @@
+//animations
+.fade-enter-active,
+.fade-leave-active {
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+.grow-enter-active,
+.grow-leave-active {
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease-in-out;
+}
+.grow-enter,
+.grow-leave-to {
+	opacity: 0;
+}
+@keyframes up {
+	0% {
+		opacity: 0;
+		transform: translateY(5rem);
+	}
+
+	100% {
+		opacity: 1;
+
+		transform: translateY(0rem);
+	}
+}
+@keyframes down {
+	0% {
+		opacity: 0;
+		transform: translateY(-5rem);
+	}
+
+	100% {
+		opacity: 1;
+
+		transform: translateY(0rem);
+	}
+}
+@keyframes scale {
+	0% {
+		transform: scale(0.94);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+.before-enter {
+	opacity: 0;
+	animation: none;
+}
+.enter {
+	animation: up 1s ease-in-out forwards;
+}

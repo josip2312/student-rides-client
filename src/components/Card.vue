@@ -121,6 +121,16 @@ export default {
 		justify-content: center;
 		align-items: center;
 
+		button {
+			display: flex;
+			align-items: center;
+			font-size: 1.4rem;
+			img {
+				margin-left: 1rem;
+				width: 2rem;
+				height: 2rem;
+			}
+		}
 		button + button {
 			margin-left: 2.5rem;
 		}

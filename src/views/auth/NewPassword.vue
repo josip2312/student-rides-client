@@ -1,77 +1,88 @@
 <template>
-	<section class="new-password">
-		<ValidationObserver v-slot="{ handleSubmit }" slim>
-			<form
-				class="form-control"
-				@submit.prevent="
-					handleSubmit(() =>
-						resetPassword({ password, id: $route.params.id })
-					)
-				"
-			>
+	<ValidationObserver v-slot="{ handleSubmit }" slim>
+		<Form
+			title="Unesite novu lozinku"
+			@submit.prevent.native="
+				handleSubmit(() => resetPassword({ password, id: id }))
+			"
+		>
+			<template v-slot:form-content>
 				<div class="form-group">
-					<h3 class="heading-3">Unesite novu lozinku</h3>
-				</div>
-				<div class="form-group">
-					<label for="password">Lozinka</label>
-					<ValidationProvider
+					<TextInput
+						:label="password.label"
+						:vid="password.vid"
+						:type="password.type"
+						:name="password.name"
+						:id="password.id"
+						v-model="password.value"
 						rules="required|min:6"
-						vid="confirmation"
-						v-slot="v"
-					>
-						<input
-							:class="v.classes"
-							v-model="password"
-							type="password"
-							name="password"
-							id="password"
-						/>
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
+					/>
 				</div>
 				<div class="form-group">
-					<label for="confirmPassword">Potvrdi lozinku</label>
-					<ValidationProvider
+					<TextInput
+						:label="confirmPassword.label"
 						rules="required|confirmed:confirmation"
-						v-slot="v"
-					>
-						<input
-							:class="v.classes"
-							v-model="confirmPassword"
-							type="password"
-							name="confirmPassword"
-							id="confirmPassword"
-						/>
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
+						:type="confirmPassword.type"
+						:name="confirmPassword.name"
+						:id="confirmPassword.id"
+						v-model="confirmPassword.value"
+					/>
 				</div>
+			</template>
+
+			<template v-slot:form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Promijeni lozinku
 					</button>
 				</div>
-			</form>
-		</ValidationObserver>
+			</template>
+		</Form>
 
 		<Error />
-	</section>
+	</ValidationObserver>
 </template>
 
 <script>
 import Error from "@/components/Error";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import Form from "@/components/form/Form";
+import TextInput from "@/components/form/TextInput";
+
+import { ValidationObserver } from "vee-validate";
 
 import { mapActions } from "vuex";
 export default {
 	components: {
 		Error,
-		ValidationProvider,
-		ValidationObserver
+		ValidationObserver,
+		Form,
+		TextInput
 	},
 	data() {
 		return {
-			password: null,
-			confirmPassword: null
+			id: this.$route.params.id,
+			password: {
+				type: "password",
+				label: "Lozinka",
+				value: null,
+				rules: {
+					required: true,
+					min: 6
+				},
+				name: "password",
+				id: "password",
+				vid: "confirmation"
+			},
+			confirmPassword: {
+				type: "password",
+				label: "Potvrdi lozinku",
+				value: null,
+				rules: {
+					confirmed: { confirmation: true }
+				},
+				name: "confirmPassword",
+				id: "confirmPassword"
+			}
 		};
 	},
 
@@ -82,7 +93,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/form";
 .new-password {
 	display: flex;
 	justify-content: center;

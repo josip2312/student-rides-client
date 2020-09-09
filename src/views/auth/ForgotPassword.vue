@@ -1,50 +1,61 @@
 <template>
-	<section class="forgot-password">
-		<ValidationObserver v-slot="{ handleSubmit }" slim>
-			<form
-				class="form-control"
-				@submit="handleSubmit(() => requestResetPassword(email))"
-			>
+	<ValidationObserver v-slot="{ handleSubmit }" slim>
+		<Form
+			title="Zaboravili ste lozinku?"
+			@submit.prevent.native="
+				handleSubmit(() =>
+					requestResetPassword({ email: formData.email.field })
+				)
+			"
+		>
+			<template v-slot:form-content>
 				<div class="form-group">
-					<h3 class="heading-3">Zaboravili ste lozinku?</h3>
+					<TextInput
+						:label="email.label"
+						:type="email.type"
+						:name="email.name"
+						:id="email.id"
+						v-model="email.value"
+						:rules="email.rules"
+					/>
 				</div>
-				<div class="form-group">
-					<label for="email">Email Adresa</label>
-					<ValidationProvider rules="required|email" v-slot="v">
-						<input
-							:class="v.classes"
-							v-model="email"
-							type="email"
-							name="email"
-							id="email"
-						/>
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
-				</div>
+			</template>
 
+			<template v-slot:form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Posalji link za ponovno postavljanje
 					</button>
 				</div>
-			</form>
-		</ValidationObserver>
-	</section>
+			</template>
+		</Form>
+	</ValidationObserver>
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationObserver } from "vee-validate";
+import Form from "@/components/form/Form";
+import TextInput from "@/components/form/TextInput";
 
 import { mapActions } from "vuex";
 export default {
 	components: {
-		ValidationProvider,
-		ValidationObserver
+		ValidationObserver,
+		Form,
+		TextInput
 	},
 
 	data() {
 		return {
-			email: null
+			email: {
+				label: "Email adresa",
+				type: "email",
+				field: null,
+				rules: {
+					required: true,
+					email: true
+				}
+			}
 		};
 	},
 
@@ -55,8 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/form";
-
 .forgot-password {
 	display: flex;
 	justify-content: center;

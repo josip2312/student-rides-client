@@ -169,8 +169,8 @@ export const loginUser = async ({ commit }, data) => {
 export const logout = () => {
 	sessionStorage.clear();
 	localStorage.clear();
-	location.reload();
-	//router.push({ name: "Login" });
+	//location.reload();
+	router.push({ name: "Login" });
 };
 
 export const registerUser = async ({ commit }, data) => {
@@ -188,7 +188,8 @@ export const registerUser = async ({ commit }, data) => {
 };
 export const requestResetPassword = async ({ commit }, email) => {
 	try {
-		await axios.post(`auth/forgotpassword`, { email });
+		await axios.post(`auth/forgotpassword`, email);
+		//this mutation doesnt exist
 		commit("REQUEST_RESET_PASSWORD");
 	} catch (error) {
 		console.error(error.response);
@@ -268,12 +269,24 @@ export const fetchPhoto = async ({ commit, getters }) => {
 //////////////
 /* CHATTING */
 //////////////
-//eslint-disable-next-line
 export const fetchChats = async ({ commit, getters }) => {
 	try {
 		const res = await axios.get(`/chat/${getters.getLoggedInUser}`);
 
 		commit("SET_CHATS", res.data);
+	} catch (error) {
+		console.error(error.response);
+	}
+};
+export const deleteChat = async ({ commit, dispatch }, payload) => {
+	try {
+		/* eslint-disable */
+		console.log(payload);
+		const res = await axios.delete(`/chat/${payload}`);
+		console.log("Chat deleted");
+
+		dispatch("fetchChats");
+		commit("CHAT_DELETED");
 	} catch (error) {
 		console.error(error.response);
 	}

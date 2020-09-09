@@ -1,65 +1,37 @@
 <template>
-	<Form :formData="formData">
-		<template v-slot:form-down>
-			<div class="form-group">
-				<button class="btn" type="submit">
-					Prijavi se
-				</button>
-			</div>
-			<div class="form-footer">
-				<router-link :to="{ name: 'ForgotPassword' }" tag="a"
-					>Zaboravili ste lozinku?</router-link
-				>
-				<router-link :to="{ name: 'Register' }" tag="a"
-					>Registriraj se!</router-link
-				>
-			</div>
-		</template>
-	</Form>
-
-	<!-- <ValidationObserver v-slot="{ handleSubmit }" slim>
-			<form
-				class="form-control"
-				@submit.prevent="
-					handleSubmit(() => loginUser({ email, password }))
-				"
-			>
+	<ValidationObserver v-slot="{ handleSubmit }" slim>
+		<Form
+			title="Prijava"
+			@submit.prevent.native="
+				handleSubmit(() =>
+					login({ email: email.value, password: password.value })
+				)
+			"
+		>
+			<template v-slot:form-content>
 				<div class="form-group">
-					<h3 class="heading-3">Prijava</h3>
+					<TextInput
+						:label="email.label"
+						:type="email.type"
+						:name="email.name"
+						:id="email.id"
+						v-model="email.value"
+						:rules="email.rules"
+					/>
 				</div>
 				<div class="form-group">
-					<label for="email">Email Adresa</label>
-
-					<ValidationProvider rules="required" v-slot="v">
-						<input
-							v-model="email"
-							type="email"
-							name="email"
-							id="email"
-							:class="v.classes"
-							autofocus
-							autocomplete="email"
-						/>
-
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
+					<TextInput
+						:label="password.label"
+						:type="password.type"
+						:name="password.name"
+						:id="password.id"
+						v-model="password.value"
+						:rules="password.rules"
+					/>
 				</div>
-				<div class="form-group">
-					<label for="password">Lozinka</label>
+			</template>
 
-					<ValidationProvider rules="required|min:6" v-slot="v">
-						<input
-							v-model="password"
-							type="password"
-							name="password"
-							id="password"
-							:class="v.classes"
-						/>
-
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
-				</div>
-
+			<template v-slot:form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Prijavi se
@@ -73,64 +45,56 @@
 						>Registriraj se!</router-link
 					>
 				</div>
-			</form>
-		</ValidationObserver>
-		<Error /> -->
+			</template>
+		</Form>
+	</ValidationObserver>
 </template>
 
 <script>
-/* eslint-disable */
-import Error from "@/components/Error";
-import Form from "@/components/Form";
+import Form from "@/components/form/Form";
+import TextInput from "@/components/form/TextInput";
+import { ValidationObserver } from "vee-validate";
 import { mapActions } from "vuex";
-
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
 	name: "Login",
 	components: {
-		ValidationProvider,
-		ValidationObserver,
 		Form,
-		Error
+		TextInput,
+		ValidationObserver
 	},
 	data() {
 		return {
-			/* email: null,
-			password: null, */
-			formData: {
-				email: {
-					label: "Email adresa",
-					type: "email",
-					field: null
-				},
-				password: {
-					label: "Lozinka",
-					type: "password",
-					field: null
+			email: {
+				label: "Email adresa",
+				type: "email",
+				value: null,
+				rules: {
+					required: true,
+					email: true
+				}
+			},
+			password: {
+				label: "Lozinka",
+				type: "password",
+				value: null,
+				rules: {
+					required: true,
+					min: { length: 6 }
 				}
 			}
 		};
 	},
 
 	methods: {
-		...mapActions(["loginUser"])
+		...mapActions({ login: "loginUser" }),
+		log() {
+			console.log("logged");
+		}
 	}
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/css/form";
-
-.login {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	padding: 5em 0;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
-}
-.form-control {
+.form {
 	max-width: 40rem;
 }
 .form-footer {

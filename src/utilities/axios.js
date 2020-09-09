@@ -31,9 +31,9 @@ axios.interceptors.response.use(
 	function(error) {
 		store.state.loading = false;
 
-		if (error.response.status === 401) {
+		/* if (error.response.data.error === "jwt expired") {
 			store.dispatch("logout");
-		}
+		} */
 
 		if (error.response.data.error) {
 			store.commit("ERROR", error.response.data);

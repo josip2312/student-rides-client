@@ -62,10 +62,10 @@ export default {
 	grid-template-columns: repeat(12, 1fr);
 	grid-template-rows: repeat(6, 1fr);
 
-	@media only screen and(max-width:$vp-5) {
+	@media only screen and(max-width:$vp-6) {
 		text-align: center;
 		height: auto;
-		padding: 5em 0;
+		padding: 10em 0;
 	}
 }
 

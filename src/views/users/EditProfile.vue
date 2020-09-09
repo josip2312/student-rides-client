@@ -1,74 +1,57 @@
 <template>
-	<section class="edit">
-		<ValidationObserver v-slot="{ handleSubmit }" slim>
-			<form
-				class="form-control"
-				@submit.prevent="
-					handleSubmit(() =>
-						editProfile({ name, lastname, email, contact, desc })
-					)
-				"
-			>
-				<div class="form-group">
-					<h3 class="heading-3">Osobni podaci</h3>
-				</div>
+	<ValidationObserver v-slot="{ handleSubmit }" slim>
+		<Form
+			className="wider"
+			title="Osobni podaci"
+			@submit.prevent="
+				handleSubmit(() =>
+					editProfile({ name, lastname, email, contact, desc })
+				)
+			"
+		>
+			<template v-slot:form-content>
 				<div class="form-edit-group">
 					<div class="form-group">
-						<label for="name">Ime</label>
-						<ValidationProvider rules="required|alpha" v-slot="v">
-							<input
-								:class="v.classes"
-								v-model="name"
-								type="name"
-								name="name"
-								id="name"
-							/>
-
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
+						<TextInput
+							:label="name.label"
+							:type="name.type"
+							:name="name.name"
+							:id="name.id"
+							v-model="name.value"
+							:rules="name.rules"
+						/>
 					</div>
 					<div class="form-group">
-						<label for="lastname">Prezime</label>
-						<ValidationProvider rules="required|alpha" v-slot="v">
-							<input
-								:class="v.classes"
-								v-model="lastname"
-								type="lastname"
-								name="lastname"
-								id="lastname"
-							/>
-
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
+						<TextInput
+							:label="lastname.label"
+							:type="lastname.type"
+							:name="lastname.name"
+							:id="lastname.id"
+							v-model="lastname.value"
+							:rules="lastname.rules"
+						/>
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="email">Email Adresa</label>
-					<ValidationProvider rules="required" v-slot="v">
-						<input
-							:class="v.classes"
-							v-model="email"
-							type="email"
-							name="email"
-							id="email"
-						/>
 
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
+				<div class="form-group">
+					<TextInput
+						:label="email.label"
+						:type="email.type"
+						:name="email.name"
+						:id="email.id"
+						v-model="email.value"
+						:rules="email.rules"
+					/>
 				</div>
 				<div class="form-group">
-					<label for="contact">Kontakt broj</label>
-					<ValidationProvider v-slot="v">
-						<input
-							:class="v.classes"
-							v-model="contact"
-							type="number"
-							name="contact"
-							id="contact"
-						/>
-
-						<p>{{ v.errors[0] }}</p>
-					</ValidationProvider>
+					<TextInput
+						:label="contact.label"
+						:type="contact.type"
+						:name="contact.name"
+						:id="contact.id"
+						v-model="contact.value"
+						:rules="contact.rules"
+					/>
 				</div>
 				<div class="form-group">
 					<label for="desc">Kratka biografija</label>
@@ -85,32 +68,79 @@
 						<p>{{ v.errors[0] }}</p>
 					</ValidationProvider>
 				</div>
+			</template>
+			<template v-slot:form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Potvrdi
 					</button>
 				</div>
-			</form>
-		</ValidationObserver>
-	</section>
+			</template>
+		</Form>
+	</ValidationObserver>
 </template>
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import TextInput from "@/components/form/TextInput";
+import Form from "@/components/form/Form";
 
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "EditProfile",
 	components: {
 		ValidationObserver,
-		ValidationProvider
+		ValidationProvider,
+		TextInput,
+		Form
 	},
 	data() {
 		return {
-			name: this.$store.state.userData.name || null,
-			lastname: this.$store.state.userData.lastname || null,
-			email: this.$store.state.userData.email || null,
-			contact: this.$store.state.userData.contact || null,
+			contact: {
+				label: "Kontakt broj",
+				type: "text",
+				value: this.$store.state.editingRide.contact || null,
+				rules: {
+					required: true,
+					numeric: true
+				},
+				name: "contact",
+				id: "contact"
+			},
+			name: {
+				label: "Ime",
+				type: "text",
+				value: null,
+				rules: {
+					required: true,
+					alpha: true
+				},
+				name: "name",
+				id: "name"
+			},
+			lastname: {
+				label: "Prezime",
+				type: "text",
+				value: null,
+				rules: {
+					required: true,
+					alpha: true
+				},
+				name: "lastname",
+				id: "lastname"
+			},
+			email: {
+				label: "Email adresa",
+				type: "email",
+				value: null,
+				rules: {
+					required: true,
+					email: true
+				},
+				name: "email",
+				id: "email"
+			},
+
 			desc: this.$store.state.userData.description || null
 		};
 	},
@@ -124,16 +154,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/form";
-.form-control {
-	max-width: 50rem;
+form {
+	max-width: 50rem !important;
 }
-.edit {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 5em 0;
-}
+
 .form-edit-group {
 	display: flex;
 	align-items: center;
@@ -145,14 +169,13 @@ export default {
 		flex-basis: 47.5%;
 	}
 }
-.heading-3 {
-}
+
 textarea {
 	padding: 1.5rem 1rem;
 	border: 1px solid $tertiary;
 	outline: none;
-	font-size: 1.8rem;
 	font-family: "Work Sans", sans-serif;
 	background-color: $tertiary-light;
+	margin-bottom: 0.4rem;
 }
 </style>

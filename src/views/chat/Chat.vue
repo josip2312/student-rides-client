@@ -109,7 +109,9 @@ export default {
 				receiver: this.chat.receiver
 			});
 			this.connected = true;
-			this.messages[this.messages.length - 1].receiverHasRead = true;
+			if (this.messages[this.messages.length - 1]) {
+				this.messages[this.messages.length - 1].receiverHasRead = true;
+			}
 		},
 		message(data) {
 			this.fetchChats();
@@ -134,7 +136,9 @@ export default {
 				room: this.chat._id,
 				sender: this.getUserData._id
 			});
-			this.messages[this.messages.length - 1].receiverHasRead = true;
+			if (this.messages[this.messages.length - 1]) {
+				this.messages[this.messages.length - 1].receiverHasRead = true;
+			}
 			this.$socket.emit("clearNotifications", data);
 		}
 	},
@@ -159,7 +163,9 @@ export default {
 			room: this.chat._id,
 			sender: this.getUserData._id
 		});
-		this.messages[this.messages.length - 1].receiverHasRead = true;
+		if (this.messages[this.messages.length - 1]) {
+			this.messages[this.messages.length - 1].receiverHasRead = true;
+		}
 	}
 };
 </script>

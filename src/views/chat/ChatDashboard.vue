@@ -43,6 +43,12 @@
 					</span>
 					<!-- eslint-disable -->
 				</div>
+				<button
+					class="delete-chat"
+					@click.prevent="deleteChat(chat._id)"
+				>
+					<img src="@/assets/img/icons/trashblack.svg" alt="" />
+				</button>
 			</router-link>
 		</div>
 		<div class="no-chats" v-else>
@@ -64,7 +70,8 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchChats"]),
+		...mapActions(["fetchChats", "deleteChat"]),
+
 		messageIsRead(chatIndex) {
 			if (this.chats[chatIndex].messages.length > 0) {
 				return (
@@ -120,6 +127,7 @@ export default {
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
+		position: relative;
 
 		padding: 2.5rem;
 
@@ -128,6 +136,10 @@ export default {
 		transition: background-color 0.2s ease-in-out;
 		cursor: pointer;
 		background-color: $tertiary-light;
+
+		.name {
+			flex: 1;
+		}
 
 		.unread-message {
 			background-color: $warning;
@@ -144,6 +156,23 @@ export default {
 
 		&:not(:last-child) {
 			margin-bottom: 1.5rem;
+		}
+		.delete-chat {
+			cursor: pointer;
+			position: absolute;
+			right: -5rem;
+			top: 50%;
+			transform: scale(0.85) translateY(-50%);
+
+			img {
+				width: 3.5rem;
+				height: 3.5rem;
+			}
+
+			transition: transform 0.2s ease-in-out;
+		}
+		.delete-chat:hover {
+			transform: scale(1) translateY(-50%);
 		}
 	}
 

@@ -1,262 +1,231 @@
 <template>
 	<section class="create">
-		<ValidationObserver
-			v-slot="{ handleSubmit }"
-			v-if="activeStep === 0"
-			slim
-			:key="1"
-		>
+		<ValidationObserver v-slot="{ handleSubmit }" slim :key="1">
 			<transition name="fade" mode="out-in">
-				<form
-					class="step-1 form-control"
+				<Form
 					v-if="activeStep === 0"
-					@submit.prevent="handleSubmit(nextStep)"
+					@submit.prevent.native="handleSubmit(nextStep)"
+					title="Postavi voznju"
 				>
-					<div class="form-group">
-						<h2 class="heading-2">Postavi voznju</h2>
-					</div>
-
-					<div class="form-group">
-						<label for="date">Datum polaska</label>
-						<ValidationProvider rules="required" v-slot="v">
-							<datepicker
-								id="date"
-								:class="v.classes"
-								v-model="date"
-								name="date"
-								:disabled-dates="disabledDates"
-								:language="hr"
-								:input-class="$style.datepicker"
-								placeholder="Izaberi datum"
-							></datepicker>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<label for="start">Mjesto polaska</label>
-						<ValidationProvider rules="required" v-slot="v">
-							<input
-								ref="start"
-								id="start"
-								:class="v.classes"
-								v-model="start"
-								type="text"
-								name="start"
-								placeholder="npr. Tomislavgrad"
-							/>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<label for="end">Odrediste</label>
-						<ValidationProvider rules="required" v-slot="v">
-							<input
-								ref="end"
-								id="end"
-								:class="v.classes"
-								v-model="end"
-								type="text"
-								name="end"
-								placeholder="npr. Mostar"
-							/>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<button class="btn">
-							Dalje
-						</button>
-					</div>
-				</form>
-			</transition>
-		</ValidationObserver>
-
-		<ValidationObserver
-			v-slot="{ handleSubmit }"
-			v-if="activeStep === 1"
-			slim
-			:key="2"
-		>
-			<transition name="fade" mode="out-in">
-				<form
-					class="step-2 form-control"
-					v-if="activeStep === 1"
-					:class="{ isVisible: activeStep === 1 }"
-					@submit.prevent="handleSubmit(nextStep)"
-				>
-					<div class="form-group">
-						<label for="email">Kontakt broj</label>
-						<ValidationProvider rules="required|numeric" v-slot="v">
-							<input
-								id="contact"
-								:class="v.classes"
-								v-model="contact"
-								type="text"
-								name="contact"
-								placeholder="063 ### ###"
-							/>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<label for="price">Cijena</label>
-						<ValidationProvider rules="required" v-slot="v">
-							<input
-								id="price"
-								:class="v.classes"
-								v-model="price"
-								type="number"
-								name="price"
-								placeholder="KM"
-							/>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-					<div class="form-group">
-						<label for="seats">Broj slobodnih mjesta</label>
-						<div class="seats">
-							<div class="minus">
-								<img
-									:class="{ disabled: seats === 1 }"
-									src="@/assets/img/icons/minus.svg"
-									alt=""
-									@click="seats > 1 ? seats-- : seats"
-								/>
-							</div>
-							<div class="value">
-								{{ seats }}
-							</div>
-							<div class="plus">
-								<img
-									:class="{ disabled: seats === 4 }"
-									src="@/assets/img/icons/plus.svg"
-									alt=""
-									@click="seats < 4 ? seats++ : seats"
-								/>
-							</div>
+					<template v-slot:form-content>
+						<div class="form-group">
+							<label for="date">Datum polaska</label>
+							<ValidationProvider rules="required" v-slot="v">
+								<datepicker
+									id="date"
+									:class="v.classes"
+									v-model="date"
+									name="date"
+									:disabled-dates="disabledDates"
+									:language="hr"
+									:input-class="$style.datepicker"
+									placeholder="Izaberi datum"
+								></datepicker>
+								<p>{{ v.errors[0] }}</p>
+							</ValidationProvider>
 						</div>
-						<input
-							id="seats"
-							v-model="seats"
-							type="hidden"
-							name="seats"
-						/>
-					</div>
-
-					<div class="form-group">
-						<button class="btn">
-							Dalje
-						</button>
-					</div>
-					<div class="form-group">
-						<button
-							class="btn btn-secondary"
-							type="button"
-							@click.prevent="activeStep--"
-						>
-							Natrag
-						</button>
-					</div>
-				</form>
+						<div class="form-group">
+							<TextInput
+								ref="start"
+								:label="start.label"
+								:type="start.type"
+								:name="start.name"
+								:id="start.id"
+								v-model="start.value"
+								:rules="start.rules"
+							/>
+						</div>
+						<div class="form-group">
+							<TextInput
+								ref="end"
+								:label="end.label"
+								:type="end.type"
+								:name="end.name"
+								:id="end.id"
+								v-model="end.value"
+								:rules="end.rules"
+							/>
+						</div>
+					</template>
+					<template v-slot:form-down>
+						<div class="form-group">
+							<button class="btn">
+								Dalje
+							</button>
+						</div>
+					</template>
+				</Form>
 			</transition>
 		</ValidationObserver>
-
-		<ValidationObserver
-			v-slot="{ handleSubmit }"
-			v-if="activeStep === 2"
-			slim
-			:key="3"
-		>
+		<ValidationObserver v-slot="{ handleSubmit }" slim :key="2">
 			<transition name="fade" mode="out-in">
-				<form
-					@submit.prevent="
+				<Form
+					v-if="activeStep === 1"
+					@submit.prevent.native="handleSubmit(nextStep)"
+					title="Postavi voznju"
+				>
+					<template v-slot:form-content>
+						<div class="form-group">
+							<TextInput
+								:label="contact.label"
+								:type="contact.type"
+								:name="contact.name"
+								:id="contact.id"
+								v-model="contact.value"
+								:rules="contact.rules"
+							/>
+						</div>
+						<div class="form-group">
+							<TextInput
+								:label="price.label"
+								:type="price.type"
+								:name="price.name"
+								:id="price.id"
+								v-model="price.value"
+								:rules="price.rules"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="seats">Broj slobodnih mjesta</label>
+							<div class="seats">
+								<div class="minus">
+									<img
+										:class="{ disabled: seats === 1 }"
+										src="@/assets/img/icons/minus.svg"
+										alt=""
+										@click="seats > 1 ? seats-- : seats"
+									/>
+								</div>
+								<div class="value">
+									{{ seats }}
+								</div>
+								<div class="plus">
+									<img
+										:class="{ disabled: seats === 4 }"
+										src="@/assets/img/icons/plus.svg"
+										alt=""
+										@click="seats < 4 ? seats++ : seats"
+									/>
+								</div>
+							</div>
+							<input
+								id="seats"
+								v-model="seats"
+								type="hidden"
+								name="seats"
+							/>
+						</div>
+					</template>
+					<template v-slot:form-down>
+						<div class="form-group">
+							<button class="btn">
+								Dalje
+							</button>
+						</div>
+						<div class="form-group">
+							<button
+								class="btn btn-secondary"
+								type="button"
+								@click.prevent="activeStep--"
+							>
+								Natrag
+							</button>
+						</div>
+					</template>
+				</Form>
+			</transition>
+		</ValidationObserver>
+		<ValidationObserver v-slot="{ handleSubmit }" slim :key="3">
+			<transition name="fade" mode="out-in">
+				<Form
+					v-if="activeStep === 2"
+					@submit.prevent.native="
 						handleSubmit(() =>
 							postRide({
-								start,
-								end,
+								start: start.value,
+								end: end.value,
 								date,
-								contact,
+								contact: contact.value,
 								seats,
-								price,
+								price: price.value,
 								smoking,
-								car
+								car: car.value
 							})
 						)
 					"
-					class="step-2 form-control"
-					v-if="activeStep === 2"
+					title="Postavi voznju"
 				>
-					<div class="form-group">
-						<label for="smoking">Cigarete</label>
-						<div class="radio-buttons">
-							<label for="smokingYes">Da</label>
+					<template v-slot:form-content>
+						<div class="form-group">
+							<label for="smoking">Cigarete</label>
+							<div class="radio-buttons">
+								<label for="smokingYes">Da</label>
 
-							<input
-								id="smokingYes"
-								v-model="smoking"
-								type="radio"
-								name="smoking"
-								value="yes"
-							/>
-							<label for="smokingNo">Ne</label>
-							<input
-								id="smokingNo"
-								v-model="smoking"
-								type="radio"
-								name="smoking"
-								value="no"
+								<input
+									id="smokingYes"
+									v-model="smoking"
+									type="radio"
+									name="smoking"
+									value="yes"
+								/>
+								<label for="smokingNo">Ne</label>
+								<input
+									id="smokingNo"
+									v-model="smoking"
+									type="radio"
+									name="smoking"
+									value="no"
+								/>
+							</div>
+						</div>
+						<div class="form-group">
+							<TextInput
+								:label="car.label"
+								:type="car.type"
+								:name="car.name"
+								:id="car.id"
+								v-model="car.value"
+								:rules="car.rules"
 							/>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="seats">Marka i tip automobila</label>
-						<ValidationProvider rules="required" v-slot="v">
-							<input
-								id="car"
-								:class="v.classes"
-								v-model="car"
-								type="text"
-								name="car"
-							/>
-							<p>{{ v.errors[0] }}</p>
-						</ValidationProvider>
-					</div>
-
-					<div class="form-group">
-						<button v-if="!isEditMode" class="btn">
-							{{ isLastStep ? "Postavi" : "Dalje" }}
-						</button>
-						<button
-							v-else
-							class="btn"
-							type="submit"
-							@click.prevent="
-								editRide({
-									id,
-									start,
-									end,
-									date,
-									contact,
-									seats,
-									price,
-									smoking,
-									car
-								})
-							"
-						>
-							Update
-						</button>
-					</div>
-					<div class="form-group">
-						<button
-							class="btn btn-secondary"
-							@click.prevent="activeStep--"
-							type="button"
-						>
-							Natrag
-						</button>
-					</div>
-				</form>
+					</template>
+					<template v-slot:form-down>
+						<div class="form-group">
+							<button v-if="!isEditMode" class="btn">
+								{{ isLastStep ? "Postavi" : "Dalje" }}
+							</button>
+							<button
+								v-else
+								class="btn"
+								type="submit"
+								@click.prevent="
+									editRide({
+										id,
+										start,
+										end,
+										date,
+										contact,
+										seats,
+										price,
+										smoking,
+										car
+									})
+								"
+							>
+								Update
+							</button>
+						</div>
+						<div class="form-group">
+							<button
+								class="btn btn-secondary"
+								@click.prevent="activeStep--"
+								type="button"
+							>
+								Natrag
+							</button>
+						</div>
+					</template>
+				</Form>
 			</transition>
 		</ValidationObserver>
 	</section>
@@ -265,13 +234,17 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import { hr } from "vuejs-datepicker/dist/locale";
 import Datepicker from "vuejs-datepicker";
+import { hr } from "vuejs-datepicker/dist/locale";
+
+import Form from "@/components/form/Form";
+import TextInput from "@/components/form/TextInput";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
-	name: "CreateRide",
 	components: {
 		Datepicker,
+		Form,
+		TextInput,
 		ValidationProvider,
 		ValidationObserver
 	},
@@ -308,15 +281,65 @@ export default {
 			],
 
 			id: this.$store.state.editingRide.id || null,
-			start: this.$store.state.editingRide.start || null,
-			end: this.$store.state.editingRide.end || null,
+
+			start: {
+				label: "Mjesto polaska",
+				type: "text",
+				value: this.$store.state.editingRide.start || null,
+				rules: {
+					required: true
+				},
+				name: "start",
+				id: "start"
+			},
+			end: {
+				label: "Odredište",
+				type: "text",
+				value: this.$store.state.editingRide.end || null,
+				rules: {
+					required: true
+				},
+				name: "end",
+				id: "end"
+			},
+
+			contact: {
+				label: "Kontakt broj",
+				type: "text",
+				value: this.$store.state.editingRide.contact || null,
+				rules: {
+					required: true,
+					numeric: true
+				},
+				name: "contact",
+				id: "contact"
+			},
+			price: {
+				label: "Cijena",
+				type: "number",
+				value: this.$store.state.editingRide.price || null,
+				rules: {
+					required: true,
+					numeric: true
+				},
+				name: "price",
+				id: "price"
+			},
+			car: {
+				label: "Marka i tip automobila",
+				type: "text",
+				value: this.$store.state.editingRide.car || null,
+				rules: {
+					required: true
+				},
+				name: "car",
+				id: "car"
+			},
 			date: this.$store.state.editingRide.date || null,
-			contact: this.$store.state.editingRide.contact || null,
+
 			seats: this.$store.state.editingRide.seats || 1,
-			price: this.$store.state.editingRide.price || null,
 			smoking:
-				this.$store.state.editingRide.smoking === true ? "yes" : "no",
-			car: this.$store.state.editingRide.car || null
+				this.$store.state.editingRide.smoking === true ? "yes" : "no"
 		};
 	},
 
@@ -347,7 +370,7 @@ export default {
 			autocomplete.addListener("place_changed", () => {
 				let place = autocomplete.getPlace();
 				if (place) {
-					this.start = place.name;
+					this.start.value = place.name;
 				}
 			});
 		},
@@ -363,7 +386,7 @@ export default {
 			autocomplete.addListener("place_changed", () => {
 				let place = autocomplete.getPlace();
 				if (place) {
-					this.end = place.name;
+					this.end.value = place.name;
 				}
 			});
 		},
@@ -379,17 +402,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/form";
-.create {
-	min-height: 91vh;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
-}
 .heading-2 {
 	text-align: center;
 }

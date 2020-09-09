@@ -57,6 +57,13 @@
 					>
 						Profil
 					</router-link>
+					<router-link
+						:to="{ name: 'ChatDashboard' }"
+						tag="a"
+						:class="{ mobileItems: isMobile }"
+					>
+						Poruke
+					</router-link>
 					<a
 						v-if="isMobile"
 						tabindex="0"
@@ -565,7 +572,7 @@ navbar
 			width: 150%;
 			max-width: 20rem;
 			position: absolute;
-			top: 7vh;
+			top: 6vh;
 			right: 0;
 			z-index: 20;
 			&-profile,
@@ -612,7 +619,7 @@ navbar
 			width: 200%;
 			max-width: 30rem;
 			position: absolute;
-			top: 7vh;
+			top: 6vh;
 			right: 0;
 			z-index: 20;
 

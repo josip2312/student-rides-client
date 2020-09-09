@@ -113,7 +113,10 @@
 			>
 				<template v-slot:card-down v-if="isLoggedIn">
 					<button class="btn" @click.stop="deleteRide(ride._id)">
-						Delete
+						<span>
+							Ukloni
+						</span>
+						<img src="@/assets/img/icons/trash.svg" alt="" />
 					</button>
 					<button
 						class="btn"
@@ -131,7 +134,10 @@
 							})
 						"
 					>
-						Edit
+						<span>
+							Uredi
+						</span>
+						<img src="@/assets/img/icons/edit.svg" alt="" />
 					</button>
 				</template>
 			</Card>
