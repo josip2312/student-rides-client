@@ -1,57 +1,98 @@
 <template>
 	<section class="profile container">
 		<div class="profile-top spacing">
-			<div class="profile-image">
-				<img
-					v-if="!url"
-					:src="getPhoto"
-					alt="User picture"
-					@click="$refs.fileInput.click()"
-				/>
-				<img
-					v-else
-					:src="url"
-					alt="User picture"
-					@click="$refs.fileInput.click()"
-				/>
-				<div class="overlay" :class="{ show: showOverlay }">
-					Promijeni fotografiju
+			<div class="profile-top-left">
+				<div class="profile-image">
+					<img
+						v-if="!url"
+						:src="getPhoto"
+						alt="User picture"
+						@click="$refs.fileInput.click()"
+					/>
+					<img
+						v-else
+						:src="url"
+						alt="User picture"
+						@click="$refs.fileInput.click()"
+					/>
+					<div class="overlay" :class="{ show: showOverlay }">
+						Promijeni fotografiju
+					</div>
+				</div>
+
+				<div class="profile-image-caption ">
+					<h3 class="heading-3">
+						{{ getUserData.name }} {{ getUserData.lastname }}
+					</h3>
+
+					<input
+						style="display:none"
+						type="file"
+						@change="setSelectedFile"
+						ref="fileInput"
+					/>
+					<button
+						:class="{ disabled: !selectedFile }"
+						v-if="selectedFile"
+						class="btn"
+						@click="uploadPhoto(selectedFile)"
+					>
+						Ažuriraj
+					</button>
+					<button class="btn" @click="sendToCreateRide">
+						Nova voznja
+					</button>
 				</div>
 			</div>
-			<div class="profile-image-caption">
-				<h2 class="heading-2">
-					{{ getUserData.name }} {{ getUserData.lastname }}
-				</h2>
-
-				<input
-					style="display:none"
-					type="file"
-					@change="setSelectedFile"
-					ref="fileInput"
-				/>
-				<button
-					:class="{ disabled: !selectedFile }"
-					v-if="selectedFile"
-					class="btn"
-					@click="uploadPhoto(selectedFile)"
-				>
-					Upload
-				</button>
-			</div>
-
-			<div class="profile-info spacing">
-				<div class="profile-email ">
+			<div class="profile-top-right">
+				<h2 class="heading-2">Podaci</h2>
+				<div class="email ">
 					<span>Email:</span>
 					<span>
 						{{ getUserData.email }}
 					</span>
 				</div>
-				<button class="btn" @click="sendToCreateRide">
-					Nova voznja
-				</button>
+
+				<div
+					title="Uredi"
+					class="additional"
+					@click="sendToEditProfile"
+				>
+					<div
+						class="additional-desc"
+						v-if="!getUserData.description"
+					>
+						<img src="@/assets/img/icons/plus.svg" alt="" />
+						<span>
+							Dodaj dodatne informacije
+						</span>
+					</div>
+					<div v-else>
+						<span>Kratki opis:</span>
+						<p>
+							{{ getUserData.description }}
+						</p>
+					</div>
+				</div>
+				<div title="Uredi" class="contact" @click="sendToEditProfile">
+					<div class="contact-desc" v-if="!getUserData.description">
+						<img src="@/assets/img/icons/plus.svg" alt="" />
+						<span>
+							Dodaj kontakt
+						</span>
+					</div>
+					<div v-else>
+						<span>Kontakt broj:</span>
+						<p>
+							{{ getUserData.contact }}
+						</p>
+					</div>
+				</div>
 			</div>
-			<div class="profile-reserved" v-if="getReservedRides[0]">
-				<h3 class="heading-3">Rezervirane voznje</h3>
+		</div>
+		<div class="profile-reserved">
+			<h2 class="heading-2">Rezervirane voznje</h2>
+			<div v-if="getReservedRides[0]">
 				<div
 					class="profile-reserved-ride"
 					v-for="(ride, index) in getReservedRides"
@@ -65,37 +106,8 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="no-reserved-rides" v-else>
 				Nemate rezerviranih voznji
-			</div>
-			<div title="Uredi" class="additional" @click="sendToEditProfile">
-				<div class="additional-desc" v-if="!getUserData.description">
-					<img src="@/assets/img/icons/plus.svg" alt="" />
-					<span>
-						Dodaj dodatne informacije
-					</span>
-				</div>
-				<div v-else>
-					<span>Kratki opis:</span>
-					<p>
-						{{ getUserData.description }}
-					</p>
-				</div>
-			</div>
-			<div title="Uredi" class="contact" @click="sendToEditProfile">
-				<div class="contact-desc" v-if="!getUserData.description">
-					<img src="@/assets/img/icons/plus.svg" alt="" />
-					<span>
-						Dodaj kontakt
-					</span>
-				</div>
-				<div v-else>
-					<span>Kontakt broj:</span>
-					<p>
-						{{ getUserData.contact }}
-					</p>
-				</div>
 			</div>
 		</div>
 
@@ -104,14 +116,20 @@
 			<div class="no-rides" v-if="getUserRides.length < 1">
 				Trenutno nemate voznji!
 			</div>
-			<Card
+			<Ride
 				v-else
 				v-for="(ride, index) in getUserRides"
 				:key="index"
-				:ride="ride"
+				:ride="{
+					start: ride.start,
+					startTime: ride.startTime,
+					end: ride.end,
+					price: ride.price,
+					date: ride.date
+				}"
 				@click.native="fetchRideDetails(ride._id)"
 			>
-				<template v-slot:card-down v-if="isLoggedIn">
+				<template v-slot:ride-down v-if="isLoggedIn">
 					<button class="btn" @click.stop="deleteRide(ride._id)">
 						<span>
 							Ukloni
@@ -125,6 +143,7 @@
 								id: ride._id,
 								start: ride.start,
 								end: ride.end,
+								startTime: ride.startTime,
 								date: ride.date,
 								contact: ride.contact,
 								seats: ride.seats,
@@ -140,10 +159,9 @@
 						<img src="@/assets/img/icons/edit.svg" alt="" />
 					</button>
 				</template>
-			</Card>
+			</Ride>
 		</div>
 		<Error />
-		<Success />
 	</section>
 </template>
 
@@ -151,23 +169,21 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import Card from "@/components/Card";
-import Success from "@/components/Success";
+import Ride from "@/components/layout/Ride";
 import Error from "@/components/Error";
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Profile",
 	components: {
-		Card,
-		Success,
+		Ride,
 		Error
 	},
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL,
 			selectedFile: null,
-			showOverlay: false,
-			url: null
+			url: null,
+			showOverlay: false
 		};
 	},
 	computed: {
@@ -184,8 +200,7 @@ export default {
 			"deleteRide",
 			"editRideMode",
 			"uploadPhoto",
-			"fetchRideDetails",
-			"editProfileMode"
+			"fetchRideDetails"
 		]),
 		sendToEditProfile() {
 			this.$router.push({ name: "EditProfile" });
@@ -216,19 +231,36 @@ export default {
 	display: flex;
 	flex-direction: column;
 
-	max-width: 60rem;
+	max-width: 120rem;
 	margin: 0 auto;
+	@media only screen and(min-width:$vp-8) {
+		justify-content: space-around;
+		flex-direction: row;
+	}
+}
+.heading-2 {
+	text-align: center;
+	margin-bottom: 3.5rem;
+}
+.heading-3 {
+	text-align: center;
+	margin-bottom: 2.5rem;
+}
+.profile-top-left {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .profile-image {
 	align-self: center;
 	position: relative;
-	width: 70%;
+	width: 75%;
 	max-width: 25rem;
+	margin-bottom: 2rem;
 
 	img {
-		display: block;
-
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
@@ -239,13 +271,12 @@ export default {
 	img:hover ~ .overlay {
 		opacity: 1;
 	}
-	.btn {
-		margin-top: 1.5rem;
-	}
-
 	.overlay {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
 		text-align: center;
-		padding-top: 45%;
 		color: $font-white;
 		font-size: 1.8rem;
 
@@ -274,69 +305,48 @@ export default {
 		font-weight: 500;
 		pointer-events: none;
 	}
-}
-.profile-image-caption {
-	text-align: center;
-}
-.profile-info {
-	text-align: center;
-	align-self: center;
-
-	margin: 2rem 0;
-
-	.profile-email {
-		font-size: 1.8rem;
-		span {
-			margin-right: 1.5rem;
-		}
-		span + span {
-			font-weight: 500;
+	&-caption {
+		display: flex;
+		flex-direction: column;
+		.btn + .btn {
+			margin-top: 1.5rem;
 		}
 	}
 }
-.profile-reserved {
+
+.profile-top-right {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	align-items: center;
+	@media only screen and(max-width:$vp-8) {
+		margin-top: 5rem;
+	}
+}
+.email {
+	width: 85%;
+	max-width: 60rem;
+	padding: 1.5rem;
+	font-size: 1.8rem;
+	span + span {
+		font-weight: 500;
+	}
 
-	margin-bottom: 3rem;
-	.heading-3 {
+	@media only screen and(max-width:$vp-8) {
 		text-align: center;
-		margin-bottom: 2rem;
-	}
-	&-ride {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		background-color: $tertiary-light;
-		padding: 1.5rem 3rem;
-		cursor: pointer;
-	}
-	&-ride + &-ride {
-		margin-top: 1rem;
-	}
-}
-.no-reserved-rides {
-	padding: 1.5rem 3rem;
-}
-.profile {
-	.heading-2 {
-		text-align: center;
-		padding-bottom: 2rem;
 	}
 }
 .additional,
 .contact {
+	width: 85%;
+	max-width: 60rem;
 	padding: 1.5rem;
-
-	font-size: 2rem;
 	border-radius: 3px;
+
+	font-size: 1.8rem;
+	font-weight: 500;
 	transition: background-color 0.2s ease-in-out;
 	cursor: pointer;
-	span {
-		font-size: 1.8rem;
-		font-weight: 500;
-	}
 }
 .additional-desc,
 .contact-desc {
@@ -351,19 +361,46 @@ export default {
 .contact:hover {
 	background-color: $grey-light;
 }
-.contact {
-	margin-bottom: 5rem;
+
+.profile-reserved {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	max-width: 50rem;
+	margin: 0 auto;
+
+	margin-top: 5rem;
+	margin-bottom: 3rem;
+
+	&-ride {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background-color: $tertiary-light;
+		padding: 1.5rem 3rem;
+		cursor: pointer;
+	}
+	&-ride + &-ride {
+		margin-top: 1rem;
+	}
 }
+.no-reserved-rides {
+	text-align: center;
+
+	font-size: 1.8rem;
+}
+
 .profile-rides {
 	display: flex;
 	justify-items: center;
 	align-items: center;
 	flex-direction: column;
-	padding-top: 5rem;
+
 	color: $font-black;
 
 	.no-rides {
-		font-size: 2rem;
+		font-size: 1.8rem;
 	}
 }
 

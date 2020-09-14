@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store/index";
 
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
@@ -7,17 +8,18 @@ import ForgotPassword from "@/views/auth/ForgotPassword.vue";
 import NewPassword from "@/views/auth/NewPassword.vue";
 
 import Landing from "@/views/Landing.vue";
-import CreateRide from "@/views/rides/CreateRide.vue";
+import NotFound from "@/views/NotFound.vue";
 
 import Rides from "@/views/rides/Rides.vue";
-import Profile from "@/views/users/Profile.vue";
 import RideDetails from "@/views/rides/RideDetails.vue";
+import CreateRide from "@/views/rides/CreateRide.vue";
+
+import Profile from "@/views/users/Profile.vue";
 import UserDetails from "@/views/users/UserDetails.vue";
 import EditProfile from "@/views/users/EditProfile.vue";
-import NotFound from "@/views/NotFound.vue";
+
 import Chat from "@/views/chat/Chat.vue";
 import ChatDashboard from "@/views/chat/ChatDashboard.vue";
-import store from "@/store/index";
 
 Vue.use(VueRouter);
 
@@ -25,7 +27,7 @@ Vue.use(VueRouter);
 
 const loggedOutGuard = (to, from, next) => {
 	if (to.matched.some(rec => rec.meta.requiresAuth)) {
-		if (store.state.loggedIn) {
+		if (store.state.authModule.loggedIn) {
 			next();
 		} else {
 			next({ name: "Login" });
@@ -34,7 +36,7 @@ const loggedOutGuard = (to, from, next) => {
 };
 
 const loggedInGuard = (to, from, next) => {
-	if (!store.state.loggedIn) {
+	if (!store.state.authModule.loggedIn) {
 		next();
 	} else {
 		next({ name: "Landing" });
@@ -55,19 +57,17 @@ const routes = [
 		component: Landing
 	},
 	{
+		props: true,
 		path: "/rides/create",
 		name: "CreateRide",
 		component: CreateRide,
 		meta: {
 			requiresAuth: true
 		},
-
 		beforeEnter: (to, from, next) => {
+			store.state.editingRide = {};
 			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					/* if (!store.state.editRideMode) {
-						store.state.editingRide = {};
-					} */
+				if (store.state.authModule.loggedIn) {
 					next();
 				} else {
 					next({ name: "Login" });
@@ -165,15 +165,7 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	}
 ];
 

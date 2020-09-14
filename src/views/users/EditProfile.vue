@@ -3,9 +3,15 @@
 		<Form
 			className="wider"
 			title="Osobni podaci"
-			@submit.prevent="
+			@submit.prevent.native="
 				handleSubmit(() =>
-					editProfile({ name, lastname, email, contact, desc })
+					editProfile({
+						name: name.value,
+						lastname: lastname.value,
+						email: email.value,
+						contact: contact.value,
+						desc
+					})
 				)
 			"
 		>
@@ -94,12 +100,13 @@ export default {
 		TextInput,
 		Form
 	},
+
 	data() {
 		return {
 			contact: {
 				label: "Kontakt broj",
 				type: "text",
-				value: this.$store.state.editingRide.contact || null,
+				value: this.$store.state.userModule.userData.contact || null,
 				rules: {
 					required: true,
 					numeric: true
@@ -110,7 +117,7 @@ export default {
 			name: {
 				label: "Ime",
 				type: "text",
-				value: null,
+				value: this.$store.state.userModule.userData.name || null,
 				rules: {
 					required: true,
 					alpha: true
@@ -121,7 +128,7 @@ export default {
 			lastname: {
 				label: "Prezime",
 				type: "text",
-				value: null,
+				value: this.$store.state.userModule.userData.lastname || null,
 				rules: {
 					required: true,
 					alpha: true
@@ -132,7 +139,8 @@ export default {
 			email: {
 				label: "Email adresa",
 				type: "email",
-				value: null,
+				value: this.$store.state.userModule.userData.email || null,
+
 				rules: {
 					required: true,
 					email: true
@@ -141,7 +149,7 @@ export default {
 				id: "email"
 			},
 
-			desc: this.$store.state.userData.description || null
+			desc: this.$store.state.userModule.userData.description || null
 		};
 	},
 	computed: {

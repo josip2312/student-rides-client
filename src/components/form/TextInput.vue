@@ -8,8 +8,6 @@
 			autocomplete="on"
 			:value="value"
 			@input="$emit('input', $event.target.value)"
-			v-bind="$attrs"
-			v-on="getListeners"
 		/>
 		<p>{{ v.errors[0] }}</p>
 	</ValidationProvider>
@@ -20,17 +18,10 @@ import { ValidationProvider } from "vee-validate";
 
 export default {
 	name: "TextInput",
-	inheritAttrs: false,
 	components: {
 		ValidationProvider
 	},
-	computed: {
-		getListeners() {
-			//eslint-disable-next-line
-			const { input, ...others } = this.$listeners;
-			return { ...others };
-		}
-	},
+
 	props: {
 		value: {
 			type: String,

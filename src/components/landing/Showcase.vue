@@ -54,7 +54,7 @@ export default {
 .showcase {
 	width: 85%;
 	max-width: 120rem;
-	height: 91vh;
+	min-height: 91vh;
 
 	margin: 0 auto;
 
@@ -64,8 +64,7 @@ export default {
 
 	@media only screen and(max-width:$vp-6) {
 		text-align: center;
-		height: auto;
-		padding: 10em 0;
+		min-height: 82vh;
 	}
 }
 

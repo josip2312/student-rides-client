@@ -71,7 +71,9 @@ export default {
 				rules: {
 					required: true,
 					email: true
-				}
+				},
+				name: "email",
+				id: "email"
 			},
 			password: {
 				label: "Lozinka",
@@ -80,7 +82,9 @@ export default {
 				rules: {
 					required: true,
 					min: { length: 6 }
-				}
+				},
+				name: "password",
+				id: "password"
 			}
 		};
 	},

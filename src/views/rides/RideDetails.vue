@@ -2,7 +2,7 @@
 	<section class="details">
 		<div class="container">
 			<div class="details-top">
-				<Card :ride="getRideDetails" />
+				<Ride :ride="getRideDetails" />
 			</div>
 
 			<div class="details-mid">
@@ -71,14 +71,14 @@
 
 <script>
 import Error from "@/components/Error";
-import Card from "@/components/Card";
+import Ride from "@/components/layout/Ride";
 
 import { mapActions, mapGetters } from "vuex";
 export default {
 	name: "RideDetails",
 	components: {
 		Error,
-		Card
+		Ride
 	},
 	data() {
 		return {
@@ -103,6 +103,13 @@ export default {
 	margin: 0 auto;
 	min-height: 91vh;
 	color: $font-black;
+
+	display: flex;
+	align-items: center;
+
+	@media only screen and(max-width:$vp-5) {
+		min-height: 82vh;
+	}
 }
 .container {
 	display: flex;
@@ -118,8 +125,7 @@ export default {
 	max-width: 60rem;
 	margin: 0 auto;
 
-	.card {
-		max-width: 60rem;
+	.ride {
 		box-shadow: none;
 		padding: 0;
 	}

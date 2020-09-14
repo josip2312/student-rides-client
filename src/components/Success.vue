@@ -2,11 +2,6 @@
 	<transition name="fade" mode="out-in">
 		<div class="success" v-if="isSuccess">
 			<span>
-				<img
-					src="../assets/img/icons/x.svg"
-					alt="X icon"
-					@click="setSuccess"
-				/>
 				<span>
 					{{ getSuccessMessage }}
 				</span>
@@ -16,15 +11,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
 	name: "Success",
 
 	computed: {
 		...mapGetters(["getSuccessMessage", "isSuccess"])
-	},
-	methods: {
-		...mapActions(["setSuccess"])
 	}
 };
 </script>

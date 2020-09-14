@@ -49,7 +49,11 @@
 					</template>
 					<template v-slot:form-down>
 						<div class="form-group">
-							<button class="btn">
+							<button
+								class="btn"
+								type="submit"
+								@dblclick="activeStep--"
+							>
 								Dalje
 							</button>
 						</div>
@@ -62,7 +66,6 @@
 				<Form
 					v-if="activeStep === 1"
 					@submit.prevent.native="handleSubmit(nextStep)"
-					title="Postavi voznju"
 				>
 					<template v-slot:form-content>
 						<div class="form-group">
@@ -84,6 +87,28 @@
 								v-model="price.value"
 								:rules="price.rules"
 							/>
+						</div>
+						<div class="form-group">
+							<label for="smoking">Cigarete</label>
+							<div class="radio-buttons">
+								<label for="smokingYes">Da</label>
+
+								<input
+									id="smokingYes"
+									v-model="smoking"
+									type="radio"
+									name="smoking"
+									value="yes"
+								/>
+								<label for="smokingNo">Ne</label>
+								<input
+									id="smokingNo"
+									v-model="smoking"
+									type="radio"
+									name="smoking"
+									value="no"
+								/>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="seats">Broj slobodnih mjesta</label>
@@ -118,7 +143,11 @@
 					</template>
 					<template v-slot:form-down>
 						<div class="form-group">
-							<button class="btn">
+							<button
+								class="btn"
+								type="submit"
+								@dblclick="activeStep--"
+							>
 								Dalje
 							</button>
 						</div>
@@ -144,6 +173,7 @@
 							postRide({
 								start: start.value,
 								end: end.value,
+								startTime,
 								date,
 								contact: contact.value,
 								seats,
@@ -153,31 +183,162 @@
 							})
 						)
 					"
-					title="Postavi voznju"
 				>
 					<template v-slot:form-content>
 						<div class="form-group">
-							<label for="smoking">Cigarete</label>
-							<div class="radio-buttons">
-								<label for="smokingYes">Da</label>
-
-								<input
-									id="smokingYes"
-									v-model="smoking"
-									type="radio"
-									name="smoking"
-									value="yes"
-								/>
-								<label for="smokingNo">Ne</label>
-								<input
-									id="smokingNo"
-									v-model="smoking"
-									type="radio"
-									name="smoking"
-									value="no"
-								/>
-							</div>
+							<label for="startTime">Vrijeme polaska</label>
+							<select
+								name="startTime"
+								id="startTime"
+								v-model="startTime"
+							>
+								<option value="00:00">00:00</option
+								><option value="00:10">00:10</option
+								><option value="00:20">00:20</option
+								><option value="00:30">00:30</option
+								><option value="00:40">00:40</option
+								><option value="00:50">00:50</option
+								><option value="01:00">01:00</option
+								><option value="01:10">01:10</option
+								><option value="01:20">01:20</option
+								><option value="01:30">01:30</option
+								><option value="01:40">01:40</option
+								><option value="01:50">01:50</option
+								><option value="02:00">02:00</option
+								><option value="02:10">02:10</option
+								><option value="02:20">02:20</option
+								><option value="02:30">02:30</option
+								><option value="02:40">02:40</option
+								><option value="02:50">02:50</option
+								><option value="03:00">03:00</option
+								><option value="03:10">03:10</option
+								><option value="03:20">03:20</option
+								><option value="03:30">03:30</option
+								><option value="03:40">03:40</option
+								><option value="03:50">03:50</option
+								><option value="04:00">04:00</option
+								><option value="04:10">04:10</option
+								><option value="04:20">04:20</option
+								><option value="04:30">04:30</option
+								><option value="04:40">04:40</option
+								><option value="04:50">04:50</option
+								><option value="05:00">05:00</option
+								><option value="05:10">05:10</option
+								><option value="05:20">05:20</option
+								><option value="05:30">05:30</option
+								><option value="05:40">05:40</option
+								><option value="05:50">05:50</option
+								><option value="06:00">06:00</option
+								><option value="06:10">06:10</option
+								><option value="06:20">06:20</option
+								><option value="06:30">06:30</option
+								><option value="06:40">06:40</option
+								><option value="06:50">06:50</option
+								><option value="07:00">07:00</option
+								><option value="07:10">07:10</option
+								><option value="07:20">07:20</option
+								><option value="07:30">07:30</option
+								><option value="07:40">07:40</option
+								><option value="07:50">07:50</option
+								><option value="08:00">08:00</option
+								><option value="08:10">08:10</option
+								><option value="08:20">08:20</option
+								><option value="08:30">08:30</option
+								><option value="08:40">08:40</option
+								><option value="08:50">08:50</option
+								><option value="09:00">09:00</option
+								><option value="09:10">09:10</option
+								><option value="09:20">09:20</option
+								><option value="09:30">09:30</option
+								><option value="09:40">09:40</option
+								><option value="09:50">09:50</option
+								><option value="10:00">10:00</option
+								><option value="10:10">10:10</option
+								><option value="10:20">10:20</option
+								><option value="10:30">10:30</option
+								><option value="10:40">10:40</option
+								><option value="10:50">10:50</option
+								><option value="11:00">11:00</option
+								><option value="11:10">11:10</option
+								><option value="11:20">11:20</option
+								><option value="11:30">11:30</option
+								><option value="11:40">11:40</option
+								><option value="11:50">11:50</option
+								><option value="12:00">12:00</option
+								><option value="12:10">12:10</option
+								><option value="12:20">12:20</option
+								><option value="12:30">12:30</option
+								><option value="12:40">12:40</option
+								><option value="12:50">12:50</option
+								><option value="13:00">13:00</option
+								><option value="13:10">13:10</option
+								><option value="13:20">13:20</option
+								><option value="13:30">13:30</option
+								><option value="13:40">13:40</option
+								><option value="13:50">13:50</option
+								><option value="14:00">14:00</option
+								><option value="14:10">14:10</option
+								><option value="14:20">14:20</option
+								><option value="14:30">14:30</option
+								><option value="14:40">14:40</option
+								><option value="14:50">14:50</option
+								><option value="15:00">15:00</option
+								><option value="15:10">15:10</option
+								><option value="15:20">15:20</option
+								><option value="15:30">15:30</option
+								><option value="15:40">15:40</option
+								><option value="15:50">15:50</option
+								><option value="16:00">16:00</option
+								><option value="16:10">16:10</option
+								><option value="16:20">16:20</option
+								><option value="16:30">16:30</option
+								><option value="16:40">16:40</option
+								><option value="16:50">16:50</option
+								><option value="17:00">17:00</option
+								><option value="17:10">17:10</option
+								><option value="17:20">17:20</option
+								><option value="17:30">17:30</option
+								><option value="17:40">17:40</option
+								><option value="17:50">17:50</option
+								><option value="18:00">18:00</option
+								><option value="18:10">18:10</option
+								><option value="18:20">18:20</option
+								><option value="18:30">18:30</option
+								><option value="18:40">18:40</option
+								><option value="18:50">18:50</option
+								><option value="19:00">19:00</option
+								><option value="19:10">19:10</option
+								><option value="19:20">19:20</option
+								><option value="19:30">19:30</option
+								><option value="19:40">19:40</option
+								><option value="19:50">19:50</option
+								><option value="20:00">20:00</option
+								><option value="20:10">20:10</option
+								><option value="20:20">20:20</option
+								><option value="20:30">20:30</option
+								><option value="20:40">20:40</option
+								><option value="20:50">20:50</option
+								><option value="21:00">21:00</option
+								><option value="21:10">21:10</option
+								><option value="21:20">21:20</option
+								><option value="21:30">21:30</option
+								><option value="21:40">21:40</option
+								><option value="21:50">21:50</option
+								><option value="22:00">22:00</option
+								><option value="22:10">22:10</option
+								><option value="22:20">22:20</option
+								><option value="22:30">22:30</option
+								><option value="22:40">22:40</option
+								><option value="22:50">22:50</option
+								><option value="23:00">23:00</option
+								><option value="23:10">23:10</option
+								><option value="23:20">23:20</option
+								><option value="23:30">23:30</option
+								><option value="23:40">23:40</option
+								><option value="23:50">23:50</option>
+							</select>
 						</div>
+
 						<div class="form-group">
 							<TextInput
 								:label="car.label"
@@ -191,7 +352,7 @@
 					</template>
 					<template v-slot:form-down>
 						<div class="form-group">
-							<button v-if="!isEditMode" class="btn">
+							<button v-if="!editing" class="btn">
 								{{ isLastStep ? "Postavi" : "Dalje" }}
 							</button>
 							<button
@@ -201,18 +362,19 @@
 								@click.prevent="
 									editRide({
 										id,
-										start,
-										end,
+										start: start.value,
+										end: end.value,
+										startTime,
 										date,
-										contact,
+										contact: contact.value,
 										seats,
-										price,
+										price: price.value,
 										smoking,
-										car
+										car: car.value
 									})
 								"
 							>
-								Update
+								Ažuriraj
 							</button>
 						</div>
 						<div class="form-group">
@@ -241,6 +403,7 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/TextInput";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
+	name: "CreateRide",
 	components: {
 		Datepicker,
 		Form,
@@ -249,7 +412,7 @@ export default {
 		ValidationObserver
 	},
 	computed: {
-		...mapGetters(["getLoggedInUser", "isEditMode"]),
+		...mapGetters(["getLoggedInUser"]),
 		currentStep() {
 			return this.steps[this.activeStep];
 		},
@@ -268,24 +431,15 @@ export default {
 			hr: hr,
 			activeStep: 0,
 
-			steps: [
-				{
-					1: 1
-				},
-				{
-					2: 2
-				},
-				{
-					3: 3
-				}
-			],
+			steps: [0, 1, 2],
 
-			id: this.$store.state.editingRide.id || null,
+			editing: this.$route.params.editMode,
+			id: this.$route.params.id,
 
 			start: {
 				label: "Mjesto polaska",
 				type: "text",
-				value: this.$store.state.editingRide.start || null,
+				value: this.$route.params.start || null,
 				rules: {
 					required: true
 				},
@@ -295,7 +449,7 @@ export default {
 			end: {
 				label: "Odredište",
 				type: "text",
-				value: this.$store.state.editingRide.end || null,
+				value: this.$route.params.end || null,
 				rules: {
 					required: true
 				},
@@ -305,8 +459,8 @@ export default {
 
 			contact: {
 				label: "Kontakt broj",
-				type: "text",
-				value: this.$store.state.editingRide.contact || null,
+				type: "number",
+				value: this.$route.params.contact || null,
 				rules: {
 					required: true,
 					numeric: true
@@ -317,7 +471,7 @@ export default {
 			price: {
 				label: "Cijena",
 				type: "number",
-				value: this.$store.state.editingRide.price || null,
+				value: this.$route.params.price || null,
 				rules: {
 					required: true,
 					numeric: true
@@ -328,23 +482,29 @@ export default {
 			car: {
 				label: "Marka i tip automobila",
 				type: "text",
-				value: this.$store.state.editingRide.car || null,
+				value: this.$route.params.car || null,
 				rules: {
 					required: true
 				},
 				name: "car",
 				id: "car"
 			},
-			date: this.$store.state.editingRide.date || null,
+			date: this.$route.params.date || null,
 
-			seats: this.$store.state.editingRide.seats || 1,
-			smoking:
-				this.$store.state.editingRide.smoking === true ? "yes" : "no"
+			seats: this.$route.params.seats || 1,
+			smoking: this.$route.params.smoking === true ? "yes" : "no",
+			startTime: this.$route.params.startTime || "08:00"
 		};
+	},
+	created() {
+		console.log(this.$route.params);
 	},
 
 	methods: {
 		...mapActions(["postRide", "editRide"]),
+		nextStep() {
+			this.activeStep++;
+		},
 
 		checkAndAttachScript(callback) {
 			//eslint-disable-next-line
@@ -389,9 +549,6 @@ export default {
 					this.end.value = place.name;
 				}
 			});
-		},
-		nextStep() {
-			this.activeStep++;
 		}
 	},
 	mounted() {
@@ -427,6 +584,9 @@ form {
 		height: 3rem;
 	}
 }
+select {
+	@include input;
+}
 .btn-secondary {
 	background-color: $tertiary;
 	color: $font-black;
@@ -438,6 +598,18 @@ form {
 .disabled {
 	pointer-events: none;
 	opacity: 0.3;
+}
+
+.invalid {
+	border-bottom: 1px solid #ff0033;
+}
+p {
+	font-size: 1.2rem;
+	margin-top: 0.5rem;
+	color: #ff0033;
+	display: inline-block;
+	position: absolute;
+	top: 94%;
 }
 </style>
 
@@ -454,8 +626,9 @@ form {
 	background-color: $tertiary;
 
 	border-bottom: 1px solid $tertiary;
-	transition: all 0.2s ease-out;
+	transition: border 0.2s ease-out;
 }
+
 .datepicker:focus {
 	border-bottom: 1px solid $accent;
 }

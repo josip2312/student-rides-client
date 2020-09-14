@@ -98,8 +98,8 @@ export default {
 	data() {
 		return {
 			password: {
-				type: "password",
 				label: "Lozinka",
+				type: "password",
 				value: null,
 				rules: {
 					required: true,
@@ -110,8 +110,8 @@ export default {
 				vid: "confirmation"
 			},
 			confirmPassword: {
-				type: "password",
 				label: "Potvrdi lozinku",
+				type: "password",
 				value: null,
 				rules: {
 					confirmed: { confirmation: true }

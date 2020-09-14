@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import axios from "axios";
 import store from "@/store";
-//eslint-disable-next-line
-let timeout;
 
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL;
 
@@ -21,7 +19,7 @@ axios.interceptors.response.use(
 
 		if (response.data.message) {
 			store.commit("SUCCESS", response.data.message);
-			timeout = setTimeout(() => {
+			setTimeout(() => {
 				store.commit("CLEAR_SUCCESS", response.message);
 			}, 3000);
 		}
@@ -31,13 +29,16 @@ axios.interceptors.response.use(
 	function(error) {
 		store.state.loading = false;
 
-		/* if (error.response.data.error === "jwt expired") {
+		if (
+			error.response.data.error === "jwt expired" ||
+			error.response.data.error === "Not authenticated"
+		) {
 			store.dispatch("logout");
-		} */
+		}
 
 		if (error.response.data.error) {
 			store.commit("ERROR", error.response.data);
-			timeout = setTimeout(() => {
+			setTimeout(() => {
 				store.commit("CLEAR_ERROR");
 			}, 3000);
 		}

@@ -488,6 +488,7 @@ navbar
 	.menu {
 		margin-left: 1rem;
 		display: flex;
+		flex-shrink: 0;
 
 		button {
 			cursor: pointer;
@@ -514,7 +515,8 @@ navbar
 
 		.user,
 		.notification-icon {
-			margin-left: 1.5rem;
+			flex-shrink: 0;
+
 			cursor: pointer;
 			img {
 				width: 2.5rem;
@@ -523,6 +525,7 @@ navbar
 			}
 		}
 		.notification-icon {
+			margin-top: 0.2rem;
 			position: relative;
 		}
 		.notifications-number {

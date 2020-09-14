@@ -44,24 +44,24 @@ export default {
 
 <style lang="scss" scoped>
 .reasons-container {
-	width: 80%;
+	width: 85%;
 	max-width: 120rem;
 	margin: 0 auto;
+	padding: 5rem 0;
 
-	padding-top: 5rem;
 	display: grid;
 	row-gap: 2.5rem;
 	grid-template-columns: repeat(11, 1fr);
 
 	@media only screen and(max-width:$vp-5) {
 		width: 90%;
-		padding: 0;
 	}
 }
 .reason {
 	background-color: $tertiary-light;
 	text-align: center;
 	padding: 3rem;
+	border-radius: 3px;
 	margin: 0 auto;
 	.icon {
 		img {

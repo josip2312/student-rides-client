@@ -1,7 +1,7 @@
 <template>
 	<div id="form">
 		<form class="form" :class="className">
-			<div class="form-group">
+			<div class="form-group" v-if="title">
 				<h3 class="heading-3">{{ title }}</h3>
 			</div>
 
@@ -23,9 +23,11 @@ export default {
 	name: "Form",
 	props: {
 		title: {
-			required: true
+			type: String
 		},
-		className: {}
+		className: {
+			type: String
+		}
 	},
 	components: {
 		Error
@@ -34,6 +36,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/css/form";
 #form {
 	display: flex;
 	justify-content: center;

@@ -1,11 +1,6 @@
 <template>
 	<transition name="fade" mode="out-in">
 		<div class="error" v-if="isError">
-			<img
-				src="../assets/img/icons/x.svg"
-				alt="X icon"
-				@click="setError"
-			/>
 			<span>
 				{{ getErrorMessage.error }}
 			</span>
@@ -14,15 +9,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
 	name: "Error",
 
 	computed: {
 		...mapGetters(["getErrorMessage", "isError"])
-	},
-	methods: {
-		...mapActions(["setError"])
 	}
 };
 </script>

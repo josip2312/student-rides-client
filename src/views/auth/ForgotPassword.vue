@@ -50,11 +50,13 @@ export default {
 			email: {
 				label: "Email adresa",
 				type: "email",
-				field: null,
+				value: null,
 				rules: {
 					required: true,
 					email: true
-				}
+				},
+				name: "email",
+				id: "email"
 			}
 		};
 	},

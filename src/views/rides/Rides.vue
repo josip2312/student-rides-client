@@ -31,13 +31,19 @@
 				Trenutno nema aktivnih voznji!
 			</div>
 
-			<Card
+			<Ride
 				v-for="(ride, index) in filteredRides"
 				:key="index"
-				:ride="ride"
+				:ride="{
+					start: ride.start,
+					end: ride.end,
+					startTime: ride.startTime,
+					price: ride.price,
+					date: ride.date
+				}"
 				@click.native="fetchRideDetails(ride._id)"
 			>
-				<template v-slot:card-down>
+				<template v-slot:ride-down>
 					<div class="photo">
 						<img :src="ride.userPhoto" alt="" />
 					</div>
@@ -45,13 +51,14 @@
 						{{ ride.fullName }}
 					</div>
 				</template>
-			</Card>
+			</Ride>
 		</div>
 	</section>
 </template>
 
 <script>
-import Card from "@/components/Card";
+import Ride from "@/components/layout/Ride";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -64,7 +71,7 @@ export default {
 		};
 	},
 	components: {
-		Card
+		Ride
 	},
 
 	computed: {

@@ -1,16 +1,17 @@
 <template>
-	<div class="card">
-		<div class="card-top">
-			<div class="card-left">
+	<div class="ride">
+		<div class="ride-top">
+			<div class="ride-left">
+				<div class="time"></div>
 				<div class="path">
-					<img src="../assets/img/icons/path.svg" alt="Right arrow" />
+					<img src="@/assets/img/icons/path.svg" alt="Right arrow" />
 				</div>
 				<div class="path-text">
 					<div class="start">{{ ride.start }}</div>
 					<div class="end">{{ ride.end }}</div>
 				</div>
 			</div>
-			<div class="card-right">
+			<div class="ride-right">
 				<div class="price">
 					<span>KM {{ ride.price }}</span>
 				</div>
@@ -21,8 +22,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-down">
-			<slot name="card-down"></slot>
+		<div class="ride-mid">
+			<div class="time">
+				Vrijeme polaska:
+				<span>
+					{{ ride.startTime }}
+				</span>
+			</div>
+		</div>
+		<div class="ride-down">
+			<slot name="ride-down"></slot>
 		</div>
 	</div>
 </template>
@@ -32,10 +41,13 @@ import "moment/locale/hr";
 import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
-	name: "Card",
+	name: "Ride",
 	props: ["ride"],
 	computed: {
-		...mapGetters(["isLoggedIn"])
+		...mapGetters(["isLoggedIn"]),
+		createdAt() {
+			return moment(this.ride.date).diff(moment());
+		}
 	},
 	filters: {
 		moment: function(date) {
@@ -46,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
+.ride {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
@@ -54,7 +66,7 @@ export default {
 
 	border-radius: 3px;
 	width: 90%;
-	max-width: 50rem;
+	max-width: 60rem;
 
 	padding: 2rem 3rem;
 	background-color: #fffffe;
@@ -62,6 +74,9 @@ export default {
 	cursor: pointer;
 	&:not(:last-child) {
 		margin-bottom: 2.5rem;
+	}
+	@media only screen and(max-width:$vp-5) {
+		padding: 2rem 1rem;
 	}
 
 	&-top {
@@ -76,6 +91,7 @@ export default {
 
 		height: 100%;
 		.path {
+			flex-shrink: 0;
 			margin-right: 1.5rem;
 			img {
 				height: 11rem;
@@ -86,7 +102,7 @@ export default {
 			flex-direction: column;
 			justify-content: space-between;
 			font-size: 1.7rem;
-			max-width: 25rem;
+			max-width: 30rem;
 			margin-top: -0.75rem;
 			height: 12rem;
 		}
@@ -99,7 +115,6 @@ export default {
 		}
 	}
 	&-right {
-		//flex: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -113,6 +128,12 @@ export default {
 		}
 		.date {
 			font-size: 1.7rem;
+		}
+	}
+	&-mid {
+		align-self: center;
+		span {
+			font-weight: 500;
 		}
 	}
 	&-down {

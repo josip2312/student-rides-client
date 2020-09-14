@@ -3,62 +3,95 @@ import Vuex from "vuex";
 
 import createPersistedState from "vuex-persistedstate";
 
-import * as actions from "./actions";
-import * as getters from "./getters";
-import * as mutations from "./mutations";
+import ridesModule from "./modules/ridesModule";
+import authModule from "./modules/authModule";
+import userModule from "./modules/userModule";
+import chatModule from "./modules/chatModule";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		rides: [],
-		userRides: [],
-		reservedRides: [],
-		userData: {},
-		searchedUserData: {},
-
-		chats: [],
-
-		editingRide: {},
-		rideDetails: {},
-
-		editingUser: {},
-		editRideMode: false,
-		photo: null,
-
 		loading: false,
 		successMessage: {},
 		isSuccess: false,
 		errorMessage: {},
-		isError: false,
-
-		loggedIn: false,
-		jwtToken: null,
-		loggedInUser: null
+		isError: false
 	},
 	plugins: [
 		createPersistedState({
 			storage: window.sessionStorage,
-			reducer: state => ({
-				rides: state.rides,
-				reservedRides: state.reservedRides,
-				userRides: state.userRides,
-				rideDetails: state.rideDetails,
-				photo: state.photo,
+			/* paths: ["authModule", "ridesModule"], */
 
-				chats: state.chats,
+			/* reducer(val) {
+				if (!val.authModule.loggedIn) {
+					return {};
+				}
 
-				userData: state.userData,
-				searchedUserData: state.searchedUserData,
+				return {
+					rides: val.ridesModule.rides,
+					reservedRides: val.ridesModule.reservedRides,
+					userRides: val.ridesModule.userRides,
+					rideDetails: val.ridesModule.rideDetails,
+					photo: val.userModule.photo,
+					chats: val.chatModule.photo,
+					userData: val.userModule.userData,
+					searchedUserData: val.userModule.searchedUserData,
+					loggedIn: val.authModule.loggedIn,
+					jwtToken: val.authModule.jwtToken,
+					loggedInUser: val.authModule.loggedInUser
+				};
+			} */
+			reducer: val => {
+				if (!val.authModule.loggedIn) {
+					return {};
+				}
 
-				loggedIn: state.loggedIn,
-				jwtToken: state.jwtToken,
-				loggedInUser: state.loggedInUser
-			})
+				return val; /* {
+					rides: val.ridesModule.rides,
+					reservedRides: val.ridesModule.reservedRides,
+					userRides: val.ridesModule.userRides,
+					rideDetails: val.ridesModule.rideDetails,
+					photo: val.userModule.photo,
+					chats: val.chatModule.photo,
+					userData: val.userModule.userData,
+					searchedUserData: val.userModule.searchedUserData,
+					loggedIn: val.authModule.loggedIn,
+					jwtToken: val.authModule.jwtToken,
+					loggedInUser: val.authModule.loggedInUser
+				}; */
+			}
 		})
 	],
 
-	getters,
-	mutations,
-	actions
+	getters: {
+		isLoading: state => state.loading,
+		isError: state => state.isError,
+		isSuccess: state => state.isSuccess,
+		getErrorMessage: state => state.errorMessage,
+		getSuccessMessage: state => state.successMessage
+	},
+	mutations: {
+		ERROR: (state, error) => {
+			state.errorMessage = error;
+			state.isError = true;
+		},
+		CLEAR_ERROR: state => {
+			state.isError = false;
+		},
+		SUCCESS: (state, message) => {
+			state.successMessage = message;
+			state.isSuccess = true;
+		},
+		CLEAR_SUCCESS: state => {
+			state.isSuccess = false;
+		}
+	},
+
+	modules: {
+		ridesModule,
+		authModule,
+		chatModule,
+		userModule
+	}
 });

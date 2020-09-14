@@ -1,7 +1,7 @@
 <template>
 	<div class="start spacing">
 		<h1 class="heading-1">
-			Zapocni danas
+			Započni danas!
 		</h1>
 		<div class="buttons">
 			<router-link :to="{ name: 'Login' }" class="btn" tag="button"
@@ -23,7 +23,6 @@ export default {};
 
 <style lang="scss" scoped>
 .start {
-	position: relative;
 	width: 100%;
 	max-width: 120rem;
 
@@ -34,8 +33,9 @@ export default {};
 	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 		url(../../assets/img/bgstart.jpeg);
 	background-position: center;
-	background-attachment: fixed;
 	background-size: cover;
+	overflow: hidden;
+	border-radius: 3px;
 
 	.heading-1 {
 		color: $white;

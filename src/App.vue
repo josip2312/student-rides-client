@@ -6,9 +6,8 @@
 		</transition>
 		<Footer />
 
-		<transition name="fade" mode="out-in">
-			<Success />
-		</transition>
+		<Success />
+
 		<transition name="fade" mode="out-in">
 			<Loader v-if="isLoading" />
 		</transition>

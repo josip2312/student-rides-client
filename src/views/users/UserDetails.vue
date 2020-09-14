@@ -76,7 +76,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchUserById", "createNewChat", "fetchUserData"])
+		...mapActions(["createNewChat"])
 	}
 };
 </script>

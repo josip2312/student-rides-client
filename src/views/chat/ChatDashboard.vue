@@ -1,6 +1,6 @@
 <template>
 	<div id="dashboard">
-		<h3 class="heading-2">Tvoje poruke</h3>
+		<h2 class="heading-2">Tvoje poruke</h2>
 		<div class="chats" v-if="chats.length > 0">
 			<router-link
 				class="chat"
@@ -93,7 +93,7 @@ export default {
 
 <style lang="scss" scoped>
 #dashboard {
-	height: 91vh;
+	min-height: 91vh;
 	color: $font-black;
 
 	display: flex;
@@ -110,7 +110,8 @@ export default {
 	}
 }
 .heading-2 {
-	padding-top: 2rem;
+	padding: 3rem 0;
+	justify-self: flex-start;
 }
 .chats {
 	display: flex;
@@ -138,7 +139,6 @@ export default {
 		background-color: $tertiary-light;
 
 		.name {
-			flex: 1;
 		}
 
 		.unread-message {
