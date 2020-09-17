@@ -42,11 +42,8 @@ export default {
 	justify-content: center;
 	align-items: center;
 
-	min-height: 91vh;
 	padding: 5em 0;
-	@media only screen and(max-width:$vp-6) {
-		min-height: 82vh;
-	}
+	@include fillPage;
 }
 .wider {
 	max-width: 50rem !important;

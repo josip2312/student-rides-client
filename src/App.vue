@@ -7,10 +7,7 @@
 		<Footer />
 
 		<Success />
-
-		<transition name="fade" mode="out-in">
-			<Loader v-if="isLoading" />
-		</transition>
+		<Loader />
 	</div>
 </template>
 
@@ -31,55 +28,19 @@ export default {
 	},
 
 	computed: {
-		...mapGetters([
-			"isLoggedIn",
-			"isLoading",
-			"getRides",
-			"getLoggedInUser",
-			"getUserData",
-			"getChats"
-		])
+		...mapGetters(["getLoggedInUser"])
 	},
 	methods: {
-		...mapActions([
-			"fetchRides",
-			"fetchUserRides",
-			"fetchUserData",
-			"fetchPhoto",
-			"fetchReservedRides",
-			"fetchChats"
-		])
+		...mapActions(["deleteExpiredRides"])
 	},
 
 	watch: {
 		getLoggedInUser: function() {
-			this.fetchUserData();
-			this.fetchRides();
-			this.fetchChats();
-			//this.fetchUserRides();
-			//this.fetchPhoto();
-		},
-		getUserData: function() {
-			this.fetchReservedRides();
-			this.fetchPhoto();
-			this.fetchUserRides();
-		},
-		"getChats.messages": function() {
-			if (this.getLoggedInUser) {
-				this.fetchChats();
-			}
-		}
-	},
-	created() {
-		if (this.getLoggedInUser) {
-			this.fetchRides();
-			this.fetchUserData();
-			this.fetchChats();
+			this.deleteExpiredRides();
 		}
 	}
 };
 </script>
 <style lang="scss">
 @import "assets/css/app";
-@import "~normalize.css";
 </style>

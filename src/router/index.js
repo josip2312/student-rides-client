@@ -57,6 +57,15 @@ const routes = [
 		component: Landing
 	},
 	{
+		path: "/rides",
+		name: "Rides",
+		component: Rides,
+		meta: {
+			requiresAuth: true
+		},
+		beforeEnter: loggedOutGuard
+	},
+	{
 		props: true,
 		path: "/rides/create",
 		name: "CreateRide",
@@ -64,30 +73,12 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		},
-		beforeEnter: (to, from, next) => {
-			store.state.editingRide = {};
-			if (to.matched.some(rec => rec.meta.requiresAuth)) {
-				if (store.state.authModule.loggedIn) {
-					next();
-				} else {
-					next({ name: "Login" });
-				}
-			}
-		}
+		beforeEnter: loggedOutGuard
 	},
 	{
 		path: "/rides/ride-details",
 		name: "RideDetails",
 		component: RideDetails,
-		meta: {
-			requiresAuth: true
-		},
-		beforeEnter: loggedOutGuard
-	},
-	{
-		path: "/rides",
-		name: "Rides",
-		component: Rides,
 		meta: {
 			requiresAuth: true
 		},
@@ -121,7 +112,7 @@ const routes = [
 	},
 
 	{
-		path: "/auth/profile",
+		path: "/user/profile",
 		name: "Profile",
 		component: Profile,
 		meta: {
@@ -140,7 +131,7 @@ const routes = [
 		beforeEnter: loggedOutGuard
 	},
 	{
-		path: "/profile/edit",
+		path: "/user/edit",
 		name: "EditProfile",
 		component: EditProfile,
 		meta: {

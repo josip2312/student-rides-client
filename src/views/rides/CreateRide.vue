@@ -16,7 +16,6 @@
 									:class="v.classes"
 									v-model="date"
 									name="date"
-									:disabled-dates="disabledDates"
 									:language="hr"
 									:input-class="$style.datepicker"
 									placeholder="Izaberi datum"
@@ -413,9 +412,7 @@ export default {
 	},
 	computed: {
 		...mapGetters(["getLoggedInUser"]),
-		currentStep() {
-			return this.steps[this.activeStep];
-		},
+
 		isLastStep() {
 			return this.activeStep === this.steps.length - 1;
 		}
@@ -427,15 +424,13 @@ export default {
 			disabledDates: {
 				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
-
 			hr: hr,
-			activeStep: 0,
 
+			activeStep: 0,
 			steps: [0, 1, 2],
 
 			editing: this.$route.params.editMode,
 			id: this.$route.params.id,
-
 			start: {
 				label: "Mjesto polaska",
 				type: "text",
@@ -495,9 +490,6 @@ export default {
 			smoking: this.$route.params.smoking === true ? "yes" : "no",
 			startTime: this.$route.params.startTime || "08:00"
 		};
-	},
-	created() {
-		console.log(this.$route.params);
 	},
 
 	methods: {
@@ -559,15 +551,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.heading-2 {
-	text-align: center;
-}
-form {
-	position: absolute;
-}
-.form-control {
-	animation: none;
-}
 .seats {
 	display: flex;
 	align-items: center;

@@ -52,10 +52,6 @@ export default {
 	display: grid;
 	row-gap: 2.5rem;
 	grid-template-columns: repeat(11, 1fr);
-
-	@media only screen and(max-width:$vp-5) {
-		width: 90%;
-	}
 }
 .reason {
 	background-color: $tertiary-light;

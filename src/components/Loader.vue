@@ -1,19 +1,25 @@
 <template>
-	<div class="overlay">
-		<div class="loading">
-			<div class="lds-ellipsis">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+	<transition name="fade" mode="out-in">
+		<div class="overlay" v-if="isLoading">
+			<div class="loading">
+				<div class="lds-ellipsis">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
 			</div>
 		</div>
-	</div>
+	</transition>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-	name: "Loader"
+	name: "Loader",
+	computed: {
+		...mapGetters(["isLoading"])
+	}
 };
 </script>
 

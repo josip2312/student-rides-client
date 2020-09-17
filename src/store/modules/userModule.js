@@ -11,7 +11,6 @@ export default {
 
 	getters: {
 		getUserData: state => state.userData,
-
 		getSearchedUserData: state => state.searchedUserData,
 		getEditingUser: state => state.editingUser,
 		getPhoto: state => state.photo

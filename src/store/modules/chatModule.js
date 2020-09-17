@@ -45,11 +45,11 @@ export default {
 		},
 		async createNewChat({ commit, dispatch }, payload) {
 			try {
-				const res = await axios.post(`/chat/create`, payload);
+				await axios.post(`/chat/create`, payload);
 
 				dispatch("fetchChats");
 				dispatch("fetchUserData", null, { root: true });
-				console.log(res.data);
+
 				commit("SEND_CHAT_DASHBOARD");
 			} catch (error) {
 				commit("SEND_CHAT_DASHBOARD");

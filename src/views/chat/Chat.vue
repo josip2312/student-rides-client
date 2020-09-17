@@ -1,14 +1,14 @@
 <template>
-	<div id="chat">
+	<div class="chat-container">
 		<h3 class="heading-3">
-			{{
-				chat.members[0].name === getUserData.name
-					? chat.members[1].name
-					: chat.members[0].name
-			}}
+			{{ receiverName }}
 		</h3>
-		<ul ref="chat">
-			<li v-for="(message, index) in messages" :key="index">
+		<ul ref="chat" class="chat">
+			<li
+				class="chat-message"
+				v-for="(message, index) in messages"
+				:key="index"
+			>
 				<div class="name">
 					{{ message.from }}
 				</div>
@@ -75,12 +75,11 @@ export default {
 	data() {
 		return {
 			message: null,
-
 			connected: false,
-
 			messagesData: this.messages
 		};
 	},
+
 	computed: {
 		...mapGetters([
 			"getChats",
@@ -93,6 +92,12 @@ export default {
 		},
 		chat() {
 			return this.getChats[this.index];
+		},
+		receiverName() {
+			if (this.chat.members[0].name === this.getUserData.name) {
+				return this.chat.members[1].name;
+			}
+			return this.chat.members[0].name;
 		}
 	},
 
@@ -118,6 +123,7 @@ export default {
 			this.getChats[this.index].messages.push(data);
 		}
 	},
+
 	methods: {
 		...mapActions(["fetchChats"]),
 		sendMessage(data) {
@@ -142,6 +148,7 @@ export default {
 			this.$socket.emit("clearNotifications", data);
 		}
 	},
+
 	mounted() {
 		this.scrollBottom();
 		(function() {
@@ -157,6 +164,7 @@ export default {
 	updated() {
 		this.scrollBottom();
 	},
+
 	created() {
 		this.fetchChats();
 		this.$socket.emit("readMessages", {
@@ -171,35 +179,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#chat {
+.chat-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 
-	height: 91vh;
 	color: $font-black;
 
 	width: 85%;
 	max-width: 60rem;
 	margin: 0 auto;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
+	@include fillPage;
 }
 .heading-3 {
 	margin-bottom: 2rem;
 }
-ul {
-	list-style: none;
+.chat {
 	width: 100%;
 
-	padding: 0;
 	color: $font-black;
 	overflow-y: auto;
 	height: 35rem;
 
-	li {
+	.chat-message {
 		padding: 1rem 1rem;
 		margin: 1rem;
 		border-radius: 0.25em;
@@ -208,16 +211,17 @@ ul {
 			font-weight: 500;
 		}
 	}
+	li:last-child {
+		border-bottom: none;
+	}
 }
 form {
 	display: flex;
 	width: 100%;
-	padding-right: 2rem;
+	padding-top: 1rem;
+	padding-right: 1.5rem;
 	input {
 		@include input;
 	}
 }
-/* .self {
-	background-color: #0a1a3d;
-} */
 </style>

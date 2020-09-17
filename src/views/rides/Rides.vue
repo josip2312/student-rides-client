@@ -43,7 +43,7 @@
 				}"
 				@click.native="fetchRideDetails(ride._id)"
 			>
-				<template v-slot:ride-down>
+				<template #ride-down>
 					<div class="photo">
 						<img :src="ride.userPhoto" alt="" />
 					</div>
@@ -75,7 +75,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters(["getRides"]),
+		...mapGetters(["getRides", "getPhoto"]),
 
 		filteredRides() {
 			return this.getRides.filter(ride => {
@@ -96,7 +96,17 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchRides", "fetchRideDetails"])
+		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"])
+	},
+
+	created() {
+		this.fetchRides();
+		if (!this.getPhoto) {
+			this.fetchPhoto();
+		}
+	},
+	watch: {
+		$route: "fetchRides"
 	}
 };
 </script>
@@ -195,9 +205,7 @@ export default {
 		font-size: 2rem;
 	}
 }
-.none {
-	display: none;
-}
+
 .name {
 	font-size: 2rem;
 	font-weight: 500;

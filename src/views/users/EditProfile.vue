@@ -15,7 +15,7 @@
 				)
 			"
 		>
-			<template v-slot:form-content>
+			<template #form-content>
 				<div class="form-edit-group">
 					<div class="form-group">
 						<TextInput
@@ -75,7 +75,7 @@
 					</ValidationProvider>
 				</div>
 			</template>
-			<template v-slot:form-down>
+			<template #form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Potvrdi

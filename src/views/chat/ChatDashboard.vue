@@ -7,41 +7,20 @@
 				v-for="(chat, index) in chats"
 				:key="index"
 				:to="{ name: 'Chat', params: { index: index } }"
-				tag="div"
 				:class="{ unread: messageIsRead(index) }"
 			>
 				<div class="name">
-					<!-- eslint-disable -->
-					{{
-						chat.members[0].name === getUserData.name
-							? chat.members[1].name +
-							  " " +
-							  chat.members[1].lastname
-							: chat.members[0].name +
-							  " " +
-							  chat.members[0].lastname
-					}}
+					{{ receiverName(index) }}
 				</div>
 				<div class="unread-message" v-if="messageIsRead(index)">
 					Novo
 				</div>
 				<div class="last-message" v-if="chat.messages.length > 0">
-					<span>
-						{{ chat.messages[chat.messages.length - 1].from }}:
-					</span>
+					<span> {{ messageSenderName(index) }}: </span>
 
 					<span>
-						{{
-							chat.messages[chat.messages.length - 1].content
-								.length > 30
-								? chat.messages[
-										chat.messages.length - 1
-								  ].content.slice(1, 30) + "..."
-								: chat.messages[chat.messages.length - 1]
-										.content
-						}}
+						{{ lastMessage(index) }}
 					</span>
-					<!-- eslint-disable -->
 				</div>
 				<button
 					class="delete-chat"
@@ -83,6 +62,37 @@ export default {
 					].sender !== this.getUserData._id
 				);
 			}
+		},
+
+		messageSenderName(chatIndex) {
+			return this.chats[chatIndex].messages[
+				this.chats[chatIndex].messages.length - 1
+			].from;
+		},
+
+		receiverName(chatIndex) {
+			if (
+				this.chats[chatIndex].members[0].name === this.getUserData.name
+			) {
+				return `${this.chats[chatIndex].members[1].name} ${this.chats[chatIndex].members[1].lastname}`;
+			}
+			return `${this.chats[chatIndex].members[0].name} ${this.chats[chatIndex].members[0].lastname}`;
+		},
+		lastMessage(chatIndex) {
+			if (
+				this.chats[chatIndex].messages[
+					this.chats[chatIndex].messages.length - 1
+				].content.length > 30
+			) {
+				return (
+					this.chats[chatIndex].messages[
+						this.chats[chatIndex].messages.length - 1
+					].content.slice(1, 30) + "..."
+				);
+			}
+			return this.chats[chatIndex].messages[
+				this.chats[chatIndex].messages.length - 1
+			].content;
 		}
 	},
 	created() {
@@ -129,6 +139,7 @@ export default {
 		justify-content: space-between;
 		width: 100%;
 		position: relative;
+		color: $font-black;
 
 		padding: 2.5rem;
 

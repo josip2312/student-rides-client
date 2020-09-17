@@ -2,43 +2,13 @@
 	<section class="profile container">
 		<div class="profile-top spacing">
 			<div class="profile-top-left">
-				<div class="profile-image">
-					<img
-						v-if="!url"
-						:src="getPhoto"
-						alt="User picture"
-						@click="$refs.fileInput.click()"
-					/>
-					<img
-						v-else
-						:src="url"
-						alt="User picture"
-						@click="$refs.fileInput.click()"
-					/>
-					<div class="overlay" :class="{ show: showOverlay }">
-						Promijeni fotografiju
-					</div>
-				</div>
+				<ProfilePhoto />
 
 				<div class="profile-image-caption ">
 					<h3 class="heading-3">
 						{{ getUserData.name }} {{ getUserData.lastname }}
 					</h3>
 
-					<input
-						style="display:none"
-						type="file"
-						@change="setSelectedFile"
-						ref="fileInput"
-					/>
-					<button
-						:class="{ disabled: !selectedFile }"
-						v-if="selectedFile"
-						class="btn"
-						@click="uploadPhoto(selectedFile)"
-					>
-						Ažuriraj
-					</button>
 					<button class="btn" @click="sendToCreateRide">
 						Nova voznja
 					</button>
@@ -129,7 +99,7 @@
 				}"
 				@click.native="fetchRideDetails(ride._id)"
 			>
-				<template v-slot:ride-down v-if="isLoggedIn">
+				<template #ride-down v-if="isLoggedIn">
 					<button class="btn" @click.stop="deleteRide(ride._id)">
 						<span>
 							Ukloni
@@ -168,6 +138,7 @@
 <script>
 import dotenv from "dotenv";
 dotenv.config();
+import ProfilePhoto from "@/components/layout/ProfilePhoto";
 
 import Ride from "@/components/layout/Ride";
 import Error from "@/components/Error";
@@ -176,14 +147,12 @@ export default {
 	name: "Profile",
 	components: {
 		Ride,
-		Error
+		Error,
+		ProfilePhoto
 	},
 	data() {
 		return {
-			backendUrl: process.env.VUE_APP_BACKEND_URL,
-			selectedFile: null,
-			url: null,
-			showOverlay: false
+			backendUrl: process.env.VUE_APP_BACKEND_URL
 		};
 	},
 	computed: {
@@ -191,7 +160,6 @@ export default {
 			"getUserRides",
 			"getUserData",
 			"isLoggedIn",
-			"getPhoto",
 			"getReservedRides"
 		])
 	},
@@ -199,21 +167,20 @@ export default {
 		...mapActions([
 			"deleteRide",
 			"editRideMode",
-			"uploadPhoto",
-			"fetchRideDetails"
+			"fetchRideDetails",
+			"fetchUserData",
+			"fetchUserRides"
 		]),
 		sendToEditProfile() {
 			this.$router.push({ name: "EditProfile" });
 		},
 		sendToCreateRide() {
 			this.$router.push({ name: "CreateRide" });
-		},
-
-		setSelectedFile(e) {
-			this.selectedFile = e.target.files[0];
-			const file = e.target.files[0];
-			this.url = URL.createObjectURL(file);
 		}
+	},
+	created() {
+		this.fetchUserData();
+		this.fetchUserRides();
 	}
 };
 </script>
@@ -253,64 +220,11 @@ export default {
 	align-items: center;
 }
 
-.profile-image {
-	align-self: center;
-	position: relative;
-	width: 75%;
-	max-width: 25rem;
-	margin-bottom: 2rem;
-
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-radius: 3px;
-		transition: opacity 0.2s;
-		cursor: pointer;
-	}
-	img:hover ~ .overlay {
-		opacity: 1;
-	}
-	.overlay {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		text-align: center;
-		color: $font-white;
-		font-size: 1.8rem;
-
-		position: absolute;
-		top: 0;
-		left: 0;
-
-		width: 100%;
-		height: 100%;
-
-		border-radius: 3px;
-		background-color: rgba(0, 0, 0, 0.6);
-		opacity: 0;
-		transition: opacity 0.2s;
-		z-index: 10;
-		pointer-events: none;
-	}
-	.show {
-		opacity: 1;
-	}
-	span {
-		z-index: 11;
-		font-size: 1.8rem;
-		color: $font-white;
-		text-align: center;
-		font-weight: 500;
-		pointer-events: none;
-	}
-	&-caption {
-		display: flex;
-		flex-direction: column;
-		.btn + .btn {
-			margin-top: 1.5rem;
-		}
+.profile-image-caption {
+	display: flex;
+	flex-direction: column;
+	.btn + .btn {
+		margin-top: 1.5rem;
 	}
 }
 
@@ -387,7 +301,6 @@ export default {
 }
 .no-reserved-rides {
 	text-align: center;
-
 	font-size: 1.8rem;
 }
 
@@ -402,10 +315,5 @@ export default {
 	.no-rides {
 		font-size: 1.8rem;
 	}
-}
-
-.disabled {
-	pointer-events: none;
-	opacity: 0.7;
 }
 </style>

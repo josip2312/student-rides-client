@@ -2,7 +2,15 @@
 	<section class="details">
 		<div class="container">
 			<div class="details-top">
-				<Ride :ride="getRideDetails" />
+				<Ride
+					:ride="{
+						start: ride.start,
+						end: ride.end,
+						startTime: ride.startTime,
+						price: ride.price,
+						date: ride.date
+					}"
+				/>
 			</div>
 
 			<div class="details-mid">
@@ -44,9 +52,9 @@
 					:key="index"
 				>
 					<img v-if="user.photo" :src="user.photo" alt="" />
-
 					<span> {{ user.name }} {{ user.lastname }} </span>
 				</div>
+
 				<div class="no-users" v-if="!getRideDetails.users[0]">
 					Nema putnika
 				</div>
@@ -89,7 +97,7 @@ export default {
 		...mapGetters(["getRideDetails", "getLoggedInUser"])
 	},
 	methods: {
-		...mapActions(["reserveRide", "reserveRide", "fetchUserById"])
+		...mapActions(["reserveRide", "fetchUserById"])
 	}
 };
 </script>
@@ -101,15 +109,12 @@ export default {
 	max-width: 120rem;
 	background-color: $white;
 	margin: 0 auto;
-	min-height: 91vh;
+
 	color: $font-black;
 
 	display: flex;
 	align-items: center;
-
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
+	@include fillPage;
 }
 .container {
 	display: flex;

@@ -11,65 +11,36 @@
 			<div class="nav-right">
 				<nav
 					v-if="!isLoggedIn"
-					:class="{ isVisible: visible, mobileList: isMobile }"
+					:class="{ isVisible: visible }"
 					v-click-outside="hideSidebar"
 				>
-					<router-link
-						:to="{ name: 'Landing' }"
-						tag="a"
-						:class="{ mobileItems: !isLoggedIn && isMobile }"
-					>
-						Pocetna
+					<router-link :to="{ name: 'Landing' }" tag="a">
+						Početna
 					</router-link>
-					<router-link
-						:to="{ name: 'Login' }"
-						tag="a"
-						:class="{ mobileItems: !isLoggedIn && isMobile }"
-					>
+					<router-link :to="{ name: 'Login' }" tag="a">
 						Prijava
 					</router-link>
-					<router-link
-						:to="{ name: 'Register' }"
-						tag="a"
-						:class="{ mobileItems: !isLoggedIn && isMobile }"
-					>
+					<router-link :to="{ name: 'Register' }" tag="a">
 						Registracija
 					</router-link>
 				</nav>
 
 				<!-- navbar when logged in -->
 				<nav
-					:class="{ isVisible: visible, mobileList: isMobile }"
+					:class="{ isVisible: visible }"
 					v-if="isLoggedIn"
 					v-click-outside="hideSidebar"
 				>
-					<router-link
-						:to="{ name: 'Rides' }"
-						tag="a"
-						:class="{ mobileItems: isMobile }"
-					>
+					<router-link :to="{ name: 'Rides' }" tag="a">
 						Vožnje
 					</router-link>
-					<router-link
-						:to="{ name: 'Profile' }"
-						tag="a"
-						:class="{ mobileItems: isMobile }"
-					>
+					<router-link :to="{ name: 'Profile' }" tag="a">
 						Profil
 					</router-link>
-					<router-link
-						:to="{ name: 'ChatDashboard' }"
-						tag="a"
-						:class="{ mobileItems: isMobile }"
-					>
+					<router-link :to="{ name: 'ChatDashboard' }" tag="a">
 						Poruke
 					</router-link>
-					<a
-						v-if="isMobile"
-						tabindex="0"
-						@click="logout"
-						:class="{ mobileItems: isMobile }"
-					>
+					<a v-if="isMobile" tabindex="0" @click="logout">
 						Odjavi se</a
 					>
 				</nav>
@@ -102,6 +73,7 @@
 							v-click-outside="hideNotifications"
 							class="notifications-dropdown"
 							v-if="showNotifications"
+							:class="{ showNotifications: showNotifications }"
 						>
 							<div class="notifications-title">
 								<span>Obavijesti</span>
@@ -301,7 +273,7 @@ export default {
 				});
 			}
 		},
-		//eslint-disable-next-line
+
 		notification(data) {
 			this.haveUnread = true;
 			this.isAnimated = true;
@@ -426,6 +398,9 @@ navbar
 	width: 85%;
 	max-width: 120rem;
 	margin: 0 auto;
+	@media only screen and(max-width:$vp-3) {
+		width: 95%;
+	}
 
 	.logo {
 		font-size: 3rem;
@@ -458,35 +433,36 @@ navbar
 			transition: opacity 0.2s ease-in-out,
 				background-color 0.2s ease-in-out;
 		}
-	}
-	.mobileItems {
-		text-align: center;
-		font-size: 2.4rem;
-		margin: 1.5rem 0;
-		padding: 2.5rem 0;
-		border-radius: 0;
-	}
-	.mobileList {
-		flex-direction: column;
-		justify-content: center;
+		@media only screen and(max-width:$vp-6) {
+			flex-direction: column;
+			justify-content: center;
 
-		background-color: $primary;
-		position: fixed;
-		top: 0;
-		right: 0;
-		height: 91vh;
+			background-color: $primary;
+			position: fixed;
+			top: 0;
+			right: 0;
+			height: 91vh;
 
-		z-index: -1;
-		transform: translateX(50vw);
-		width: 50vw;
-		transition: transform 0.2s ease-in-out;
+			z-index: -1;
+			transform: translateX(50vw);
+			width: 50vw;
+			transition: transform 0.2s ease-in-out;
+			a {
+				text-align: center;
+				font-size: 2.4rem;
+				margin: 1.5rem 0;
+				padding: 2.5rem 0;
+				border-radius: 0;
+			}
+		}
 	}
+
 	.isVisible {
 		transform: translateX(0);
 	}
 
 	.menu {
-		margin-left: 1rem;
+		margin-left: 0.5rem;
 		display: flex;
 		flex-shrink: 0;
 
@@ -512,7 +488,7 @@ navbar
 	.nav-info {
 		display: flex;
 		align-items: center;
-
+		margin-left: 1rem;
 		.user,
 		.notification-icon {
 			flex-shrink: 0;
@@ -663,6 +639,7 @@ navbar
 				background-color: $tertiary-light;
 			}
 		}
+
 		.no-notifications {
 			font-size: 1.8rem;
 			color: $font-white;

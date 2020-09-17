@@ -54,7 +54,6 @@ export default {
 .showcase {
 	width: 85%;
 	max-width: 120rem;
-	min-height: 91vh;
 
 	margin: 0 auto;
 
@@ -62,9 +61,9 @@ export default {
 	grid-template-columns: repeat(12, 1fr);
 	grid-template-rows: repeat(6, 1fr);
 
+	@include fillPage;
 	@media only screen and(max-width:$vp-6) {
 		text-align: center;
-		min-height: 82vh;
 	}
 }
 

@@ -51,12 +51,7 @@ export default {
 			commit("LOGOUT");
 			location.reload();
 		},
-		async clearState({ commit }) {
-			sessionStorage.clear();
-			localStorage.clear();
-			commit("CLEAR_STATE");
-			console.log("cleared");
-		},
+
 		async registerUser({ commit }, data) {
 			try {
 				await axios.post("auth/register", {

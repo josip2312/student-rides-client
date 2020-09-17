@@ -8,7 +8,7 @@
 				)
 			"
 		>
-			<template v-slot:form-content>
+			<template #form-content>
 				<div class="form-group">
 					<TextInput
 						:label="email.label"
@@ -21,7 +21,7 @@
 				</div>
 			</template>
 
-			<template v-slot:form-down>
+			<template #form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Posalji link za ponovno postavljanje
@@ -66,12 +66,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.forgot-password {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 7.5em 0;
-}
-</style>

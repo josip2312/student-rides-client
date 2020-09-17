@@ -6,7 +6,7 @@
 				handleSubmit(() => resetPassword({ password, id: id }))
 			"
 		>
-			<template v-slot:form-content>
+			<template #form-content>
 				<div class="form-group">
 					<TextInput
 						:label="password.label"
@@ -30,7 +30,7 @@
 				</div>
 			</template>
 
-			<template v-slot:form-down>
+			<template #form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
 						Promijeni lozinku
@@ -91,12 +91,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.new-password {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 5em 0;
-}
-</style>

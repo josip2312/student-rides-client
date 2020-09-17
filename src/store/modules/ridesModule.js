@@ -6,7 +6,6 @@ export default {
 	state: {
 		rides: [],
 		userRides: [],
-
 		reservedRides: [],
 		rideDetails: {}
 	},
@@ -211,6 +210,11 @@ export default {
 			} catch (error) {
 				console.error(error.response);
 			}
+		},
+
+		async deleteExpiredRides() {
+			const deleted = await axios.delete("/rides/expired");
+			console.log(deleted);
 		}
 	}
 };

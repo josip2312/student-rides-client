@@ -64,8 +64,7 @@ export default {
 	name: "UserDetails",
 	data() {
 		return {
-			backendUrl: process.env.VUE_APP_BACKEND_URL,
-			url: null
+			backendUrl: process.env.VUE_APP_BACKEND_URL
 		};
 	},
 

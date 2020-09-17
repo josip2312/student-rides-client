@@ -20,46 +20,13 @@ export default new Vuex.Store({
 	},
 	plugins: [
 		createPersistedState({
-			storage: window.sessionStorage,
-			/* paths: ["authModule", "ridesModule"], */
+			storage: window.localStorage,
 
-			/* reducer(val) {
-				if (!val.authModule.loggedIn) {
-					return {};
-				}
-
-				return {
-					rides: val.ridesModule.rides,
-					reservedRides: val.ridesModule.reservedRides,
-					userRides: val.ridesModule.userRides,
-					rideDetails: val.ridesModule.rideDetails,
-					photo: val.userModule.photo,
-					chats: val.chatModule.photo,
-					userData: val.userModule.userData,
-					searchedUserData: val.userModule.searchedUserData,
-					loggedIn: val.authModule.loggedIn,
-					jwtToken: val.authModule.jwtToken,
-					loggedInUser: val.authModule.loggedInUser
-				};
-			} */
 			reducer: val => {
 				if (!val.authModule.loggedIn) {
 					return {};
 				}
-
-				return val; /* {
-					rides: val.ridesModule.rides,
-					reservedRides: val.ridesModule.reservedRides,
-					userRides: val.ridesModule.userRides,
-					rideDetails: val.ridesModule.rideDetails,
-					photo: val.userModule.photo,
-					chats: val.chatModule.photo,
-					userData: val.userModule.userData,
-					searchedUserData: val.userModule.searchedUserData,
-					loggedIn: val.authModule.loggedIn,
-					jwtToken: val.authModule.jwtToken,
-					loggedInUser: val.authModule.loggedInUser
-				}; */
+				return val;
 			}
 		})
 	],

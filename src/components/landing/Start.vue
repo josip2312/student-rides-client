@@ -24,13 +24,12 @@ export default {};
 <style lang="scss" scoped>
 .start {
 	width: 100%;
-	max-width: 120rem;
 
 	margin: 0 auto;
 	text-align: center;
 
-	padding: 10em 0;
-	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+	padding: 12.5em 0;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
 		url(../../assets/img/bgstart.jpeg);
 	background-position: center;
 	background-size: cover;

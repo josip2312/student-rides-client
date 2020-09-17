@@ -14,7 +14,7 @@
 				)
 			"
 		>
-			<template v-slot:form-content>
+			<template #form-content>
 				<div class="form-register-group">
 					<div class="form-group">
 						<TextInput
