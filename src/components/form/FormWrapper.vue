@@ -12,15 +12,18 @@
 			</div>
 		</form>
 
-		<Error />
+		<TheError />
 	</div>
 </template>
 
 <script>
-import Error from "@/components/Error";
+import TheError from "@/components/TheError";
 
 export default {
-	name: "Form",
+	name: "FormWrapper",
+	components: {
+		TheError
+	},
 	props: {
 		title: {
 			type: String
@@ -28,9 +31,6 @@ export default {
 		className: {
 			type: String
 		}
-	},
-	components: {
-		Error
 	}
 };
 </script>

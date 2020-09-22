@@ -1,42 +1,44 @@
 <template>
 	<div id="app">
-		<Header />
+		<TheHeader />
 		<transition name="fade" mode="out-in">
 			<router-view />
 		</transition>
-		<Footer />
+		<TheFooter />
 
-		<Success />
-		<Loader />
+		<TheSuccess />
+		<TheLoader />
 	</div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import TheSuccess from "./components/TheSuccess";
+import TheHeader from "./components/layout/TheHeader";
+import TheFooter from "./components/layout/TheFooter";
+import TheLoader from "./components/TheLoader";
 
-import Success from "./components/Success";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import Loader from "./components/Loader";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
 	components: {
-		Header,
-		Footer,
-		Success,
-		Loader
+		TheHeader,
+		TheFooter,
+		TheSuccess,
+		TheLoader
 	},
 
 	computed: {
 		...mapGetters(["getLoggedInUser"])
 	},
+
 	methods: {
-		...mapActions(["deleteExpiredRides"])
+		...mapActions(["deleteExpiredRides", "fetchUserData"])
 	},
 
 	watch: {
 		getLoggedInUser: function() {
 			this.deleteExpiredRides();
+			this.fetchUserData();
 		}
 	}
 };

@@ -1,6 +1,6 @@
 <template>
 	<ValidationObserver v-slot="{ handleSubmit }" slim>
-		<Form
+		<FormWrapper
 			title="Prijava"
 			@submit.prevent.native="
 				handleSubmit(() =>
@@ -46,19 +46,22 @@
 					>
 				</div>
 			</template>
-		</Form>
+		</FormWrapper>
 	</ValidationObserver>
 </template>
 
 <script>
-import Form from "@/components/form/Form";
+import FormWrapper from "@/components/form/FormWrapper";
 import TextInput from "@/components/form/TextInput";
+
 import { ValidationObserver } from "vee-validate";
+
 import { mapActions } from "vuex";
+
 export default {
 	name: "Login",
 	components: {
-		Form,
+		FormWrapper,
 		TextInput,
 		ValidationObserver
 	},

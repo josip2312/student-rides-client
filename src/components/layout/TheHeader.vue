@@ -92,7 +92,11 @@
 									/>
 								</div>
 							</div>
-							<transition-group name="fade" mode="out-in">
+							<transition-group
+								name="fade"
+								mode="out-in"
+								tag="div"
+							>
 								<div
 									class="notification"
 									v-for="notif in getUserData.notifications"
@@ -102,12 +106,28 @@
 											notificationId: notif._id,
 											userId: getUserData._id,
 											rideId: notif.rideId
-										})
+										}),
+											sendToRideDetails()
 									"
 								>
 									<span>
 										{{ notif.message }}
 									</span>
+									<button
+										@click.stop="
+											readNotification({
+												notificationId: notif._id,
+												userId: getUserData._id,
+												rideId: notif.rideId
+											})
+										"
+									>
+										<img
+											class="remove-notification"
+											src="@/assets/img/icons/no.svg"
+											alt=""
+										/>
+									</button>
 								</div>
 							</transition-group>
 
@@ -263,32 +283,7 @@ export default {
 			receivingMessage: ""
 		};
 	},
-	sockets: {
-		connect() {
-			console.log("connectedGlobal");
 
-			if (this.getLoggedInUser) {
-				this.$socket.emit("connectedGlobal", {
-					id: this.getLoggedInUser
-				});
-			}
-		},
-
-		notification(data) {
-			this.haveUnread = true;
-			this.isAnimated = true;
-			this.receivingMessage = data;
-			setTimeout(() => {
-				this.isAnimated = false;
-			}, 1000);
-
-			let audio = new Audio(require("@/assets/message.mp3"));
-			audio.play();
-		},
-		clearNotification() {
-			this.haveUnread = false;
-		}
-	},
 	computed: {
 		...mapGetters([
 			"isLoggedIn",
@@ -355,8 +350,14 @@ export default {
 			if (this.$router.history.current.name !== "Profile") {
 				this.$router.push({ name: "Profile" });
 			}
+		},
+		sendToRideDetails() {
+			if (this.$router.history.current.name !== "RideDetails") {
+				this.$router.push({ name: "RideDetails" });
+			}
 		}
 	},
+
 	mounted() {
 		window.addEventListener("resize", () => {
 			this.windowWidth = window.innerWidth;
@@ -366,6 +367,32 @@ export default {
 
 	directives: {
 		ClickOutside
+	},
+	sockets: {
+		connect() {
+			console.log("connectedGlobal");
+
+			if (this.getLoggedInUser) {
+				this.$socket.emit("connectedGlobal", {
+					id: this.getLoggedInUser
+				});
+			}
+		},
+
+		notification(data) {
+			this.haveUnread = true;
+			this.isAnimated = true;
+			this.receivingMessage = data;
+			setTimeout(() => {
+				this.isAnimated = false;
+			}, 1000);
+
+			let audio = new Audio(require("@/assets/message.mp3"));
+			audio.play();
+		},
+		clearNotification() {
+			this.haveUnread = false;
+		}
 	}
 };
 </script>
@@ -384,11 +411,11 @@ header {
 .animate {
 	animation: scale 0.75s forwards;
 }
-/*
+
 /////////////
-navbar
+//navbar
 /////////////
-*/
+
 .wrapper {
 	display: flex;
 	justify-content: space-between;
@@ -399,7 +426,7 @@ navbar
 	max-width: 120rem;
 	margin: 0 auto;
 	@media only screen and(max-width:$vp-3) {
-		width: 95%;
+		width: 90%;
 	}
 
 	.logo {
@@ -467,6 +494,7 @@ navbar
 		flex-shrink: 0;
 
 		button {
+			padding: 0;
 			cursor: pointer;
 		}
 		img {
@@ -480,11 +508,10 @@ navbar
 		}
 	}
 
-	/*
 	/////////
-	content when logged in
+	//content when logged in
 	/////////
-	*/
+
 	.nav-info {
 		display: flex;
 		align-items: center;
@@ -502,6 +529,7 @@ navbar
 		}
 		.notification-icon {
 			margin-top: 0.2rem;
+			margin-right: 1rem;
 			position: relative;
 		}
 		.notifications-number {
@@ -573,7 +601,7 @@ navbar
 				border-radius: 10rem;
 				font-weight: 400;
 
-				transition: all 0.2s ease-in-out;
+				transition: opacity 0.2s ease-in-out;
 				cursor: pointer;
 
 				img {
@@ -621,16 +649,30 @@ navbar
 			}
 
 			.notification {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
 				background-color: $white;
 				border-radius: 3px;
 				padding: 1rem 2rem;
 
 				transition: background-color 0.2s ease-in-out;
 				cursor: pointer;
-				img {
-					width: 2.5rem;
-					height: 2.5rem;
+				button {
+					flex-shrink: 0;
+					margin-left: 1rem;
+					.remove-notification {
+						width: 2.3rem;
+						height: 2.3rem;
+						transform: scale(0.8);
+						transition: transform 0.2s ease-in-out;
+					}
+					.remove-notification:hover {
+						transform: scale(1);
+					}
 				}
+
 				&:not(:last-child) {
 					margin-bottom: 1.5rem;
 				}

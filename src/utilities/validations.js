@@ -6,12 +6,9 @@ import {
 	email,
 	alpha,
 	between,
-	min,
-	max,
 	confirmed,
 	numeric,
-	max_value,
-	min_value
+	min
 } from "vee-validate/dist/rules";
 
 setInteractionMode("eager");
@@ -42,12 +39,22 @@ extend("between", {
 });
 extend("min", {
 	...min,
+
 	message: `Polje mora imati najmanje 6 znakova`
 });
-extend("max", {
+/* extend("max", {
 	...max,
 	message: `Polje moze imati najvise 200 znakova`
+}); */
+
+extend("minmax", {
+	validate(value, { min, max }) {
+		return value.length >= min && value.length <= max;
+	},
+	params: ["min", "max"],
+	message: `Polje mora imati između {min} i {max} znakova`
 });
+
 extend("confirmed", {
 	...confirmed,
 	message: "Lozinke se ne podudaraju"
@@ -56,11 +63,11 @@ extend("numeric", {
 	...numeric,
 	message: "Mora biti broj"
 });
-extend("max_value", {
-	...max_value,
-	message: "Maksimalna cijena je 100"
-});
-extend("min_value", {
-	...min_value,
-	message: "Minimalna cijena je 1"
+
+extend("minmax_value", {
+	validate(value, { min, max }) {
+		return value >= min && value <= max;
+	},
+	params: ["min", "max"],
+	message: `Vrijednost mora biti između {min} i {max}`
 });

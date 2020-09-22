@@ -2,7 +2,7 @@
 	<section class="create">
 		<ValidationObserver v-slot="{ handleSubmit }" slim :key="1">
 			<transition name="fade" mode="out-in">
-				<Form
+				<FormWrapper
 					v-if="activeStep === 0"
 					@submit.prevent.native="handleSubmit(nextStep)"
 					title="Postavi voznju"
@@ -14,6 +14,7 @@
 								<datepicker
 									id="date"
 									:class="v.classes"
+									:disabled-dates="disabledDates"
 									v-model="date"
 									name="date"
 									:language="hr"
@@ -51,18 +52,18 @@
 							<button
 								class="btn"
 								type="submit"
-								@dblclick="activeStep--"
+								@dblclick.prevent="previousStep"
 							>
 								Dalje
 							</button>
 						</div>
 					</template>
-				</Form>
+				</FormWrapper>
 			</transition>
 		</ValidationObserver>
 		<ValidationObserver v-slot="{ handleSubmit }" slim :key="2">
 			<transition name="fade" mode="out-in">
-				<Form
+				<FormWrapper
 					v-if="activeStep === 1"
 					@submit.prevent.native="handleSubmit(nextStep)"
 				>
@@ -85,6 +86,7 @@
 								:id="price.id"
 								v-model="price.value"
 								:rules="price.rules"
+								:placeholder="price.placeholder"
 							/>
 						</div>
 						<div class="form-group">
@@ -145,7 +147,7 @@
 							<button
 								class="btn"
 								type="submit"
-								@dblclick="activeStep--"
+								@dblclick="previousStep"
 							>
 								Dalje
 							</button>
@@ -160,12 +162,12 @@
 							</button>
 						</div>
 					</template>
-				</Form>
+				</FormWrapper>
 			</transition>
 		</ValidationObserver>
 		<ValidationObserver v-slot="{ handleSubmit }" slim :key="3">
 			<transition name="fade" mode="out-in">
-				<Form
+				<FormWrapper
 					v-if="activeStep === 2"
 					@submit.prevent.native="
 						handleSubmit(() =>
@@ -386,37 +388,32 @@
 							</button>
 						</div>
 					</template>
-				</Form>
+				</FormWrapper>
 			</transition>
 		</ValidationObserver>
 	</section>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-
 import Datepicker from "vuejs-datepicker";
 import { hr } from "vuejs-datepicker/dist/locale";
-
-import Form from "@/components/form/Form";
+import FormWrapper from "@/components/form/FormWrapper";
 import TextInput from "@/components/form/TextInput";
+
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+
+import { mapActions, mapGetters } from "vuex";
+
 export default {
 	name: "CreateRide",
 	components: {
 		Datepicker,
-		Form,
+		FormWrapper,
 		TextInput,
 		ValidationProvider,
 		ValidationObserver
 	},
-	computed: {
-		...mapGetters(["getLoggedInUser"]),
 
-		isLastStep() {
-			return this.activeStep === this.steps.length - 1;
-		}
-	},
 	data() {
 		return {
 			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
@@ -458,7 +455,8 @@ export default {
 				value: this.$route.params.contact || null,
 				rules: {
 					required: true,
-					numeric: true
+					numeric: true,
+					min: { length: 6 }
 				},
 				name: "contact",
 				id: "contact"
@@ -469,10 +467,12 @@ export default {
 				value: this.$route.params.price || null,
 				rules: {
 					required: true,
-					numeric: true
+					numeric: true,
+					minmax_value: [1, 100]
 				},
 				name: "price",
-				id: "price"
+				id: "price",
+				placeholder: "KM"
 			},
 			car: {
 				label: "Marka i tip automobila",
@@ -492,10 +492,22 @@ export default {
 		};
 	},
 
+	computed: {
+		...mapGetters(["getLoggedInUser"]),
+
+		isLastStep() {
+			return this.activeStep === this.steps.length - 1;
+		}
+	},
+
 	methods: {
 		...mapActions(["postRide", "editRide"]),
 		nextStep() {
-			this.activeStep++;
+			if (this.activeStep < 3) this.activeStep++;
+		},
+
+		previousStep() {
+			if (this.activeStep > 0) this.activeStep--;
 		},
 
 		checkAndAttachScript(callback) {
@@ -543,6 +555,7 @@ export default {
 			});
 		}
 	},
+
 	mounted() {
 		this.checkAndAttachScript(this.initLocationStart);
 		this.checkAndAttachScript(this.initLocationEnd);
@@ -581,18 +594,6 @@ select {
 .disabled {
 	pointer-events: none;
 	opacity: 0.3;
-}
-
-.invalid {
-	border-bottom: 1px solid #ff0033;
-}
-p {
-	font-size: 1.2rem;
-	margin-top: 0.5rem;
-	color: #ff0033;
-	display: inline-block;
-	position: absolute;
-	top: 94%;
 }
 </style>
 

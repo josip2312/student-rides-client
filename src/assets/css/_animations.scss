@@ -1,7 +1,7 @@
 //animations
 .fade-enter-active,
 .fade-leave-active {
-	transition-duration: 0.2s;
+	transition-duration: 250ms;
 	transition-property: opacity;
 	transition-timing-function: ease-in-out;
 }
@@ -9,7 +9,9 @@
 .fade-leave-to {
 	opacity: 0;
 }
-
+.fade-move {
+	transition: opacity 0.5s;
+}
 @keyframes up {
 	0% {
 		opacity: 0;

@@ -27,51 +27,63 @@
 			</div>
 		</div>
 		<div class="all-rides">
-			<div class="no-rides" v-if="filteredRides.length < 1">
-				Trenutno nema aktivnih voznji!
-			</div>
-
-			<Ride
-				v-for="(ride, index) in filteredRides"
-				:key="index"
-				:ride="{
-					start: ride.start,
-					end: ride.end,
-					startTime: ride.startTime,
-					price: ride.price,
-					date: ride.date
-				}"
-				@click.native="fetchRideDetails(ride._id)"
+			<transition name="fade" mode="out-in">
+				<div class="no-rides" v-show="filteredRides.length < 1">
+					Trenutno nema aktivnih voznji!
+				</div>
+			</transition>
+			<transition-group
+				name="fade"
+				mode="out-in"
+				tag="div"
+				class="wrapper-div"
 			>
-				<template #ride-down>
-					<div class="photo">
-						<img :src="ride.userPhoto" alt="" />
-					</div>
-					<div class="name">
-						{{ ride.fullName }}
-					</div>
-				</template>
-			</Ride>
+				<RideSingle
+					v-for="ride in filteredRides"
+					:key="ride._id"
+					:ride="{
+						start: ride.start,
+						end: ride.end,
+						startTime: ride.startTime,
+						price: ride.price,
+						date: ride.date
+					}"
+					@click.native="
+						fetchRideDetails(ride._id), sendToRideDetails()
+					"
+				>
+					<template #ride-down>
+						<div class="photo">
+							<img :src="ride.userPhoto" alt="" />
+						</div>
+						<div class="name">
+							{{ ride.fullName }}
+						</div>
+					</template>
+				</RideSingle>
+			</transition-group>
 		</div>
 	</section>
 </template>
 
 <script>
-import Ride from "@/components/layout/Ride";
+import RideSingle from "@/components/layout/RideSingle";
 
 import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "Rides",
+
+	components: {
+		RideSingle
+	},
+
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL,
 			searchStart: "",
 			searchEnd: ""
 		};
-	},
-	components: {
-		Ride
 	},
 
 	computed: {
@@ -95,8 +107,18 @@ export default {
 			});
 		}
 	},
+
+	watch: {
+		$route: "fetchRides"
+	},
+
 	methods: {
-		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"])
+		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"]),
+		sendToRideDetails() {
+			if (this.$router.currentRoute.name !== "RideDetails") {
+				this.$router.push({ name: "RideDetails" });
+			}
+		}
 	},
 
 	created() {
@@ -104,9 +126,6 @@ export default {
 		if (!this.getPhoto) {
 			this.fetchPhoto();
 		}
-	},
-	watch: {
-		$route: "fetchRides"
 	}
 };
 </script>
@@ -193,6 +212,7 @@ export default {
 }
 
 .all-rides {
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -201,7 +221,18 @@ export default {
 	color: $font-black;
 	margin-top: 7.5rem;
 
+	.wrapper-div {
+		width: 90%;
+		max-width: 60rem;
+	}
+
 	.no-rides {
+		position: absolute;
+		top: 5rem;
+		left: 50%;
+		width: 100%;
+		transform: translateX(-50%);
+		text-align: center;
 		font-size: 2rem;
 	}
 }

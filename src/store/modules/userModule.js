@@ -42,11 +42,6 @@ export default {
 					return notification._id !== data.id;
 				}
 			);
-
-			state.rideDetails = data.ride;
-			if (router.history.current.name !== "RideDetails") {
-				router.push({ name: "RideDetails" });
-			}
 		},
 		DELETE_NOTIFICATIONS: state => {
 			state.userData.notifications = [];
@@ -100,7 +95,7 @@ export default {
 				console.error(error.response);
 			}
 		},
-		async readNotification({ commit }, data) {
+		async readNotification({ commit, dispatch }, data) {
 			try {
 				await axios.put(`/rides/notifications/`, {
 					userId: data.userId,
@@ -109,9 +104,10 @@ export default {
 				const req = await axios.get(`rides/${data.rideId}`);
 
 				commit("SET_USER_NOTIFICATIONS", {
-					id: data.notificationId,
-					ride: req.data._id
+					id: data.notificationId
 				});
+				//update notifications
+				dispatch("fetchRideDetails", req.data._id, { root: true });
 			} catch (error) {
 				console.error(error.response);
 			}

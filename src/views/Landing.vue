@@ -1,13 +1,13 @@
 <template>
 	<main id="landing">
 		<section id="showcase">
-			<Showcase />
+			<AppShowcase />
 		</section>
 		<section id="reasons">
-			<Reasons />
+			<AppReasons />
 		</section>
 		<section id="start">
-			<Start />
+			<AppStart />
 		</section>
 	</main>
 </template>
@@ -15,20 +15,23 @@
 <script>
 import { mapGetters } from "vuex";
 
-import Reasons from "@/components/landing/Reasons.vue";
-import Showcase from "@/components/landing/Showcase.vue";
-import Start from "@/components/landing/Start.vue";
+import AppReasons from "@/components/landing/AppReasons.vue";
+import AppShowcase from "@/components/landing/AppShowcase.vue";
+import AppStart from "@/components/landing/AppStart.vue";
+
 export default {
 	components: {
-		Showcase,
-		Reasons,
-		Start
+		AppShowcase,
+		AppReasons,
+		AppStart
 	},
+
 	name: "Landing",
 
 	data() {
 		return {};
 	},
+
 	computed: {
 		...mapGetters(["isLoggedIn"])
 	}

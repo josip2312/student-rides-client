@@ -10,6 +10,8 @@ button {
 	background: none;
 	border: none;
 	color: $font-white;
+	padding: 0;
+	cursor: pointer;
 }
 
 .btn {
@@ -25,7 +27,6 @@ button {
 	text-align: center;
 
 	transition: opacity 0.2s ease-in-out;
-	cursor: pointer;
 }
 .btn:hover {
 	opacity: 0.9;

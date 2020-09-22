@@ -67,7 +67,7 @@
 					class="profile-reserved-ride"
 					v-for="(ride, index) in getReservedRides"
 					:key="index"
-					@click="fetchRideDetails(ride._id)"
+					@click="fetchRideDetails(ride._id), sendToRideDetails()"
 				>
 					<div class="ride-start">{{ ride.start.split(",")[0] }}</div>
 
@@ -86,7 +86,7 @@
 			<div class="no-rides" v-if="getUserRides.length < 1">
 				Trenutno nemate voznji!
 			</div>
-			<Ride
+			<RideSingle
 				v-else
 				v-for="(ride, index) in getUserRides"
 				:key="index"
@@ -97,7 +97,7 @@
 					price: ride.price,
 					date: ride.date
 				}"
-				@click.native="fetchRideDetails(ride._id)"
+				@click.native="fetchRideDetails(ride._id), sendToRideDetails()"
 			>
 				<template #ride-down v-if="isLoggedIn">
 					<button class="btn" @click.stop="deleteRide(ride._id)">
@@ -129,32 +129,34 @@
 						<img src="@/assets/img/icons/edit.svg" alt="" />
 					</button>
 				</template>
-			</Ride>
+			</RideSingle>
 		</div>
-		<Error />
+		<TheError />
 	</section>
 </template>
 
 <script>
-import dotenv from "dotenv";
-dotenv.config();
 import ProfilePhoto from "@/components/layout/ProfilePhoto";
+import RideSingle from "@/components/layout/RideSingle";
+import TheError from "@/components/TheError";
 
-import Ride from "@/components/layout/Ride";
-import Error from "@/components/Error";
 import { mapGetters, mapActions } from "vuex";
+
 export default {
 	name: "Profile",
+
 	components: {
-		Ride,
-		Error,
+		RideSingle,
+		TheError,
 		ProfilePhoto
 	},
+
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL
 		};
 	},
+
 	computed: {
 		...mapGetters([
 			"getUserRides",
@@ -163,24 +165,35 @@ export default {
 			"getReservedRides"
 		])
 	},
+
 	methods: {
 		...mapActions([
 			"deleteRide",
 			"editRideMode",
 			"fetchRideDetails",
 			"fetchUserData",
-			"fetchUserRides"
+			"fetchUserRides",
+			"fetchReservedRides"
 		]),
+		sendToRideDetails() {
+			if (this.$router.currentRoute.name !== "RideDetails") {
+				this.$router.push({ name: "RideDetails" });
+			}
+		},
 		sendToEditProfile() {
-			this.$router.push({ name: "EditProfile" });
+			if (this.$router.history.current.name !== "EditProfile")
+				this.$router.push({ name: "EditProfile" });
 		},
 		sendToCreateRide() {
-			this.$router.push({ name: "CreateRide" });
+			if (this.$router.history.current.name !== "CreateRide")
+				this.$router.push({ name: "CreateRide" });
 		}
 	},
+
 	created() {
 		this.fetchUserData();
 		this.fetchUserRides();
+		this.fetchReservedRides();
 	}
 };
 </script>

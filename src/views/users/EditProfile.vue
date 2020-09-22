@@ -1,6 +1,6 @@
 <template>
 	<ValidationObserver v-slot="{ handleSubmit }" slim>
-		<Form
+		<FormWrapper
 			className="wider"
 			title="Osobni podaci"
 			@submit.prevent.native="
@@ -61,7 +61,10 @@
 				</div>
 				<div class="form-group">
 					<label for="desc">Kratka biografija</label>
-					<ValidationProvider v-slot="v" rules="max:200|min:10">
+					<ValidationProvider
+						v-slot="v"
+						rules="minmax:10,200|required"
+					>
 						<textarea
 							:class="v.classes"
 							v-model="desc"
@@ -82,23 +85,25 @@
 					</button>
 				</div>
 			</template>
-		</Form>
+		</FormWrapper>
 	</ValidationObserver>
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import TextInput from "@/components/form/TextInput";
-import Form from "@/components/form/Form";
+import FormWrapper from "@/components/form/FormWrapper";
+
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 import { mapGetters, mapActions } from "vuex";
+
 export default {
 	name: "EditProfile",
 	components: {
 		ValidationObserver,
 		ValidationProvider,
 		TextInput,
-		Form
+		FormWrapper
 	},
 
 	data() {
@@ -183,7 +188,21 @@ textarea {
 	border: 1px solid $tertiary;
 	outline: none;
 	font-family: "Work Sans", sans-serif;
-	background-color: $tertiary-light;
-	margin-bottom: 0.4rem;
+	background-color: $tertiary;
+	margin-bottom: 0.5rem;
+}
+p {
+	font-size: 1.2rem;
+	margin-top: 0.5rem;
+	color: #ff0033;
+	display: inline-block;
+	position: absolute;
+	top: 94%;
+}
+.form .form-group .invalid {
+	border-bottom: 1px solid #ff0033;
+}
+.form .form-group textarea.invalid:focus {
+	border-bottom: 1px solid #ff0033;
 }
 </style>

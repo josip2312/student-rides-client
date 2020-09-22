@@ -36,12 +36,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "Reasons"
-};
-</script>
-
 <style lang="scss" scoped>
 .reasons-container {
 	width: 85%;

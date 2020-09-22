@@ -71,7 +71,7 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Chat",
-	props: ["index"],
+
 	data() {
 		return {
 			message: null,
@@ -79,7 +79,12 @@ export default {
 			messagesData: this.messages
 		};
 	},
-
+	props: {
+		index: {
+			type: Number,
+			required: true
+		}
+	},
 	computed: {
 		...mapGetters([
 			"getChats",
@@ -101,42 +106,14 @@ export default {
 		}
 	},
 
-	sockets: {
-		connect() {
-			console.log("connected");
-			this.$socket.emit("readMessages", {
-				room: this.chat._id,
-				sender: this.getUserData._id
-			});
-			this.$socket.emit("connected", {
-				room: this.chat._id,
-				sender: this.chat.sender,
-				receiver: this.chat.receiver
-			});
-			this.connected = true;
-			if (this.messages[this.messages.length - 1]) {
-				this.messages[this.messages.length - 1].receiverHasRead = true;
-			}
-		},
-		message(data) {
-			this.fetchChats();
-			this.getChats[this.index].messages.push(data);
-		}
-	},
-
 	methods: {
 		...mapActions(["fetchChats"]),
 		sendMessage(data) {
 			this.messages.push(data.message);
-
 			this.message = null;
-
 			this.$socket.emit("message", data);
 		},
-		scrollBottom() {
-			const chat = this.$refs.chat;
-			chat.scrollTop = chat.scrollHeight;
-		},
+
 		readMessages(data) {
 			this.$socket.emit("readMessages", {
 				room: this.chat._id,
@@ -146,6 +123,11 @@ export default {
 				this.messages[this.messages.length - 1].receiverHasRead = true;
 			}
 			this.$socket.emit("clearNotifications", data);
+		},
+
+		scrollBottom() {
+			const chat = this.$refs.chat;
+			chat.scrollTop = chat.scrollHeight;
 		}
 	},
 
@@ -173,6 +155,28 @@ export default {
 		});
 		if (this.messages[this.messages.length - 1]) {
 			this.messages[this.messages.length - 1].receiverHasRead = true;
+		}
+	},
+
+	sockets: {
+		connect() {
+			console.log("connected");
+			this.$socket.emit("readMessages", {
+				room: this.chat._id,
+				sender: this.getUserData._id
+			});
+			this.$socket.emit("connected", {
+				room: this.chat._id,
+				sender: this.chat.sender,
+				receiver: this.chat.receiver
+			});
+			this.connected = true;
+			if (this.messages[this.messages.length - 1]) {
+				this.messages[this.messages.length - 1].receiverHasRead = true;
+			}
+		},
+		message(data) {
+			this.getChats[this.index].messages.push(data);
 		}
 	}
 };

@@ -2,13 +2,13 @@
 	<section class="details">
 		<div class="container">
 			<div class="details-top">
-				<Ride
+				<RideSingle
 					:ride="{
-						start: ride.start,
-						end: ride.end,
-						startTime: ride.startTime,
-						price: ride.price,
-						date: ride.date
+						start: getRideDetails.start,
+						end: getRideDetails.end,
+						startTime: getRideDetails.startTime,
+						price: getRideDetails.price,
+						date: getRideDetails.date
 					}"
 				/>
 			</div>
@@ -36,9 +36,12 @@
 				</div>
 			</div>
 			<div class="details-user">
-				<div class="photo" @click="fetchUserById(getRideDetails.user)">
+				<button
+					class="photo"
+					@click="fetchUserById(getRideDetails.user)"
+				>
 					<img :src="getRideDetails.userPhoto" alt="" />
-				</div>
+				</button>
 				<div class="name">
 					{{ getRideDetails.fullName }}
 				</div>
@@ -46,13 +49,36 @@
 			<div class="details-bottom">
 				<h2 class="heading-2">Putnici</h2>
 				<div
-					@click="fetchUserById(user._id)"
 					class="user"
 					v-for="(user, index) in getRideDetails.users"
 					:key="index"
 				>
-					<img v-if="user.photo" :src="user.photo" alt="" />
+					<button
+						@click="fetchUserById(user._id)"
+						class="user-photo-btn"
+					>
+						<img
+							class="user-photo"
+							v-if="user.photo"
+							:src="user.photo"
+							alt=""
+						/>
+					</button>
+
 					<span> {{ user.name }} {{ user.lastname }} </span>
+
+					<button
+						v-if="getLoggedInUser === getRideDetails.user"
+						class="user-remove"
+						@click="
+							removeUserFromRide({
+								rideId: getRideDetails._id,
+								userId: user._id
+							})
+						"
+					>
+						<img src="@/assets/img/icons/no.svg" alt="" />
+					</button>
 				</div>
 
 				<div class="no-users" v-if="!getRideDetails.users[0]">
@@ -73,31 +99,36 @@
 				</button>
 			</div>
 		</div>
-		<Error />
+		<TheError />
 	</section>
 </template>
 
 <script>
-import Error from "@/components/Error";
-import Ride from "@/components/layout/Ride";
+import TheError from "@/components/TheError";
+import RideSingle from "@/components/layout/RideSingle";
 
 import { mapActions, mapGetters } from "vuex";
+
 export default {
 	name: "RideDetails",
+
 	components: {
-		Error,
-		Ride
+		TheError,
+		RideSingle
 	},
+
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL
 		};
 	},
+
 	computed: {
 		...mapGetters(["getRideDetails", "getLoggedInUser"])
 	},
+
 	methods: {
-		...mapActions(["reserveRide", "fetchUserById"])
+		...mapActions(["reserveRide", "fetchUserById", "removeUserFromRide"])
 	}
 };
 </script>
@@ -131,6 +162,7 @@ export default {
 	margin: 0 auto;
 
 	.ride {
+		cursor: auto;
 		box-shadow: none;
 		padding: 0;
 	}
@@ -192,21 +224,37 @@ export default {
 	}
 
 	.user:not(:last-child) {
-		margin-bottom: 1.5rem;
+		margin-bottom: 1rem;
 	}
 	.user {
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
+
+		background-color: $tertiary-light;
 		width: 100%;
-		cursor: pointer;
-		img {
-			margin-right: 1rem;
+		padding: 1rem;
+		.user-photo-btn {
+			margin-right: 2rem;
+		}
+		.user-photo {
+			cursor: pointer;
+
 			width: 5rem;
 			height: 5rem;
 			object-fit: cover;
 			border-radius: 50%;
 		}
+		.user-remove {
+			margin-left: auto;
+			img {
+				width: 2.5rem;
+				height: 2.5rem;
+			}
+		}
+	}
+	.user:hover {
+		background-color: $grey-light;
 	}
 }
 .buttons {

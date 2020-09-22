@@ -40,13 +40,9 @@ import { mapGetters } from "vuex";
 export default {
 	name: "Showcase",
 
-	data() {
-		return {};
-	},
 	computed: {
 		...mapGetters(["isLoggedIn"])
-	},
-	methods: {}
+	}
 };
 </script>
 

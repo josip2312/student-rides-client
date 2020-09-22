@@ -12,7 +12,6 @@
 		"core-js": "^3.6.5",
 		"logrocket": "^1.0.12",
 		"moment": "^2.27.0",
-		"normalize.css": "^8.0.1",
 		"socket.io-client": "^2.3.0",
 		"vee-validate": "^3.3.9",
 		"vue": "^2.6.11",

@@ -110,8 +110,12 @@ export default {
 	}
 	button {
 		position: absolute;
+		width: 100%;
 		left: 50%;
 		transform: translateX(-50%);
+	}
+	button:hover {
+		opacity: 1;
 	}
 }
 </style>

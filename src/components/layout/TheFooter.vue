@@ -15,7 +15,7 @@
 			</a>
 		</div>
 		<div class="footer-mid">
-			<span class="email">skiljo@gmail.com</span>
+			<span class="email">josip.ivancic23@gmail.com</span>
 			<span>Developed by Josip Ivancic</span>
 		</div>
 		<div class="footer-down">
@@ -23,12 +23,6 @@
 		</div>
 	</footer>
 </template>
-
-<script>
-export default {
-	name: "Footer"
-};
-</script>
 
 <style lang="scss" scoped>
 .footer {
@@ -45,7 +39,7 @@ export default {
 		justify-content: space-around;
 		align-items: center;
 
-		padding-top: 4rem;
+		padding-top: 5rem;
 		max-width: 50rem;
 		img {
 			width: 3rem;
@@ -54,7 +48,7 @@ export default {
 	}
 
 	&-mid {
-		padding: 3rem 0;
+		padding: 5rem 0;
 		display: flex;
 		align-items: center;
 		flex-direction: column;

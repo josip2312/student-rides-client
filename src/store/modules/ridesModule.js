@@ -17,18 +17,6 @@ export default {
 		getReservedRides: state => state.reservedRides,
 		getEditingRide: state => state.editingRide,
 		isEditMode: state => state.editRideMode
-		/* oldestRide: state => {
-			let oldest;
-			if (state.rides[0]) {
-				oldest = state.rides[0];
-			}
-			state.rides.forEach(ride => {
-				if (ride.createdAt > oldest.createdAt) {
-					oldest = ride;
-				}
-			});
-			console.log(oldest);
-		} */
 	},
 
 	mutations: {
@@ -49,10 +37,6 @@ export default {
 		SET_RIDE_DETAILS: (state, data) => {
 			data.ride._id = data.id;
 			state.rideDetails = data.ride;
-
-			if (router.currentRoute.name !== "RideDetails") {
-				router.push({ name: "RideDetails" });
-			}
 		},
 		RIDE_DELETED: (state, id) => {
 			state.rides = state.rides.filter(ride => ride._id !== id);
@@ -161,6 +145,18 @@ export default {
 			try {
 				await axios.delete(`rides/ride/${id}`);
 				commit("RIDE_DELETED", id);
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
+		//eslint-disable-next-line
+		async removeUserFromRide({ commit, dispatch }, data) {
+			try {
+				console.log(data);
+				await axios.patch(`rides/ride/update/${data.rideId}`, {
+					userId: data.userId
+				});
+				dispatch("fetchRideDetails", data.rideId);
 			} catch (error) {
 				console.error(error.response);
 			}

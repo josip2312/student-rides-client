@@ -17,10 +17,6 @@
 	</div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
 .start {
 	width: 100%;
@@ -30,7 +26,7 @@ export default {};
 
 	padding: 12.5em 0;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-		url(../../assets/img/bgstart.jpeg);
+		url(../../assets/img/bgstart.jpg);
 	background-position: center;
 	background-size: cover;
 	overflow: hidden;

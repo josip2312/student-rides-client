@@ -5,7 +5,7 @@
 			<router-link
 				class="chat"
 				v-for="(chat, index) in chats"
-				:key="index"
+				:key="chat._id"
 				:to="{ name: 'Chat', params: { index: index } }"
 				:class="{ unread: messageIsRead(index) }"
 			>
@@ -148,9 +148,6 @@ export default {
 		transition: background-color 0.2s ease-in-out;
 		cursor: pointer;
 		background-color: $tertiary-light;
-
-		.name {
-		}
 
 		.unread-message {
 			background-color: $warning;

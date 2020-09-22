@@ -32,14 +32,6 @@
 			display: flex;
 			flex-direction: column;
 		}
-		p {
-			font-size: 1.2rem;
-			margin-top: 0.5rem;
-			color: #ff0033;
-			display: inline-block;
-			position: absolute;
-			top: 94%;
-		}
 
 		.radio-buttons {
 			display: flex;
@@ -64,13 +56,4 @@
 }
 .form-down {
 	margin-top: 1rem;
-}
-.form-group button.disabled {
-	opacity: 0.8;
-}
-.form .form-group .invalid {
-	border-bottom: 1px solid #ff0033;
-}
-.form .form-group input.invalid:focus {
-	border-bottom: 1px solid #ff0033;
 }

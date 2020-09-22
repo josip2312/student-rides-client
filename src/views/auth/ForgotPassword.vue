@@ -1,6 +1,6 @@
 <template>
 	<ValidationObserver v-slot="{ handleSubmit }" slim>
-		<Form
+		<FormWrapper
 			title="Zaboravili ste lozinku?"
 			@submit.prevent.native="
 				handleSubmit(() =>
@@ -28,20 +28,22 @@
 					</button>
 				</div>
 			</template>
-		</Form>
+		</FormWrapper>
 	</ValidationObserver>
 </template>
 
 <script>
-import { ValidationObserver } from "vee-validate";
-import Form from "@/components/form/Form";
+import FormWrapper from "@/components/form/FormWrapper";
 import TextInput from "@/components/form/TextInput";
 
+import { ValidationObserver } from "vee-validate";
+
 import { mapActions } from "vuex";
+
 export default {
 	components: {
 		ValidationObserver,
-		Form,
+		FormWrapper,
 		TextInput
 	},
 

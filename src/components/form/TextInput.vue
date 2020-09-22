@@ -5,6 +5,7 @@
 			:type="type"
 			:id="id"
 			:class="v.classes"
+			:placeholder="placeholder"
 			autocomplete="on"
 			:value="value"
 			@input="$emit('input', $event.target.value)"
@@ -21,17 +22,24 @@ export default {
 	components: {
 		ValidationProvider
 	},
+	data() {
+		return {
+			currentValue: ""
+		};
+	},
 
 	props: {
+		type: {
+			type: String,
+			default: "text",
+			required: true
+		},
 		value: {
 			type: String,
 			default: ""
 		},
-		label: { type: String },
-		rules: {
-			type: [String, Object],
-			default: ""
-		},
+		label: { type: String, required: true },
+
 		name: {
 			type: String,
 			default: ""
@@ -39,20 +47,18 @@ export default {
 		id: {
 			type: String
 		},
+		placeholder: {
+			type: String
+		},
 
-		type: {
-			type: String,
-			default: "text"
+		rules: {
+			type: [String, Object],
+			default: ""
 		},
 		vid: {
 			type: String,
 			default: undefined
 		}
-	},
-	data() {
-		return {
-			currentValue: ""
-		};
 	}
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<ValidationObserver v-slot="{ handleSubmit }" slim>
-		<Form
+		<FormWrapper
 			title="Unesite novu lozinku"
 			@submit.prevent.native="
 				handleSubmit(() => resetPassword({ password, id: id }))
@@ -37,25 +37,26 @@
 					</button>
 				</div>
 			</template>
-		</Form>
+		</FormWrapper>
 
-		<Error />
+		<TheError />
 	</ValidationObserver>
 </template>
 
 <script>
-import Error from "@/components/Error";
-import Form from "@/components/form/Form";
+import TheError from "@/components/TheError";
+import FormWrapper from "@/components/form/FormWrapper";
 import TextInput from "@/components/form/TextInput";
 
 import { ValidationObserver } from "vee-validate";
 
 import { mapActions } from "vuex";
+
 export default {
 	components: {
-		Error,
+		TheError,
 		ValidationObserver,
-		Form,
+		FormWrapper,
 		TextInput
 	},
 	data() {

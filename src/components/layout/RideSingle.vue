@@ -42,7 +42,11 @@ import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
 	name: "Ride",
-	props: ["ride"],
+	props: {
+		ride: {
+			type: Object
+		}
+	},
 	computed: {
 		...mapGetters(["isLoggedIn"]),
 		createdAt() {
@@ -65,7 +69,7 @@ export default {
 	position: relative;
 
 	border-radius: 3px;
-	width: 90%;
+	width: 100%;
 	max-width: 60rem;
 
 	padding: 2rem 3rem;

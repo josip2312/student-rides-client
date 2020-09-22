@@ -1,5 +1,5 @@
 <template>
-	<div class="profile container">
+	<div class="profile">
 		<div class="profile-top">
 			<div class="profile-image">
 				<img :src="data.photo" alt="User picture" />
@@ -60,8 +60,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
 	name: "UserDetails",
+
 	data() {
 		return {
 			backendUrl: process.env.VUE_APP_BACKEND_URL
@@ -74,6 +76,7 @@ export default {
 			return this.getSearchedUserData;
 		}
 	},
+
 	methods: {
 		...mapActions(["createNewChat"])
 	}
@@ -85,6 +88,7 @@ export default {
 	margin: 0 auto;
 	color: $font-black;
 	background-color: $white;
+	padding: 5rem 0;
 }
 .profile-top {
 	display: flex;
@@ -171,8 +175,5 @@ export default {
 .contact:hover,
 .message:hover {
 	background-color: $grey-light;
-}
-.contact {
-	margin-bottom: 5rem;
 }
 </style>
