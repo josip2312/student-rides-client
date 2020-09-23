@@ -149,10 +149,9 @@ export default {
 				console.error(error.response);
 			}
 		},
-		//eslint-disable-next-line
-		async removeUserFromRide({ commit, dispatch }, data) {
+
+		async removeUserFromRide({ dispatch }, data) {
 			try {
-				console.log(data);
 				await axios.patch(`rides/ride/update/${data.rideId}`, {
 					userId: data.userId
 				});
@@ -189,7 +188,7 @@ export default {
 					? (data.smoking = true)
 					: (data.smoking = false);
 
-				await axios.patch(`rides/ride/${data.id}`, {
+				await axios.put(`rides/ride/${data.id}`, {
 					id: data.id,
 					start: data.start,
 					end: data.end,
@@ -201,16 +200,16 @@ export default {
 					car: data.car
 				});
 
-				dispatch("fetchUserRides");
+				await dispatch("fetchUserRides");
 				router.push({ name: "Profile" });
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 
+		//at every login check if any rides are outdated
 		async deleteExpiredRides() {
-			const deleted = await axios.delete("/rides/expired");
-			console.log(deleted);
+			await axios.delete("/rides/expired");
 		}
 	}
 };

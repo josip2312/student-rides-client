@@ -4,9 +4,6 @@ import router from "@/router";
 import store from "@/store";
 import VueSocketIO from "vue-socket.io";
 
-import LogRocket from "logrocket";
-LogRocket.init("mlbbet/studentrides");
-
 import "@/utilities/validations.js";
 import "@/utilities/axios.js";
 

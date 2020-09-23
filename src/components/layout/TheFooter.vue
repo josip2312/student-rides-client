@@ -32,7 +32,7 @@
 
 	background-color: $primary;
 	margin-top: auto;
-	flex: 0;
+
 	&-up {
 		display: flex;
 		width: 50%;

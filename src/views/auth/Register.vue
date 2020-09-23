@@ -163,9 +163,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-form {
-	max-width: 50rem !important;
-}
 .form-register-group {
 	display: flex;
 	align-items: center;

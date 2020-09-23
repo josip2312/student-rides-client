@@ -8,7 +8,7 @@
 				<h3 class="heading-3">
 					Povoljno
 				</h3>
-				Lorem ipsum dolor sit amet consectetur adipisicing.
+				Jako povoljan prijevoz za svakog studenta
 			</div>
 		</div>
 		<div class="reason reason-two spacing" v-scrollanimation>
@@ -17,9 +17,9 @@
 			</div>
 			<div class="reason-desc">
 				<h3 class="heading-3">
-					Putuj brze
+					Putuj brže
 				</h3>
-				Lorem ipsum dolor sit amet consectetur adipisicing.
+				Putovanja su mnogo brža i praktičnija nego s busevima
 			</div>
 		</div>
 		<div class="reason reason-three spacing" v-scrollanimation>
@@ -28,9 +28,9 @@
 			</div>
 			<div class="reason-desc">
 				<h3 class="heading-3">
-					Povezi se
+					Poveži se
 				</h3>
-				Lorem ipsum dolor sit amet consectetur adipisicing.
+				Steci velik broj novih poznanstava
 			</div>
 		</div>
 	</div>

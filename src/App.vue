@@ -44,5 +44,8 @@ export default {
 };
 </script>
 <style lang="scss">
+#app {
+	@include fillPage;
+}
 @import "assets/css/app";
 </style>

@@ -1,14 +1,14 @@
 <template>
 	<div class="showcase">
 		<div class="showcase-heading spacing">
-			<h1 class="heading-1">Studentske voznje</h1>
+			<h1 class="heading-1">Studentske vožnje</h1>
 			<p class="desc">
-				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-				Eveniet, dolores.
+				Stekni nova poznanstva, uštedi novac i pomozi kolegama
+				studentima.
 			</p>
 			<div class="buttons" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Login' }" class="btn" tag="button"
-					>Pronadji voznju</router-link
+					>Pronadji vožnju</router-link
 				>
 				<router-link
 					:to="{ name: 'Register' }"
@@ -19,13 +19,13 @@
 			</div>
 			<div class="buttons" v-else>
 				<router-link :to="{ name: 'Rides' }" class="btn" tag="button"
-					>Pronadji voznju</router-link
+					>Pronadji vožnju</router-link
 				>
 				<router-link
 					:to="{ name: 'CreateRide' }"
 					class="btn btn-secondary"
 					tag="button"
-					>Postavi voznju</router-link
+					>Postavi vožnju</router-link
 				>
 			</div>
 		</div>
@@ -55,31 +55,33 @@ export default {
 
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: repeat(6, 1fr);
 
 	@include fillPage;
-	@media only screen and(max-width:$vp-6) {
-		text-align: center;
-	}
 }
 
 .showcase-heading {
 	grid-column: 1 / -1;
-	grid-row: 2 / 5;
+	grid-row: 1 / 3;
 	align-self: center;
+	margin-top: -10rem;
 
 	opacity: 0;
 	animation: down 1s forwards 0.5s;
 	@media only screen and(max-width:$vp-8) {
+		margin-top: 0;
+		grid-row: 2 / 4;
 		justify-self: center;
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
+	}
+	@media only screen and(max-width:$vp-5) {
 		align-items: center;
+		text-align: center;
 	}
 
 	.desc {
 		font-size: 1.8rem;
-
 		width: 100%;
 		max-width: 40rem;
 		color: $font-p;
@@ -87,10 +89,15 @@ export default {
 	.buttons {
 		display: flex;
 		align-items: center;
-		justify-content: flex-start;
-
-		.btn-secondary {
-			margin-left: 2rem;
+		justify-content: space-between;
+		width: 100%;
+		max-width: 45rem;
+		@media only screen and(max-width:$vp-5) {
+			flex-direction: column;
+			justify-content: center;
+			.btn + .btn {
+				margin-top: 1rem;
+			}
 		}
 	}
 }
@@ -103,7 +110,13 @@ export default {
 	animation: down 1s forwards;
 
 	@media only screen and(max-width:$vp-8) {
-		display: none;
+		margin-right: 0;
+		grid-row: 3 / 5;
+		grid-column: 1 / -1;
+	}
+	@media only screen and(max-width:$vp-5) {
+		width: 125%;
+		justify-self: center;
 	}
 	img {
 		width: 100%;

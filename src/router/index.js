@@ -2,24 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store/index";
 
-import Login from "@/views/auth/Login.vue";
-import Register from "@/views/auth/Register.vue";
-import ForgotPassword from "@/views/auth/ForgotPassword.vue";
-import NewPassword from "@/views/auth/NewPassword.vue";
-
 import Landing from "@/views/Landing.vue";
-import NotFound from "@/views/NotFound.vue";
-
-import Rides from "@/views/rides/Rides.vue";
-import RideDetails from "@/views/rides/RideDetails.vue";
-import CreateRide from "@/views/rides/CreateRide.vue";
-
-import Profile from "@/views/users/Profile.vue";
-import UserDetails from "@/views/users/UserDetails.vue";
-import EditProfile from "@/views/users/EditProfile.vue";
-
 import Chat from "@/views/chat/Chat.vue";
-import ChatDashboard from "@/views/chat/ChatDashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -49,7 +33,8 @@ const routes = [
 		// will match everything
 		path: "*",
 		name: "NotFound",
-		component: NotFound
+		component: () =>
+			import(/* webpackChunkName: "NotFound" */ "@/views/NotFound.vue")
 	},
 	{
 		path: "/",
@@ -59,7 +44,8 @@ const routes = [
 	{
 		path: "/rides",
 		name: "Rides",
-		component: Rides,
+		component: () =>
+			import(/* webpackChunkName: "Rides" */ "@/views/rides/Rides.vue"),
 		meta: {
 			requiresAuth: true
 		},
@@ -69,7 +55,10 @@ const routes = [
 		props: true,
 		path: "/rides/create",
 		name: "CreateRide",
-		component: CreateRide,
+		component: () =>
+			import(
+				/* webpackChunkName: "Rides" */ "@/views/rides/CreateRide.vue"
+			),
 		meta: {
 			requiresAuth: true
 		},
@@ -78,7 +67,10 @@ const routes = [
 	{
 		path: "/rides/ride-details",
 		name: "RideDetails",
-		component: RideDetails,
+		component: () =>
+			import(
+				/* webpackChunkName: "Rides" */ "@/views/rides/RideDetails.vue"
+			),
 		meta: {
 			requiresAuth: true
 		},
@@ -88,33 +80,42 @@ const routes = [
 	{
 		path: "/auth/login",
 		name: "Login",
-		component: Login,
+		component: () =>
+			import(/* webpackChunkName: "Auth" */ "@/views/auth/Login.vue"),
 
 		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/register",
 		name: "Register",
-		component: Register,
+		component: () =>
+			import(/* webpackChunkName: "Auth" */ "@/views/auth/Register.vue"),
 		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/forgotpassword",
 		name: "ForgotPassword",
-		component: ForgotPassword,
+		component: () =>
+			import(
+				/* webpackChunkName: "Auth" */ "@/views/auth/ForgotPassword.vue"
+			),
 		beforeEnter: loggedInGuard
 	},
 	{
 		path: "/auth/newpassword/:id",
 		name: "NewPassword",
-		component: NewPassword,
+		component: () =>
+			import(
+				/* webpackChunkName: "Auth" */ "@/views/auth/NewPassword.vue"
+			),
 		beforeEnter: loggedInGuard
 	},
 
 	{
 		path: "/user/profile",
 		name: "Profile",
-		component: Profile,
+		component: () =>
+			import(/* webpackChunkName: "User" */ "@/views/users/Profile.vue"),
 		meta: {
 			requiresAuth: true
 		},
@@ -124,7 +125,10 @@ const routes = [
 		props: true,
 		path: "/users/:name",
 		name: "UserDetails",
-		component: UserDetails,
+		component: () =>
+			import(
+				/* webpackChunkName: "User" */ "@/views/users/UserDetails.vue"
+			),
 		meta: {
 			requiresAuth: true
 		},
@@ -133,7 +137,10 @@ const routes = [
 	{
 		path: "/user/edit",
 		name: "EditProfile",
-		component: EditProfile,
+		component: () =>
+			import(
+				/* webpackChunkName: "User" */ "@/views/users/EditProfile.vue"
+			),
 		meta: {
 			requiresAuth: true
 		},
@@ -142,7 +149,10 @@ const routes = [
 	{
 		path: "/user/chat-dashboard/",
 		name: "ChatDashboard",
-		component: ChatDashboard,
+		component: () =>
+			import(
+				/* webpackChunkName: "Chat" */ "@/views/chat/ChatDashboard.vue"
+			),
 		meta: {
 			requiresAuth: true
 		},

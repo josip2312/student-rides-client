@@ -77,37 +77,37 @@ export default {
 
 		async fetchUserData({ commit, rootGetters }) {
 			try {
-				const req = await axios.get(
+				const res = await axios.get(
 					`auth/user/${rootGetters.getLoggedInUser}`
 				);
 
-				commit("SET_USER_DATA", req.data);
+				commit("SET_USER_DATA", res.data);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 		async fetchUserById({ commit }, id) {
 			try {
-				const req = await axios.get(`auth/user/${id}`);
+				const res = await axios.get(`auth/user/${id}`);
 
-				commit("SET_SEARCHED_USER_DATA", req.data);
+				commit("SET_SEARCHED_USER_DATA", res.data);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 		async readNotification({ commit, dispatch }, data) {
 			try {
-				await axios.put(`/rides/notifications/`, {
+				await axios.patch(`/rides/notifications/`, {
 					userId: data.userId,
 					notificationId: data.notificationId
 				});
-				const req = await axios.get(`rides/${data.rideId}`);
+				const res = await axios.get(`rides/${data.rideId}`);
 
 				commit("SET_USER_NOTIFICATIONS", {
 					id: data.notificationId
 				});
 				//update notifications
-				dispatch("fetchRideDetails", req.data._id, { root: true });
+				dispatch("fetchRideDetails", res.data._id, { root: true });
 			} catch (error) {
 				console.error(error.response);
 			}

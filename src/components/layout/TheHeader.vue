@@ -46,18 +46,15 @@
 				</nav>
 
 				<!-- logged in additional elements -->
-				<div class="nav-info" v-if="isLoggedIn">
+				<div class="nav-buttons" v-if="isLoggedIn">
 					<button
 						tabindex="0"
 						class="notification-icon"
-						@click="
-							(showNotifications = !showNotifications),
-								hideUserDropdown()
-						"
+						@click="toggleNotifications(), hideUserDropdown()"
 					>
 						<img
 							src="@/assets/img/icons/notifications.svg"
-							alt="Notifications icon"
+							alt="Notifications"
 						/>
 						<div
 							class="notifications-number"
@@ -70,12 +67,11 @@
 					</button>
 					<transition name="fade" mode="out-in">
 						<div
-							v-click-outside="hideNotifications"
 							class="notifications-dropdown"
+							v-click-outside="hideNotifications"
 							v-if="showNotifications"
-							:class="{ showNotifications: showNotifications }"
 						>
-							<div class="notifications-title">
+							<section class="notifications-header">
 								<span>Obavijesti</span>
 								<div
 									class="notifications-check-icon"
@@ -91,45 +87,40 @@
 										"
 									/>
 								</div>
-							</div>
-							<transition-group
-								name="fade"
-								mode="out-in"
-								tag="div"
+							</section>
+
+							<div
+								class="notification"
+								v-for="notif in getUserData.notifications"
+								:key="notif._id"
+								@click="
+									readNotification({
+										notificationId: notif._id,
+										userId: getUserData._id,
+										rideId: notif.rideId
+									}),
+										sendToRideDetails()
+								"
 							>
-								<div
-									class="notification"
-									v-for="notif in getUserData.notifications"
-									:key="notif._id"
-									@click="
+								<span>
+									{{ notif.message }}
+								</span>
+								<button
+									@click.stop="
 										readNotification({
 											notificationId: notif._id,
 											userId: getUserData._id,
 											rideId: notif.rideId
-										}),
-											sendToRideDetails()
+										})
 									"
 								>
-									<span>
-										{{ notif.message }}
-									</span>
-									<button
-										@click.stop="
-											readNotification({
-												notificationId: notif._id,
-												userId: getUserData._id,
-												rideId: notif.rideId
-											})
-										"
-									>
-										<img
-											class="remove-notification"
-											src="@/assets/img/icons/no.svg"
-											alt=""
-										/>
-									</button>
-								</div>
-							</transition-group>
+									<img
+										class="remove-notification"
+										src="@/assets/img/icons/no.svg"
+										alt=""
+									/>
+								</button>
+							</div>
 
 							<div
 								v-if="!notificationNumber"
@@ -141,8 +132,8 @@
 					</transition>
 
 					<button
+						class="user-icon"
 						tabindex="0"
-						class="user"
 						@click="
 							sendToProfile,
 								(showUserDropdown = !showUserDropdown),
@@ -152,6 +143,7 @@
 						<img :src="getPhoto" alt="" />
 						<img src="@/assets/img/icons/chevronDown.svg" alt="" />
 					</button>
+
 					<transition name="fade" mode="out-in">
 						<div
 							v-if="showUserDropdown"
@@ -163,7 +155,10 @@
 								class="user-dropdown-profile"
 								:to="{ name: 'Profile' }"
 							>
-								<img src="@/assets/img/icons/user.svg" alt="" />
+								<img
+									src="@/assets/img/icons/user.svg"
+									alt="Profile"
+								/>
 								<span>
 									Profil
 								</span>
@@ -175,7 +170,7 @@
 							>
 								<img
 									src="@/assets/img/icons/messagewhite.svg"
-									alt=""
+									alt="Messages"
 								/>
 								<span>
 									Poruke
@@ -188,7 +183,7 @@
 							>
 								<img
 									src="@/assets/img/icons/logout.svg"
-									alt=""
+									alt="Logout"
 								/>
 								<span>
 									Odjavi se
@@ -226,32 +221,29 @@
 		<div class="mobile-nav" v-if="isMobile">
 			<div class="mobile-nav-wrapper" v-if="!isLoggedIn">
 				<router-link :to="{ name: 'Landing' }" tag="a">
-					<img src="@/assets/img/icons/home.svg" alt="Home icon" />
+					<img src="@/assets/img/icons/home.svg" alt="Home" />
 					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Login' }" tag="a">
-					<img src="@/assets/img/icons/login.svg" alt="Login icon" />
+					<img src="@/assets/img/icons/login.svg" alt="Login" />
 					<span>Prijava</span>
 				</router-link>
 				<router-link :to="{ name: 'Register' }" tag="a">
-					<img
-						src="@/assets/img/icons/useradd.svg"
-						alt="Sign up icon"
-					/>
+					<img src="@/assets/img/icons/useradd.svg" alt="Sign up" />
 					<span>Registracija</span>
 				</router-link>
 			</div>
 			<div class="mobile-nav-wrapper" v-else>
 				<router-link :to="{ name: 'Landing' }" tag="a">
-					<img src="@/assets/img/icons/home.svg" alt="Home icon" />
+					<img src="@/assets/img/icons/home.svg" alt="Home" />
 					<span>Početna</span>
 				</router-link>
 				<router-link :to="{ name: 'Rides' }" tag="a">
-					<img src="@/assets/img/icons/rides.svg" alt="Car icon" />
+					<img src="@/assets/img/icons/rides.svg" alt="Rides" />
 					<span>Vožnje</span>
 				</router-link>
 				<router-link :to="{ name: 'Profile' }" tag="a">
-					<img src="@/assets/img/icons/user.svg" alt="Profile icon" />
+					<img src="@/assets/img/icons/user.svg" alt="Profile" />
 					<span>Moj Profil</span>
 				</router-link>
 			</div>
@@ -261,9 +253,6 @@
 
 <script>
 import ClickOutside from "vue-click-outside";
-
-import dotenv from "dotenv";
-dotenv.config();
 
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -328,6 +317,9 @@ export default {
 
 		makeUrl(filename) {
 			return require(`@/assets/img/icons/${filename}`);
+		},
+		toggleNotifications() {
+			this.showNotifications = !this.showNotifications;
 		},
 		hideNotifications() {
 			this.showNotifications = false;
@@ -405,7 +397,7 @@ header {
 	position: sticky;
 	top: 0;
 
-	height: 9vh;
+	min-height: 9vh;
 	z-index: 20;
 }
 .animate {
@@ -444,7 +436,7 @@ header {
 		top: 8vh;
 		font-weight: 500;
 		background-color: $warning;
-		padding: 0.5rem 1.2rem;
+		padding: 0.8rem 1.4rem;
 		border-radius: 1rem;
 		transform: scale(1);
 	}
@@ -512,11 +504,11 @@ header {
 	//content when logged in
 	/////////
 
-	.nav-info {
+	.nav-buttons {
 		display: flex;
 		align-items: center;
 		margin-left: 1rem;
-		.user,
+		.user-icon,
 		.notification-icon {
 			flex-shrink: 0;
 
@@ -550,7 +542,7 @@ header {
 				font-size: 2.2rem;
 			}
 		}
-		.user {
+		.user-icon {
 			display: flex;
 			align-items: center;
 			img:first-child {
@@ -630,7 +622,7 @@ header {
 			right: 0;
 			z-index: 20;
 
-			.notifications-title {
+			.notifications-header {
 				display: flex;
 				align-items: center;
 				justify-content: space-around;

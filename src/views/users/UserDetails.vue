@@ -2,16 +2,19 @@
 	<div class="profile">
 		<div class="profile-top">
 			<div class="profile-image">
-				<img :src="data.photo" alt="User picture" />
+				<img :src="getSearchedUserData.photo" alt="User picture" />
 			</div>
 			<div class="image-caption">
-				<h2 class="heading-2">{{ data.name }} {{ data.lastname }}</h2>
+				<h2 class="heading-2">
+					{{ getSearchedUserData.name }}
+					{{ getSearchedUserData.lastname }}
+				</h2>
 			</div>
 			<div class="profile-info">
 				<div class="email">
 					<span>Email:</span>
 					<span>
-						{{ data.email }}
+						{{ getSearchedUserData.email }}
 					</span>
 				</div>
 			</div>
@@ -22,35 +25,32 @@
 					createNewChat({
 						chats: getUserData.chats,
 						sender: getUserData._id,
-						receiver: data._id,
-						senderName:
-							getUserData.name + ' ' + getUserData.lastname,
-						receiverName: data.name + ' ' + data.lastname
+						receiver: getSearchedUserData._id
 					})
 				"
 			>
 				<img src="@/assets/img/icons/message.svg" alt="" />
-				<span>Posalji poruku</span>
+				<span>Pošalji poruku</span>
 			</div>
 			<div class="additional">
-				<p v-if="!data.description">
+				<p v-if="!getSearchedUserData.description">
 					Nema dodatnih informacija
 				</p>
 				<div v-else>
 					<span>Kratki opis:</span>
 					<p>
-						{{ data.description }}
+						{{ getSearchedUserData.description }}
 					</p>
 				</div>
 			</div>
 			<div class="contact">
-				<p v-if="!data.description">
-					Nije dodan kontakt broj
+				<p v-if="!getSearchedUserData.description">
+					Kontak broj nije dodan
 				</p>
 				<div v-else>
 					<span>Kontakt broj:</span>
 					<p>
-						{{ data.contact }}
+						{{ getSearchedUserData.contact }}
 					</p>
 				</div>
 			</div>

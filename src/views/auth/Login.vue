@@ -38,12 +38,12 @@
 					</button>
 				</div>
 				<div class="form-footer">
-					<router-link :to="{ name: 'ForgotPassword' }" tag="a"
-						>Zaboravili ste lozinku?</router-link
-					>
-					<router-link :to="{ name: 'Register' }" tag="a"
-						>Registriraj se!</router-link
-					>
+					<router-link :to="{ name: 'ForgotPassword' }" tag="a">
+						Zaboravili ste lozinku?
+					</router-link>
+					<router-link :to="{ name: 'Register' }" tag="a">
+						Registriraj se!
+					</router-link>
 				</div>
 			</template>
 		</FormWrapper>

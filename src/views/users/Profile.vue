@@ -10,7 +10,7 @@
 					</h3>
 
 					<button class="btn" @click="sendToCreateRide">
-						Nova voznja
+						Nova vožnja
 					</button>
 				</div>
 			</div>
@@ -24,8 +24,8 @@
 				</div>
 
 				<div
-					title="Uredi"
 					class="additional"
+					title="Uredi"
 					@click="sendToEditProfile"
 				>
 					<div
@@ -44,7 +44,7 @@
 						</p>
 					</div>
 				</div>
-				<div title="Uredi" class="contact" @click="sendToEditProfile">
+				<div class="contact" title="Uredi" @click="sendToEditProfile">
 					<div class="contact-desc" v-if="!getUserData.description">
 						<img src="@/assets/img/icons/plus.svg" alt="" />
 						<span>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div class="profile-reserved">
-			<h2 class="heading-2">Rezervirane voznje</h2>
+			<h2 class="heading-2">Rezervirane vožnje</h2>
 			<div v-if="getReservedRides[0]">
 				<div
 					class="profile-reserved-ride"
@@ -77,14 +77,14 @@
 				</div>
 			</div>
 			<div class="no-reserved-rides" v-else>
-				Nemate rezerviranih voznji
+				Nemate rezerviranih vožnji
 			</div>
 		</div>
-
-		<h2 class="heading-2">Moje voznje</h2>
+		<div class="divider"></div>
 		<div class="profile-rides">
+			<h2 class="heading-2">Moje vožnje</h2>
 			<div class="no-rides" v-if="getUserRides.length < 1">
-				Trenutno nemate voznji!
+				Trenutno nemate vožnji!
 			</div>
 			<RideSingle
 				v-else
@@ -298,7 +298,7 @@ export default {
 	margin: 0 auto;
 
 	margin-top: 5rem;
-	margin-bottom: 3rem;
+	margin-bottom: 2.5rem;
 
 	&-ride {
 		display: flex;
@@ -316,13 +316,21 @@ export default {
 	text-align: center;
 	font-size: 1.8rem;
 }
+.divider {
+	height: 1px;
 
+	background-color: $tertiary;
+	border-radius: 3px;
+	max-width: 60rem;
+	margin: 0 auto;
+}
 .profile-rides {
 	display: flex;
 	justify-items: center;
 	align-items: center;
 	flex-direction: column;
 
+	margin-top: 2.5rem;
 	color: $font-black;
 
 	.no-rides {

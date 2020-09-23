@@ -2,7 +2,7 @@
 	<section class="rides">
 		<div class="search">
 			<div class="search-top">
-				<h3 class="heading-3">Pretrazi voznje</h3>
+				<h3 class="heading-3">Pretraži voznje</h3>
 				<img src="@/assets/img/icons/magnifier.svg" alt="Search icon" />
 			</div>
 			<div class="search-bottom">
@@ -29,7 +29,20 @@
 		<div class="all-rides">
 			<transition name="fade" mode="out-in">
 				<div class="no-rides" v-show="filteredRides.length < 1">
-					Trenutno nema aktivnih voznji!
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="100"
+						height="100"
+						fill="#8a8f99"
+						viewBox="0 0 48 48"
+					>
+						<path
+							d="M22 30h4v4h-4zm0-16h4v12h-4zm1.99-10C12.94 4 4 12.95 4 24s8.94 20 19.99 20S44 35.05 44 24 35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16z"
+						/>
+					</svg>
+					<p>
+						Trenutno nema aktivnih voznji!
+					</p>
 				</div>
 			</transition>
 			<transition-group
@@ -137,10 +150,7 @@ export default {
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
-	min-height: 91vh;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
+	@include fillPage;
 }
 .search {
 	display: flex;
@@ -231,9 +241,18 @@ export default {
 		top: 5rem;
 		left: 50%;
 		width: 100%;
+
+		display: flex;
+		align-items: center;
+		flex-direction: column;
 		transform: translateX(-50%);
+
+		color: $font-p;
 		text-align: center;
 		font-size: 2rem;
+		p {
+			margin-top: 1rem;
+		}
 	}
 }
 

@@ -81,7 +81,7 @@ export default {
 	},
 	props: {
 		index: {
-			type: Number,
+			type: String,
 			required: true
 		}
 	},
@@ -103,6 +103,11 @@ export default {
 				return this.chat.members[1].name;
 			}
 			return this.chat.members[0].name;
+		},
+		chatReceiver() {
+			return this.chat.sender === this.getUserData._id
+				? this.chat.receiver
+				: this.chat.sender;
 		}
 	},
 
@@ -192,6 +197,7 @@ export default {
 	color: $font-black;
 
 	width: 85%;
+
 	max-width: 60rem;
 	margin: 0 auto;
 	@include fillPage;

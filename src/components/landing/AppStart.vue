@@ -25,10 +25,11 @@
 	text-align: center;
 
 	padding: 12.5em 0;
-	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
 		url(../../assets/img/bgstart.jpg);
 	background-position: center;
 	background-size: cover;
+	background-repeat: no-repeat;
 	overflow: hidden;
 	border-radius: 3px;
 

@@ -37,12 +37,12 @@ export default {
 	actions: {
 		async loginUser({ commit }, data) {
 			try {
-				const req = await axios.post("auth/login", {
+				const res = await axios.post("auth/login", {
 					email: data.email,
 					password: data.password
 				});
 
-				commit("SET_LOGGED_IN", req.data);
+				commit("SET_LOGGED_IN", res.data);
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -76,10 +76,10 @@ export default {
 
 		async resetPassword({ commit }, data) {
 			try {
-				const req = await axios.put(`auth/resetpassword/${data.id}`, {
+				const res = await axios.put(`auth/resetpassword/${data.id}`, {
 					password: data.password
 				});
-				commit("SET_LOGGED_IN", req.data);
+				commit("SET_LOGGED_IN", res.data);
 			} catch (error) {
 				console.error(error.response);
 			}

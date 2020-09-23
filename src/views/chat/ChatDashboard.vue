@@ -31,7 +31,20 @@
 			</router-link>
 		</div>
 		<div class="no-chats" v-else>
-			Nemate poruka!
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="100"
+				height="100"
+				fill="#8a8f99"
+				viewBox="0 0 48 48"
+			>
+				<path
+					d="M22 30h4v4h-4zm0-16h4v12h-4zm1.99-10C12.94 4 4 12.95 4 24s8.94 20 19.99 20S44 35.05 44 24 35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16z"
+				/>
+			</svg>
+			<p>
+				Nemate poruka!
+			</p>
 		</div>
 	</div>
 </template>
@@ -103,7 +116,6 @@ export default {
 
 <style lang="scss" scoped>
 #dashboard {
-	min-height: 91vh;
 	color: $font-black;
 
 	display: flex;
@@ -115,12 +127,11 @@ export default {
 	max-width: 80rem;
 	padding: 5em 0;
 	margin: 0 auto;
-	@media only screen and(max-width:$vp-5) {
-		min-height: 82vh;
-	}
+	@include fillPage;
 }
 .heading-2 {
 	padding: 3rem 0;
+	padding-bottom: 5rem;
 	justify-self: flex-start;
 }
 .chats {
@@ -141,6 +152,7 @@ export default {
 		position: relative;
 		color: $font-black;
 
+		margin-left: -2rem;
 		padding: 2.5rem;
 
 		font-size: 2rem;
@@ -168,7 +180,7 @@ export default {
 		.delete-chat {
 			cursor: pointer;
 			position: absolute;
-			right: -5rem;
+			right: -4rem;
 			top: 50%;
 			transform: scale(0.85) translateY(-50%);
 
@@ -190,6 +202,7 @@ export default {
 }
 .no-chats {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 
@@ -197,7 +210,11 @@ export default {
 	height: 100%;
 	max-width: 60rem;
 
-	font-size: 1.8rem;
+	font-size: 2rem;
+	color: $font-p;
+	p {
+		margin-top: 1rem;
+	}
 }
 .unread {
 	font-weight: 600;

@@ -28,7 +28,7 @@
 						src="@/assets/img/icons/no.svg"
 						alt="Cross icon"
 					/>
-					<span>Pusenje</span>
+					<span>Cigarete</span>
 				</div>
 				<div class="car">
 					<img src="@/assets/img/icons/rides2.svg" alt="Car icon" />
@@ -81,7 +81,7 @@
 					</button>
 				</div>
 
-				<div class="no-users" v-if="!getRideDetails.users[0]">
+				<div class="no-users" v-if="getRideDetails.users.length < 1">
 					Nema putnika
 				</div>
 			</div>
@@ -200,7 +200,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 4rem;
+	padding-bottom: 4rem;
 	.photo {
 		cursor: pointer;
 		margin-right: 1.5rem;
@@ -218,7 +218,6 @@ export default {
 }
 
 .details-bottom {
-	padding-bottom: 4rem;
 	h2 {
 		margin-bottom: 2rem;
 	}
@@ -258,6 +257,7 @@ export default {
 	}
 }
 .buttons {
+	padding-top: 2rem;
 	text-align: center;
 	button {
 		width: 75%;

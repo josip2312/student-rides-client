@@ -418,6 +418,7 @@ export default {
 		return {
 			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
 
+			//datepicker
 			disabledDates: {
 				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
@@ -484,8 +485,8 @@ export default {
 				name: "car",
 				id: "car"
 			},
-			date: this.$route.params.date || null,
 
+			date: this.$route.params.date || null,
 			seats: this.$route.params.seats || 1,
 			smoking: this.$route.params.smoking === true ? "yes" : "no",
 			startTime: this.$route.params.startTime || "08:00"
@@ -591,9 +592,16 @@ select {
 .btn-secondary:hover {
 	background-color: $tertiary;
 }
-.disabled {
-	pointer-events: none;
-	opacity: 0.3;
+p {
+	font-size: 1.2rem;
+	margin-top: 0.6rem;
+	color: #ff0033;
+	display: inline-block;
+	position: absolute;
+	top: 95%;
+}
+.form .form-group .invalid {
+	border-bottom: 1px solid #ff0033;
 }
 </style>
 

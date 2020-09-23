@@ -42,7 +42,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 
-	padding: 5em 0;
+	padding: 5rem 0;
 	@include fillPage;
 }
 .wider {

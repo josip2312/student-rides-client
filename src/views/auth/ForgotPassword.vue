@@ -24,7 +24,7 @@
 			<template #form-down>
 				<div class="form-group">
 					<button class="btn" type="submit">
-						Posalji link za ponovno postavljanje
+						Pošalji link
 					</button>
 				</div>
 			</template>
