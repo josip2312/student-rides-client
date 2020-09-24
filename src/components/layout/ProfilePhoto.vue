@@ -59,8 +59,8 @@ export default {
 <style lang="scss" scoped>
 .profile-image {
 	position: relative;
-	width: 75%;
-	max-width: 25rem;
+	width: 85%;
+	max-width: 40rem;
 	margin-bottom: 2rem;
 
 	img {

@@ -1,5 +1,5 @@
 <template>
-	<main id="landing">
+	<main id="landing" v-once>
 		<section id="showcase">
 			<AppShowcase />
 		</section>

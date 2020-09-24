@@ -3,7 +3,9 @@
 		<FormWrapper
 			title="Unesite novu lozinku"
 			@submit.prevent.native="
-				handleSubmit(() => resetPassword({ password, id: id }))
+				handleSubmit(() =>
+					resetPassword({ password: password.value, id: id })
+				)
 			"
 		>
 			<template #form-content>

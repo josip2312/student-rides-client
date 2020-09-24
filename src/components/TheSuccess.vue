@@ -38,7 +38,7 @@ export default {
 	background-color: $accent;
 	border-radius: 3px;
 	text-align: center;
-	font-size: 2rem;
+	font-size: 2.2rem;
 	color: $white;
 	padding: 2rem;
 

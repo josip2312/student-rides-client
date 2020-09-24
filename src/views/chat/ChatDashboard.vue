@@ -131,10 +131,16 @@ export default {
 }
 .heading-2 {
 	padding: 3rem 0;
-	padding-bottom: 5rem;
+	padding-bottom: 2.5rem;
 	justify-self: flex-start;
+	border-bottom: 1px solid $tertiary;
+	width: 85%;
+	max-width: 60rem;
+	text-align: center;
 }
 .chats {
+	padding-top: 2.5rem;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -201,6 +207,8 @@ export default {
 	}
 }
 .no-chats {
+	padding-top: 2.5rem;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -1,6 +1,6 @@
 <template>
 	<section class="profile container">
-		<div class="profile-top spacing">
+		<div class="profile-top ">
 			<div class="profile-top-left">
 				<ProfilePhoto />
 
@@ -15,9 +15,10 @@
 				</div>
 			</div>
 			<div class="profile-top-right">
-				<h2 class="heading-2">Podaci</h2>
+				<!-- <h2 class="heading-2">Podaci</h2> -->
 				<div class="email ">
-					<span>Email:</span>
+					<img src="@/assets/img/icons/email.svg" alt="" />
+					<span>Email: </span>
 					<span>
 						{{ getUserData.email }}
 					</span>
@@ -38,7 +39,11 @@
 						</span>
 					</div>
 					<div v-else>
-						<span>Kratki opis:</span>
+						<div class="additional-title">
+							<img src="@/assets/img/icons/desc.svg" alt="" />
+
+							<span>Kratki opis:</span>
+						</div>
 						<p>
 							{{ getUserData.description }}
 						</p>
@@ -52,7 +57,11 @@
 						</span>
 					</div>
 					<div v-else>
-						<span>Kontakt broj:</span>
+						<div class="contact-title">
+							<img src="@/assets/img/icons/phone.svg" alt="" />
+							<span>Kontakt broj:</span>
+						</div>
+
 						<p>
 							{{ getUserData.contact }}
 						</p>
@@ -206,6 +215,7 @@ export default {
 
 	color: $font-black;
 	background-color: $white;
+	@include fillPage;
 }
 .profile-top {
 	display: flex;
@@ -213,6 +223,7 @@ export default {
 
 	max-width: 120rem;
 	margin: 0 auto;
+	padding-bottom: 2.5rem;
 	@media only screen and(min-width:$vp-8) {
 		justify-content: space-around;
 		flex-direction: row;
@@ -220,7 +231,7 @@ export default {
 }
 .heading-2 {
 	text-align: center;
-	margin-bottom: 3.5rem;
+	margin-bottom: 2.5rem;
 }
 .heading-3 {
 	text-align: center;
@@ -252,10 +263,23 @@ export default {
 }
 .email {
 	width: 85%;
-	max-width: 60rem;
+	max-width: 50rem;
 	padding: 1.5rem;
+
+	display: flex;
+	align-items: center;
+
 	font-size: 1.8rem;
+	background-color: $grey-light;
+	border-radius: 3px;
+
+	img {
+		width: 2.25rem;
+		height: 2.25rem;
+		margin-right: 1.5rem;
+	}
 	span + span {
+		margin-left: 0.5rem;
 		font-weight: 500;
 	}
 
@@ -266,14 +290,28 @@ export default {
 .additional,
 .contact {
 	width: 85%;
-	max-width: 60rem;
+	max-width: 50rem;
 	padding: 1.5rem;
 	border-radius: 3px;
+	background-color: $grey-light;
 
 	font-size: 1.8rem;
 	font-weight: 500;
 	transition: background-color 0.2s ease-in-out;
 	cursor: pointer;
+	p {
+		padding-top: 1.5rem;
+	}
+}
+.contact-title,
+.additional-title {
+	display: flex;
+	align-items: center;
+	img {
+		width: 2.25rem;
+		height: 2.25rem;
+		margin-right: 1rem;
+	}
 }
 .additional-desc,
 .contact-desc {
@@ -286,7 +324,7 @@ export default {
 
 .additional:hover,
 .contact:hover {
-	background-color: $grey-light;
+	background-color: rgba($grey-light, 0.6);
 }
 
 .profile-reserved {

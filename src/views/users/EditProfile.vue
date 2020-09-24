@@ -8,7 +8,7 @@
 					editProfile({
 						name: name.value,
 						lastname: lastname.value,
-						email: email.value,
+
 						contact: contact.value,
 						desc
 					})
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<TextInput
 						:label="email.label"
 						:type="email.type"
@@ -47,8 +47,9 @@
 						:id="email.id"
 						v-model="email.value"
 						:rules="email.rules"
+						disabled
 					/>
-				</div>
+				</div> -->
 				<div class="form-group">
 					<TextInput
 						:label="contact.label"

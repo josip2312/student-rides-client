@@ -14,13 +14,25 @@
 					:class="{ isVisible: visible }"
 					v-click-outside="hideSidebar"
 				>
-					<router-link :to="{ name: 'Landing' }" tag="a">
+					<router-link
+						:to="{ name: 'Landing' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Početna
 					</router-link>
-					<router-link :to="{ name: 'Login' }" tag="a">
+					<router-link
+						:to="{ name: 'Login' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Prijava
 					</router-link>
-					<router-link :to="{ name: 'Register' }" tag="a">
+					<router-link
+						:to="{ name: 'Register' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Registracija
 					</router-link>
 				</nav>

@@ -1,6 +1,6 @@
 <template>
 	<section class="rides">
-		<div class="search">
+		<div class="search" v-once>
 			<div class="search-top">
 				<h3 class="heading-3">Pretraži voznje</h3>
 				<img src="@/assets/img/icons/magnifier.svg" alt="Search icon" />

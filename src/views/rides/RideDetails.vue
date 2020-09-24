@@ -46,6 +46,10 @@
 					{{ getRideDetails.fullName }}
 				</div>
 			</div>
+			<div class="details-contact">
+				<img src="@/assets/img/icons/phone.svg" alt="" />
+				<span>{{ getRideDetails.contact }}</span>
+			</div>
 			<div class="details-bottom">
 				<h2 class="heading-2">Putnici</h2>
 				<div
@@ -216,7 +220,20 @@ export default {
 		font-weight: 500;
 	}
 }
-
+.details-contact {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-bottom: 4rem;
+	img {
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-right: 1rem;
+	}
+	span {
+		font-size: 2rem;
+	}
+}
 .details-bottom {
 	h2 {
 		margin-bottom: 2rem;

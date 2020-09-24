@@ -59,7 +59,6 @@ export default {
 					{
 						name: data.name,
 						lastname: data.lastname,
-						email: data.email,
 						contact: data.contact,
 						description: data.desc
 					}

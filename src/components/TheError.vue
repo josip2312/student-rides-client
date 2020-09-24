@@ -32,7 +32,7 @@ export default {
 	width: 75%;
 	max-width: 60rem;
 	text-align: center;
-	font-size: 2rem;
+	font-size: 2.2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;

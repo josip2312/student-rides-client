@@ -7,6 +7,7 @@
 		<TheFooter />
 
 		<TheSuccess />
+
 		<TheLoader />
 	</div>
 </template>
@@ -45,7 +46,7 @@ export default {
 </script>
 <style lang="scss">
 #app {
-	@include fillPage;
+	min-height: 100vh;
 }
 @import "assets/css/app";
 </style>

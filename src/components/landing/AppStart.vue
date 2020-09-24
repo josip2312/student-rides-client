@@ -3,7 +3,7 @@
 		<h1 class="heading-1">
 			Započni danas!
 		</h1>
-		<div class="buttons">
+		<div class="buttons" v-if="!isLoggedIn">
 			<router-link :to="{ name: 'Login' }" class="btn" tag="button"
 				>Prijavi se</router-link
 			>
@@ -11,11 +11,32 @@
 				:to="{ name: 'Register' }"
 				class="btn btn-secondary"
 				tag="button"
-				>Registriracija</router-link
+				>Registracija</router-link
+			>
+		</div>
+		<div class="buttons" v-else>
+			<router-link :to="{ name: 'Rides' }" class="btn" tag="button"
+				>Pronađi vožnju</router-link
+			>
+			<router-link
+				:to="{ name: 'CreateRide' }"
+				class="btn btn-secondary"
+				tag="button"
+				>Postavi vožnju</router-link
 			>
 		</div>
 	</div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+	name: "Start",
+	computed: {
+		...mapGetters(["isLoggedIn"])
+	}
+};
+</script>
 
 <style lang="scss" scoped>
 .start {

@@ -3,9 +3,7 @@
 		<FormWrapper
 			title="Zaboravili ste lozinku?"
 			@submit.prevent.native="
-				handleSubmit(() =>
-					requestResetPassword({ email: formData.email.field })
-				)
+				handleSubmit(() => requestResetPassword({ email: email.value }))
 			"
 		>
 			<template #form-content>

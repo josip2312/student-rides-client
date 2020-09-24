@@ -36,50 +36,12 @@ $vp-6: 37.5em; //600
 $vp-5: 31.25em; //500px
 $vp-3: 21.875em; //350px
 
-@mixin mq($size) {
-	@if $size == vp-3 {
-		@media (max-width: 21.875em) {
-			@content;
-		}
-	} @else if $size == vp-5 {
-		@media (max-width: 31.25em) {
-			@content;
-		}
-	} @else if $size == vp-6 {
-		@media (max-width: 37.5em) {
-			@content;
-		}
-	} @else if $size == vp-8 {
-		@media (max-width: 50em) {
-			@content;
-		}
-	} @else if $size == vp-12 {
-		@media (max-width: 75em) {
-			@content;
-		}
-	} @else if $size == vp-14 {
-		@media (max-width: 87.5em) {
-			@content;
-		}
-	} @else if $size == vp-19 {
-		@media (max-width: 116em) {
-			@content;
-		}
-	} @else if $size == vp-4k {
-		@media (max-width: 156.25em) {
-			@content;
-		}
-	}
-}
 html {
 	box-sizing: border-box;
-	font-size: 60%;
+	font-size: 62.5%;
 	scroll-behavior: smooth;
 	height: 100%;
 
-	@media only screen and(min-width:$vp-14) {
-		font-size: 65%;
-	}
 	@media only screen and(min-width:$vp-19) {
 		font-size: 90%;
 	}
@@ -112,7 +74,6 @@ body {
 	font-size: 1.6rem;
 	background-color: $white;
 	overflow-x: hidden;
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 }

@@ -5,13 +5,16 @@ export default {
 	state: {
 		loggedIn: false,
 		jwtToken: null,
-		loggedInUser: null
+		loggedInUser: null,
+		registeringUser: null,
+		showRegistrationSuccess: false
 	},
 
 	getters: {
 		isLoggedIn: state => state.loggedIn,
 		getJWT: state => state.jwtToken,
-		getLoggedInUser: state => state.loggedInUser
+		getLoggedInUser: state => state.loggedInUser,
+		showRegistrationSuccess: state => state.showRegistrationSuccess
 	},
 	mutations: {
 		SET_LOGGED_IN: (state, userData) => {
@@ -22,8 +25,10 @@ export default {
 			router.push({ name: "Rides" });
 		},
 
-		REGISTER_USER: () => {
-			router.push({ name: "Login" });
+		REGISTER_USER: (state, userId) => {
+			state.showRegistrationSuccess = true;
+			state.registeringUser = userId;
+			router.push({ name: "RegistrationSuccess", params: { userId } });
 		},
 		LOGIN_FAILED: (state, data) => {
 			state.error = data;
@@ -31,6 +36,10 @@ export default {
 		LOGOUT: state => {
 			state.jwtToken = null;
 			state.loggedIn = false;
+		},
+		//registration success modal
+		HIDE_REGISTRATION_SUCCESS: state => {
+			state.showRegistrationSuccess = false;
 		}
 	},
 
@@ -54,19 +63,38 @@ export default {
 
 		async registerUser({ commit }, data) {
 			try {
-				await axios.post("auth/register", {
+				const res = await axios.post("auth/register", {
 					name: data.name,
 					lastname: data.lastname,
 					email: data.email,
 					password: data.password
 				});
-				commit("REGISTER_USER");
+				console.log(res.data);
+				commit("REGISTER_USER", res.data.userId);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 
-		async requestResetPassword(email) {
+		//eslint-disable-next-line
+		async confirmPassword({ commit }, token) {
+			try {
+				await axios.get(`/auth/user/confirmation/${token}`);
+				router.push({ name: "Login" });
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
+		//eslint-disable-next-line
+		async resendConfirmationEmail({ commit }, id) {
+			try {
+				await axios.get(`/auth/user/confirmation/resend/${id}`);
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
+		//eslint-disable-next-line
+		async requestResetPassword({ commit }, email) {
 			try {
 				await axios.post(`auth/forgotpassword`, email);
 			} catch (error) {

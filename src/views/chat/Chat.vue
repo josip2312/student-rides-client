@@ -1,8 +1,8 @@
 <template>
 	<div class="chat-container">
-		<h3 class="heading-3">
+		<h2 class="heading-2">
 			{{ receiverName }}
-		</h3>
+		</h2>
 		<ul ref="chat" class="chat">
 			<li
 				class="chat-message"
@@ -202,21 +202,23 @@ export default {
 	margin: 0 auto;
 	@include fillPage;
 }
-.heading-3 {
-	margin-bottom: 2rem;
+.heading-2 {
+	margin-bottom: 2.5rem;
 }
 .chat {
 	width: 100%;
 
+	background-color: $grey-light;
 	color: $font-black;
 	overflow-y: auto;
 	height: 35rem;
+	border-radius: 3px;
 
 	.chat-message {
 		padding: 1rem 1rem;
 		margin: 1rem;
 		border-radius: 0.25em;
-		border-bottom: 1px solid $tertiary-light;
+		border-bottom: 1px solid $tertiary;
 		.name {
 			font-weight: 500;
 		}
@@ -229,7 +231,7 @@ form {
 	display: flex;
 	width: 100%;
 	padding-top: 1rem;
-	padding-right: 1.5rem;
+
 	input {
 		@include input;
 	}

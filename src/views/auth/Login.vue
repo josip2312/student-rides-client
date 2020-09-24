@@ -33,7 +33,7 @@
 
 			<template #form-down>
 				<div class="form-group">
-					<button class="btn" type="submit">
+					<button class="btn">
 						Prijavi se
 					</button>
 				</div>
@@ -93,10 +93,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions({ login: "loginUser" }),
-		log() {
-			console.log("logged");
-		}
+		...mapActions({ login: "loginUser" })
 	}
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<footer class="footer">
+	<footer class="footer" v-once>
 		<div class="footer-up">
 			<a href="#">
 				<img src="@/assets/img/icons/fb.svg" alt="Facebook" />
@@ -52,7 +52,7 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		color: $font-p;
+		color: #9c9a9a;
 		.email {
 			margin-bottom: 0.5rem;
 		}
@@ -64,7 +64,7 @@
 		align-items: center;
 		width: 100%;
 		background-color: $secondary;
-		color: $font-p;
+		color: #9c9a9a;
 		@media only screen and(max-width:$vp-5) {
 			margin-bottom: 9vh;
 		}
