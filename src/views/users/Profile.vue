@@ -15,6 +15,7 @@
 				</div>
 			</div>
 			<div class="profile-top-right">
+				<h2 class="heading-2">Podaci</h2>
 				<div class="email ">
 					<img src="@/assets/img/icons/email.svg" alt="" />
 					<span>Email: </span>
@@ -213,7 +214,6 @@ export default {
 
 	color: $font-black;
 	background-color: $white;
-	@include fillPage;
 }
 .profile-top {
 	display: flex;
@@ -266,6 +266,7 @@ export default {
 
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 
 	font-size: 1.8rem;
 	background-color: $grey-light;

@@ -155,7 +155,6 @@ export default {
 
 	display: flex;
 	align-items: center;
-	@include fillPage;
 }
 .container {
 	display: flex;

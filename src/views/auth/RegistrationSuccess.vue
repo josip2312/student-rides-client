@@ -53,10 +53,10 @@ export default {
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
-	@include fillPage;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	@include fillPage;
 }
 .success {
 	width: 90%;

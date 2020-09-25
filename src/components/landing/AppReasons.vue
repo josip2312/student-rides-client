@@ -30,7 +30,7 @@
 				<h3 class="heading-3">
 					Poveži se
 				</h3>
-				Steci velik broj novih poznanstava
+				Steci velik broj novih poznanstava danas
 			</div>
 		</div>
 	</div>

@@ -133,7 +133,6 @@ export default {
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
-	@include fillPage;
 }
 .search {
 	display: flex;

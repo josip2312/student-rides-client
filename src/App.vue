@@ -1,9 +1,11 @@
 <template>
 	<div id="app">
 		<TheHeader />
-		<transition name="fade" mode="out-in">
-			<router-view />
-		</transition>
+		<div class="wrap">
+			<transition name="fade" mode="out-in">
+				<router-view />
+			</transition>
+		</div>
 		<TheFooter />
 
 		<TheSuccess />
@@ -50,8 +52,10 @@ export default {
 };
 </script>
 <style lang="scss">
-#app {
-	min-height: 100vh;
+.wrap {
+	//min-height: 100vh;
+	@include fillPage;
 }
+
 @import "assets/css/app";
 </style>

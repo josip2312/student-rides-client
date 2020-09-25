@@ -118,6 +118,7 @@ export default {
 	max-width: 80rem;
 	padding: 5em 0;
 	margin: 0 auto;
+
 	@include fillPage;
 }
 .heading-2 {
