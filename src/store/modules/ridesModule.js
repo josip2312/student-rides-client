@@ -37,6 +37,9 @@ export default {
 		SET_RIDE_DETAILS: (state, data) => {
 			data.ride._id = data.id;
 			state.rideDetails = data.ride;
+			if (router.currentRoute.name !== "RideDetails") {
+				router.push({ name: "RideDetails" });
+			}
 		},
 		RIDE_DELETED: (state, id) => {
 			state.rides = state.rides.filter(ride => ride._id !== id);

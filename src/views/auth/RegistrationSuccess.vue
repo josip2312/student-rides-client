@@ -13,7 +13,7 @@
 				<p>Niste dobili email?</p>
 				<a
 					tabindex="0"
-					@click.once="resendConfirmationEmail($route.params.userId)"
+					@click.once="resendConfirmationEmail(registeringUser)"
 				>
 					Ponovno pošalji
 				</a>
@@ -23,9 +23,20 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
-	name: "ConfirmPassword",
+	name: "RegistrationSuccess",
+	data() {
+		return {
+			registeringUser:
+				this.$route.params.userId === undefined
+					? this.getRegisteringUser
+					: this.$route.params.userId
+		};
+	},
+	computed: {
+		...mapGetters(["getRegisteringUser"])
+	},
 	methods: {
 		...mapActions(["resendConfirmationEmail"]),
 		sendToLogin() {

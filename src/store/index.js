@@ -13,9 +13,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		loading: false,
-		successMessage: {},
+		successMessage: "",
 		isSuccess: false,
-		errorMessage: {},
+		errorMessage: "",
 		isError: false
 	},
 	plugins: [

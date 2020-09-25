@@ -1,5 +1,5 @@
 <template>
-	<div class="chat-container">
+	<div class="chat-container" :key="componentKey">
 		<h2 class="heading-2">
 			{{ receiverName }}
 		</h2>
@@ -39,7 +39,6 @@
 			"
 		>
 			<input
-				v-if="connected"
 				placeholder="Enter your message"
 				type="text"
 				v-model="message"
@@ -49,12 +48,7 @@
 					})
 				"
 			/>
-			<input
-				v-else
-				placeholder="Connecting..."
-				type="text"
-				v-model="message"
-			/>
+
 			<button
 				class="btn"
 				type="submit"
@@ -74,14 +68,14 @@ export default {
 
 	data() {
 		return {
+			componentKey: 0,
 			message: null,
-			connected: false,
 			messagesData: this.messages
 		};
 	},
 	props: {
 		index: {
-			type: String,
+			type: [Number, String],
 			required: true
 		}
 	},
@@ -138,14 +132,6 @@ export default {
 
 	mounted() {
 		this.scrollBottom();
-		(function() {
-			if (window.localStorage) {
-				if (!localStorage.getItem("firstLoad")) {
-					localStorage["firstLoad"] = true;
-					window.location.reload();
-				} else localStorage.removeItem("firstLoad");
-			}
-		})();
 	},
 
 	updated() {
@@ -153,6 +139,10 @@ export default {
 	},
 
 	created() {
+		//* force connect this particular socket
+		this.$socket.disconnect();
+		this.$socket.connect();
+
 		this.fetchChats();
 		this.$socket.emit("readMessages", {
 			room: this.chat._id,
@@ -175,7 +165,6 @@ export default {
 				sender: this.chat.sender,
 				receiver: this.chat.receiver
 			});
-			this.connected = true;
 			if (this.messages[this.messages.length - 1]) {
 				this.messages[this.messages.length - 1].receiverHasRead = true;
 			}

@@ -584,6 +584,9 @@ export default {
 select {
 	@include input;
 }
+select:focus {
+	border-bottom: 1px solid $accent;
+}
 .btn-secondary {
 	background-color: $tertiary;
 	color: $font-black;

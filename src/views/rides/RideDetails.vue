@@ -85,7 +85,7 @@
 					</button>
 				</div>
 
-				<div class="no-users" v-if="getRideDetails.users.length < 1">
+				<div class="no-users" v-if="passengers">
 					Nema putnika
 				</div>
 			</div>
@@ -128,7 +128,13 @@ export default {
 	},
 
 	computed: {
-		...mapGetters(["getRideDetails", "getLoggedInUser"])
+		...mapGetters(["getRideDetails", "getLoggedInUser"]),
+		passengers() {
+			if (this.getRideDetails.users.length) {
+				return this.getRideDetails.users.length < 1;
+			}
+			return true;
+		}
 	},
 
 	methods: {

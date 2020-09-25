@@ -15,7 +15,6 @@
 				</div>
 			</div>
 			<div class="profile-top-right">
-				<!-- <h2 class="heading-2">Podaci</h2> -->
 				<div class="email ">
 					<img src="@/assets/img/icons/email.svg" alt="" />
 					<span>Email: </span>
@@ -76,11 +75,14 @@
 					class="profile-reserved-ride"
 					v-for="(ride, index) in getReservedRides"
 					:key="index"
-					@click="fetchRideDetails(ride._id), sendToRideDetails()"
+					@click="fetchRideDetails(ride._id)"
 				>
-					<div class="ride-start">{{ ride.start.split(",")[0] }}</div>
+					<div class="ride-start">
+						<span>Polazak: </span>{{ ride.start.split(",")[0] }}
+					</div>
 
 					<div class="ride-end">
+						<span>Odredište: </span>
 						{{ ride.end.split(",")[0] }}
 					</div>
 				</div>
@@ -106,7 +108,7 @@
 					price: ride.price,
 					date: ride.date
 				}"
-				@click.native="fetchRideDetails(ride._id), sendToRideDetails()"
+				@click.native="fetchRideDetails(ride._id)"
 			>
 				<template #ride-down v-if="isLoggedIn">
 					<button class="btn" @click.stop="deleteRide(ride._id)">
@@ -184,11 +186,7 @@ export default {
 			"fetchUserRides",
 			"fetchReservedRides"
 		]),
-		sendToRideDetails() {
-			if (this.$router.currentRoute.name !== "RideDetails") {
-				this.$router.push({ name: "RideDetails" });
-			}
-		},
+
 		sendToEditProfile() {
 			if (this.$router.history.current.name !== "EditProfile")
 				this.$router.push({ name: "EditProfile" });

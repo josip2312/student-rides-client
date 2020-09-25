@@ -21,6 +21,7 @@ import TheLoader from "./components/TheLoader";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
+	name: "App",
 	components: {
 		TheHeader,
 		TheFooter,
@@ -33,14 +34,18 @@ export default {
 	},
 
 	methods: {
-		...mapActions(["deleteExpiredRides", "fetchUserData"])
+		...mapActions(["deleteExpiredRides", "fetchUserData", "fetchChats"])
 	},
 
 	watch: {
 		getLoggedInUser: function() {
+			this.fetchChats();
 			this.deleteExpiredRides();
 			this.fetchUserData();
 		}
+	},
+	created() {
+		if (this.getLoggedInUser) this.fetchChats();
 	}
 };
 </script>

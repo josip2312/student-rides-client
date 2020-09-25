@@ -1,6 +1,8 @@
 <template>
 	<transition name="fade" mode="out-in">
 		<div class="error" v-if="isError">
+			<img src="@/assets/img/icons/x.svg" alt="" @click="clearError" />
+
 			<span>
 				{{ getErrorMessage.error }}
 			</span>
@@ -15,6 +17,11 @@ export default {
 
 	computed: {
 		...mapGetters(["getErrorMessage", "isError"])
+	},
+	methods: {
+		clearError() {
+			this.$store.commit("CLEAR_ERROR");
+		}
 	}
 };
 </script>
@@ -41,12 +48,15 @@ export default {
 
 	transform: translateX(-50%);
 	transition: transform 0.2s, opacity 0.2s;
+	@media only screen and(max-width:$vp-3) {
+		min-height: 22.5vh;
+	}
 	img {
 		position: absolute;
 		right: 1rem;
 		top: 1rem;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 3rem;
+		height: 3rem;
 		cursor: pointer;
 	}
 }

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "@/router";
 import store from "@/store";
 import VueSocketIO from "vue-socket.io";
+import SocketIo from "socket.io-client";
 
 import "@/utilities/validations.js";
 import "@/utilities/axios.js";
@@ -12,8 +13,11 @@ Vue.directive("scrollanimation", scrollAnimation);
 
 Vue.use(
 	new VueSocketIO({
+		options: {
+			autoConnect: false
+		},
 		debug: false,
-		connection: "http://localhost:3000"
+		connection: SocketIo("http://localhost:3000")
 	})
 );
 

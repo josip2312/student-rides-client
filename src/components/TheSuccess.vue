@@ -1,10 +1,9 @@
 <template>
 	<transition name="fade" mode="out-in">
 		<div class="success" v-if="isSuccess">
+			<img src="@/assets/img/icons/x.svg" alt="" @click="clearSuccess" />
 			<span>
-				<span>
-					{{ getSuccessMessage }}
-				</span>
+				{{ getSuccessMessage }}
 			</span>
 		</div>
 	</transition>
@@ -17,6 +16,11 @@ export default {
 
 	computed: {
 		...mapGetters(["getSuccessMessage", "isSuccess"])
+	},
+	methods: {
+		clearSuccess() {
+			this.$store.commit("CLEAR_SUCCESS");
+		}
 	}
 };
 </script>
@@ -35,7 +39,7 @@ export default {
 	min-height: 17.5vh;
 	width: 75%;
 	max-width: 60rem;
-	background-color: $accent;
+	background-color: #1c52c7;
 	border-radius: 3px;
 	text-align: center;
 	font-size: 2.2rem;
@@ -44,13 +48,16 @@ export default {
 
 	transform: translateX(-50%);
 	transition: transform 0.2s, opacity 0.2s;
+	@media only screen and(max-width:$vp-3) {
+		min-height: 22.5vh;
+	}
 
 	img {
 		position: absolute;
 		right: 1.5rem;
 		top: 1.5rem;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 3rem;
+		height: 3rem;
 		cursor: pointer;
 	}
 }

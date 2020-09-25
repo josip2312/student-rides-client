@@ -6,15 +6,14 @@ export default {
 		loggedIn: false,
 		jwtToken: null,
 		loggedInUser: null,
-		registeringUser: null,
-		showRegistrationSuccess: false
+		registeringUser: null
 	},
 
 	getters: {
 		isLoggedIn: state => state.loggedIn,
 		getJWT: state => state.jwtToken,
 		getLoggedInUser: state => state.loggedInUser,
-		showRegistrationSuccess: state => state.showRegistrationSuccess
+		getRegisteringUser: state => state.registeringUser
 	},
 	mutations: {
 		SET_LOGGED_IN: (state, userData) => {
@@ -26,7 +25,6 @@ export default {
 		},
 
 		REGISTER_USER: (state, userId) => {
-			state.showRegistrationSuccess = true;
 			state.registeringUser = userId;
 			router.push({ name: "RegistrationSuccess", params: { userId } });
 		},
@@ -36,10 +34,6 @@ export default {
 		LOGOUT: state => {
 			state.jwtToken = null;
 			state.loggedIn = false;
-		},
-		//registration success modal
-		HIDE_REGISTRATION_SUCCESS: state => {
-			state.showRegistrationSuccess = false;
 		}
 	},
 

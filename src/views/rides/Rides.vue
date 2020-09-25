@@ -26,25 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="all-rides">
-			<transition name="fade" mode="out-in">
-				<div class="no-rides" v-show="filteredRides.length < 1">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="100"
-						height="100"
-						fill="#8a8f99"
-						viewBox="0 0 48 48"
-					>
-						<path
-							d="M22 30h4v4h-4zm0-16h4v12h-4zm1.99-10C12.94 4 4 12.95 4 24s8.94 20 19.99 20S44 35.05 44 24 35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16z"
-						/>
-					</svg>
-					<p>
-						Trenutno nema aktivnih voznji!
-					</p>
-				</div>
-			</transition>
+		<div class="all-rides" v-if="filteredRides">
 			<transition-group
 				name="fade"
 				mode="out-in"
@@ -61,9 +43,7 @@
 						price: ride.price,
 						date: ride.date
 					}"
-					@click.native="
-						fetchRideDetails(ride._id), sendToRideDetails()
-					"
+					@click.native="fetchRideDetails(ride._id)"
 				>
 					<template #ride-down>
 						<div class="photo">
@@ -76,6 +56,14 @@
 				</RideSingle>
 			</transition-group>
 		</div>
+		<transition name="fade" mode="out-in">
+			<div class="no-rides" v-if="filteredRides.length < 1">
+				<img src="@/assets/img/icons/notfound.svg" alt="" />
+				<p>
+					Trenutno nema aktivnih voznji!
+				</p>
+			</div>
+		</transition>
 	</section>
 </template>
 
@@ -126,12 +114,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"]),
-		sendToRideDetails() {
-			if (this.$router.currentRoute.name !== "RideDetails") {
-				this.$router.push({ name: "RideDetails" });
-			}
-		}
+		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"])
 	},
 
 	created() {
@@ -235,27 +218,29 @@ export default {
 		width: 90%;
 		max-width: 60rem;
 	}
+}
+.no-rides {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
 
-	.no-rides {
-		position: absolute;
-		top: 5rem;
-		left: 50%;
-		width: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	transform: translateX(-50%);
 
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		transform: translateX(-50%);
-
-		color: $font-p;
-		text-align: center;
-		font-size: 2rem;
-		p {
-			margin-top: 1rem;
-		}
+	color: $font-p;
+	text-align: center;
+	font-size: 2rem;
+	img {
+		width: 10rem;
+		height: 10rem;
+	}
+	p {
+		margin-top: 1rem;
 	}
 }
-
 .name {
 	font-size: 2rem;
 	font-weight: 500;

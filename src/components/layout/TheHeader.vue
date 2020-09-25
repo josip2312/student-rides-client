@@ -43,16 +43,32 @@
 					v-if="isLoggedIn"
 					v-click-outside="hideSidebar"
 				>
-					<router-link :to="{ name: 'Rides' }" tag="a">
+					<router-link
+						:to="{ name: 'Rides' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Vožnje
 					</router-link>
-					<router-link :to="{ name: 'Profile' }" tag="a">
+					<router-link
+						:to="{ name: 'Profile' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Profil
 					</router-link>
-					<router-link :to="{ name: 'ChatDashboard' }" tag="a">
+					<router-link
+						:to="{ name: 'ChatDashboard' }"
+						tag="a"
+						@click.native="hideSidebar"
+					>
 						Poruke
 					</router-link>
-					<a v-if="isMobile" tabindex="0" @click="logout">
+					<a
+						v-if="isMobile"
+						tabindex="0"
+						@click="logout, hideSidebar"
+					>
 						Odjavi se</a
 					>
 				</nav>
@@ -280,8 +296,8 @@ export default {
 			visible: false,
 
 			haveUnread: false,
-			isAnimated: false,
-			receivingMessage: ""
+			receivingMessage: "",
+			isAnimated: false
 		};
 	},
 
@@ -293,6 +309,7 @@ export default {
 			"getChats",
 			"getLoggedInUser"
 		]),
+
 		isMobile() {
 			return this.windowWidth <= 600;
 		},
@@ -317,6 +334,7 @@ export default {
 							this.getUserData._id
 					) {
 						this.receivingMessage = "Imate nepročitanih poruka";
+
 						haveUnread = true;
 					}
 				}
@@ -368,9 +386,20 @@ export default {
 		});
 		this.popupItem = this.$el;
 	},
+	created() {
+		if (this.getLoggedInUser) {
+			this.$socket.connect();
+		}
+	},
 
 	directives: {
 		ClickOutside
+	},
+
+	watch: {
+		getLoggedInUser: function() {
+			this.$socket.connect();
+		}
 	},
 	sockets: {
 		connect() {
