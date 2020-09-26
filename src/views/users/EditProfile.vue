@@ -204,7 +204,7 @@ textarea {
 }
 p {
 	font-size: 1.2rem;
-	margin-top: 0.5rem;
+	margin-top: 0.6rem;
 	color: #ff0033;
 	display: inline-block;
 	position: absolute;

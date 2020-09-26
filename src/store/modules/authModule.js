@@ -63,15 +63,14 @@ export default {
 					email: data.email,
 					password: data.password
 				});
-				console.log(res.data);
+
 				commit("REGISTER_USER", res.data.userId);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 
-		//eslint-disable-next-line
-		async confirmPassword({ commit }, token) {
+		async confirmPassword(_, token) {
 			try {
 				await axios.get(`/auth/user/confirmation/${token}`);
 				router.push({ name: "Login" });
@@ -79,16 +78,14 @@ export default {
 				console.error(error.response);
 			}
 		},
-		//eslint-disable-next-line
-		async resendConfirmationEmail({ commit }, id) {
+		async resendConfirmationEmail(_, id) {
 			try {
 				await axios.get(`/auth/user/confirmation/resend/${id}`);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
-		//eslint-disable-next-line
-		async requestResetPassword({ commit }, email) {
+		async requestResetPassword(_, email) {
 			try {
 				await axios.post(`auth/forgotpassword`, email);
 			} catch (error) {

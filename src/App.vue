@@ -14,6 +14,7 @@
 	</div>
 </template>
 
+//TODO Delete console logs throughout
 <script>
 import TheSuccess from "./components/TheSuccess";
 import TheHeader from "./components/layout/TheHeader";
@@ -65,6 +66,7 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
+	position: relative;
 	@include fillPage;
 }
 

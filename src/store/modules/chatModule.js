@@ -46,7 +46,6 @@ export default {
 		async createNewChat({ commit, dispatch }, payload) {
 			try {
 				await axios.post(`/chat/create`, payload);
-				console.log(payload);
 
 				dispatch("fetchChats");
 				dispatch("fetchUserData", null, { root: true });

@@ -54,9 +54,6 @@ export default {
 			const file = e.target.files[0];
 			this.url = URL.createObjectURL(file);
 		}
-	},
-	created() {
-		console.log(this.getPhoto.split("/")[4]);
 	}
 };
 </script>

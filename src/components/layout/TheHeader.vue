@@ -64,7 +64,11 @@
 					>
 						Poruke
 					</router-link>
-					<a class="logout" tabindex="0" @click="logout, hideSidebar">
+					<a
+						class="logout"
+						tabindex="0"
+						@click="logout(), hideSidebar()"
+					>
 						Odjavi se</a
 					>
 				</nav>
@@ -205,7 +209,7 @@
 							<a
 								tabindex="0"
 								class="user-dropdown-logout"
-								@click="logout(), hideUserDropdown()"
+								@click="logout, hideUserDropdown"
 							>
 								<img
 									src="@/assets/img/icons/logout.svg"

@@ -82,11 +82,12 @@ span {
 }
 p {
 	font-size: 1.2rem;
-	margin-top: 0.5rem;
+	margin-top: 0.6rem;
 	color: #ff0033;
 	display: inline-block;
 	position: absolute;
 	top: 94%;
+	line-height: 1.1;
 }
 .form .form-group .invalid {
 	border-bottom: 1px solid #ff0033;

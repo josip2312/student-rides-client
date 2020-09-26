@@ -163,8 +163,8 @@ export default {
 				console.error(error.response);
 			}
 		},
-		//eslint-disable-next-line
-		async editRideMode({ commit }, data) {
+
+		async editRideMode(_, data) {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
 
 			router.push({
