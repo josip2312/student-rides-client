@@ -406,6 +406,16 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "CreateRide",
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Postavi novu vožnju.`
+				}
+			]
+		};
+	},
 	components: {
 		Datepicker,
 		FormWrapper,

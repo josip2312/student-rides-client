@@ -151,8 +151,7 @@ const routes = [
 		beforeEnter: loggedOutGuard
 	},
 	{
-		props: true,
-		path: "/users/:name",
+		path: "/users/user",
 		name: "UserDetails",
 		component: () =>
 			import(
@@ -189,7 +188,7 @@ const routes = [
 	},
 	{
 		props: true,
-		path: "/user/chat-dashboard/:index",
+		path: "/user/chat-dashboard/chat",
 		name: "Chat",
 		component: Chat,
 		meta: {

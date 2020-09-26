@@ -100,6 +100,16 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
 	name: "EditProfile",
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Uredi svoj profil`
+				}
+			]
+		};
+	},
 	components: {
 		ValidationObserver,
 		ValidationProvider,

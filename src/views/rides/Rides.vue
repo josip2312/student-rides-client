@@ -74,6 +74,16 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "Rides",
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: "Pretraži već postavljene vožnje."
+				}
+			]
+		};
+	},
 
 	components: {
 		RideSingle

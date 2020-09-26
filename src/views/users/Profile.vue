@@ -156,7 +156,16 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
 	name: "Profile",
-
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Profil ${this.user.name} ${this.user.lastname}, email: ${this.user.email}`
+				}
+			]
+		};
+	},
 	components: {
 		RideSingle,
 		TheError,
@@ -175,7 +184,10 @@ export default {
 			"getUserData",
 			"isLoggedIn",
 			"getReservedRides"
-		])
+		]),
+		user() {
+			return this.getUserData;
+		}
 	},
 
 	methods: {

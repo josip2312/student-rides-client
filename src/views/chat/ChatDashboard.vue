@@ -44,7 +44,16 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "ChatDashboard",
-
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Šalji poruke ostalim korisnicima`
+				}
+			]
+		};
+	},
 	computed: {
 		...mapGetters(["getUserData", "getChats"]),
 

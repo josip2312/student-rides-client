@@ -7,10 +7,14 @@ import SocketIo from "socket.io-client";
 
 import "@/utilities/validations.js";
 import "@/utilities/axios.js";
+import VueMeta from "vue-meta";
 
 import scrollAnimation from "@/utilities/scrollAnimation";
 Vue.directive("scrollanimation", scrollAnimation);
 
+Vue.use(VueMeta, {
+	refreshOnceOnNavigation: true
+});
 Vue.use(
 	new VueSocketIO({
 		options: {

@@ -20,13 +20,13 @@ import AppShowcase from "@/components/landing/AppShowcase.vue";
 import AppStart from "@/components/landing/AppStart.vue";
 
 export default {
+	name: "Landing",
+
 	components: {
 		AppShowcase,
 		AppReasons,
 		AppStart
 	},
-
-	name: "Landing",
 
 	data() {
 		return {};

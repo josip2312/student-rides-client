@@ -64,11 +64,7 @@
 					>
 						Poruke
 					</router-link>
-					<a
-						v-if="isMobile"
-						tabindex="0"
-						@click="logout, hideSidebar"
-					>
+					<a class="logout" tabindex="0" @click="logout, hideSidebar">
 						Odjavi se</a
 					>
 				</nav>
@@ -76,6 +72,7 @@
 				<!-- logged in additional elements -->
 				<div class="nav-buttons" v-if="isLoggedIn">
 					<button
+						aria-label="Notifications"
 						tabindex="0"
 						class="notification-icon"
 						@click="toggleNotifications(), hideUserDropdown()"
@@ -160,6 +157,7 @@
 					</transition>
 
 					<button
+						aria-label="Profile info"
 						class="user-icon"
 						tabindex="0"
 						@click="
@@ -222,7 +220,7 @@
 				</div>
 
 				<!-- hamburger menu -->
-				<div class="menu" @click="showSidebar" v-if="isMobile">
+				<div class="menu" @click="showSidebar">
 					<button>
 						<img
 							:class="{ active: visible }"
@@ -245,46 +243,20 @@
 			</div>
 		</div>
 
-		<!-- mobile navigation -->
-		<div class="mobile-nav" v-if="isMobile">
-			<div class="mobile-nav-wrapper" v-if="!isLoggedIn">
-				<router-link :to="{ name: 'Landing' }" tag="a">
-					<img src="@/assets/img/icons/home.svg" alt="Home" />
-					<span>Početna</span>
-				</router-link>
-				<router-link :to="{ name: 'Login' }" tag="a">
-					<img src="@/assets/img/icons/login.svg" alt="Login" />
-					<span>Prijava</span>
-				</router-link>
-				<router-link :to="{ name: 'Register' }" tag="a">
-					<img src="@/assets/img/icons/useradd.svg" alt="Sign up" />
-					<span>Registracija</span>
-				</router-link>
-			</div>
-			<div class="mobile-nav-wrapper" v-else>
-				<router-link :to="{ name: 'Landing' }" tag="a">
-					<img src="@/assets/img/icons/home.svg" alt="Home" />
-					<span>Početna</span>
-				</router-link>
-				<router-link :to="{ name: 'Rides' }" tag="a">
-					<img src="@/assets/img/icons/rides.svg" alt="Rides" />
-					<span>Vožnje</span>
-				</router-link>
-				<router-link :to="{ name: 'Profile' }" tag="a">
-					<img src="@/assets/img/icons/user.svg" alt="Profile" />
-					<span>Moj Profil</span>
-				</router-link>
-			</div>
-		</div>
+		<TheMobileNav />
 	</header>
 </template>
 
 <script>
 import ClickOutside from "vue-click-outside";
+import TheMobileNav from "@/components/layout/TheMobileNav";
 
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Header",
+	components: {
+		TheMobileNav
+	},
 
 	data() {
 		return {
@@ -292,7 +264,6 @@ export default {
 
 			showUserDropdown: false,
 			showNotifications: false,
-			windowWidth: window.innerWidth,
 			visible: false,
 
 			haveUnread: false,
@@ -310,9 +281,6 @@ export default {
 			"getLoggedInUser"
 		]),
 
-		isMobile() {
-			return this.windowWidth <= 600;
-		},
 		notificationNumber() {
 			if (!this.getUserData.notifications) {
 				return 0;
@@ -381,9 +349,6 @@ export default {
 	},
 
 	mounted() {
-		window.addEventListener("resize", () => {
-			this.windowWidth = window.innerWidth;
-		});
 		this.popupItem = this.$el;
 	},
 	created() {
@@ -493,6 +458,12 @@ header {
 			transition: opacity 0.2s ease-in-out,
 				background-color 0.2s ease-in-out;
 		}
+		.logout {
+			display: none;
+			@media only screen and(max-width: $vp-6) {
+				display: block;
+			}
+		}
 		@media only screen and(max-width:$vp-6) {
 			flex-direction: column;
 			justify-content: center;
@@ -522,9 +493,12 @@ header {
 	}
 
 	.menu {
+		display: none;
 		margin-left: 0.5rem;
-		display: flex;
 		flex-shrink: 0;
+		@media only screen and(max-width:$vp-6) {
+			display: flex;
+		}
 
 		button {
 			padding: 0;
@@ -718,49 +692,6 @@ header {
 		.no-notifications {
 			font-size: 1.8rem;
 			color: $font-white;
-		}
-	}
-}
-//mobile navbar
-.mobile-nav {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	align-items: center;
-	height: 9vh;
-	width: 100%;
-	background: $accent;
-
-	&-wrapper {
-		display: flex;
-		margin: 0 auto;
-		width: 90%;
-
-		a {
-			flex: 1;
-			padding: 0.5rem 0;
-
-			text-transform: uppercase;
-			text-align: center;
-			list-style: none;
-			font-size: 1.4rem;
-			cursor: pointer;
-
-			transition: opacity 0.2s ease;
-			text-decoration: none;
-			color: $font-white;
-
-			img {
-				margin: 0 auto;
-				margin-bottom: 0.5rem;
-				width: 2.5rem;
-				height: 2.5rem;
-			}
-		}
-
-		.router-link-exact-active {
-			background-color: $blue;
 		}
 	}
 }

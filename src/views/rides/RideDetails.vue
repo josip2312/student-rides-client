@@ -115,6 +115,16 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "RideDetails",
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Vožnja od ${this.ride.start} do ${this.ride.end}, vožnju je postavio ${this.ride.fullName}.`
+				}
+			]
+		};
+	},
 
 	components: {
 		TheError,
@@ -134,6 +144,9 @@ export default {
 				return this.getRideDetails.users.length < 1;
 			}
 			return true;
+		},
+		ride() {
+			return this.getRideDetails;
 		}
 	},
 

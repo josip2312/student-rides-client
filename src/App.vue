@@ -24,6 +24,18 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "App",
+	metaInfo() {
+		return {
+			title: "StudentRides",
+			meta: [
+				{
+					name: "description",
+					content:
+						"Posjeti StudentRides, stekni nova poznanstva, uštedi novac i pomozi kolegama studentima. "
+				}
+			]
+		};
+	},
 	components: {
 		TheHeader,
 		TheFooter,
@@ -53,7 +65,6 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
-	//min-height: 100vh;
 	@include fillPage;
 }
 

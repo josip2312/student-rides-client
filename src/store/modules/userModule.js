@@ -31,8 +31,7 @@ export default {
 			} else {
 				state.searchedUserData = data;
 				router.push({
-					name: "UserDetails",
-					params: { name: data.name }
+					name: "UserDetails"
 				});
 			}
 		},

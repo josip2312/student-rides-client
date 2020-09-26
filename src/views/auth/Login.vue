@@ -60,6 +60,7 @@ import { mapActions } from "vuex";
 
 export default {
 	name: "Login",
+
 	components: {
 		FormWrapper,
 		TextInput,

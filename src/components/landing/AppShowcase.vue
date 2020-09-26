@@ -57,7 +57,6 @@ export default {
 	grid-template-columns: repeat(12, 1fr);
 
 	@include fillPage;
-	overflow: hidden;
 }
 
 .showcase-heading {

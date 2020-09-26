@@ -15,6 +15,7 @@
 		"vee-validate": "^3.3.9",
 		"vue": "^2.6.11",
 		"vue-click-outside": "^1.1.0",
+		"vue-meta": "^2.4.0",
 		"vue-router": "^3.2.0",
 		"vue-socket.io": "^3.0.10",
 		"vuejs-datepicker": "^1.6.2",

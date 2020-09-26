@@ -65,7 +65,16 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Chat",
-
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Razgovor sa ${this.receiverName}`
+				}
+			]
+		};
+	},
 	data() {
 		return {
 			componentKey: 0,
