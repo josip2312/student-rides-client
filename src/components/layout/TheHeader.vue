@@ -209,7 +209,7 @@
 							<a
 								tabindex="0"
 								class="user-dropdown-logout"
-								@click="logout, hideUserDropdown"
+								@click="logout(), hideUserDropdown()"
 							>
 								<img
 									src="@/assets/img/icons/logout.svg"
@@ -367,7 +367,11 @@ export default {
 
 	watch: {
 		getLoggedInUser: function() {
-			this.$socket.connect();
+			if (this.getLoggedInUser) {
+				this.$socket.disconnect();
+				this.$socket.connect();
+				console.log("header");
+			}
 		}
 	},
 	sockets: {

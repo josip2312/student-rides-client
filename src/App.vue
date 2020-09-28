@@ -9,12 +9,10 @@
 		<TheFooter />
 
 		<TheSuccess />
-
 		<TheLoader />
 	</div>
 </template>
 
-//TODO Delete console logs throughout
 <script>
 import TheSuccess from "./components/TheSuccess";
 import TheHeader from "./components/layout/TheHeader";
@@ -70,5 +68,5 @@ export default {
 	@include fillPage;
 }
 
-@import "assets/css/app";
+//import "assets/css/app";
 </style>

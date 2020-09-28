@@ -63,11 +63,13 @@ export default {
 	width: 85%;
 	max-width: 40rem;
 	margin-bottom: 2rem;
+	min-height: 20rem;
 
 	img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		min-height: 20rem;
 		border-radius: 3px;
 		transition: opacity 0.2s;
 		cursor: pointer;

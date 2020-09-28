@@ -15,6 +15,7 @@ Vue.directive("scrollanimation", scrollAnimation);
 Vue.use(VueMeta, {
 	refreshOnceOnNavigation: true
 });
+
 Vue.use(
 	new VueSocketIO({
 		options: {

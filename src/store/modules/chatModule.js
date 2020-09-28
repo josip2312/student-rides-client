@@ -3,16 +3,24 @@ import router from "@/router/index";
 
 export default {
 	state: {
-		chats: []
+		chats: [],
+		chatIndex: 0
 	},
 
 	getters: {
-		getChats: state => state.chats
+		getChats: state => state.chats,
+		getChatIndex: state => state.chatIndex
 	},
 
 	mutations: {
 		SET_CHATS: (state, data) => {
 			state.chats = data;
+		},
+		SET_CHAT_INDEX: (state, index) => {
+			state.chatIndex = index;
+			if (router.history.current.name !== "Chat") {
+				router.push({ name: "Chat" });
+			}
 		},
 
 		SEND_CHAT_DASHBOARD: () => {
@@ -55,6 +63,9 @@ export default {
 				commit("SEND_CHAT_DASHBOARD");
 				console.error(error.response);
 			}
+		},
+		openChat({ commit }, index) {
+			commit("SET_CHAT_INDEX", index);
 		}
 	}
 };

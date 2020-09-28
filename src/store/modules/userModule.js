@@ -99,13 +99,13 @@ export default {
 					userId: data.userId,
 					notificationId: data.notificationId
 				});
-				const res = await axios.get(`rides/${data.rideId}`);
+				//const res = await axios.get(`rides/${data.rideId}`);
 
 				commit("SET_USER_NOTIFICATIONS", {
 					id: data.notificationId
 				});
 				//update notifications
-				dispatch("fetchRideDetails", res.data._id, { root: true });
+				dispatch("fetchRideDetails", data.rideId, { root: true });
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -121,6 +121,7 @@ export default {
 		async uploadPhoto({ commit, rootGetters }, payload) {
 			try {
 				const fd = new FormData();
+
 				fd.append("image", payload, payload.name);
 
 				const res = await axios.put(

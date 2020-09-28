@@ -1,5 +1,5 @@
 <template>
-	<div class="chat-container" :key="componentKey">
+	<div class="chat-container">
 		<h2 class="heading-2">
 			{{ receiverName }}
 		</h2>
@@ -14,6 +14,9 @@
 				</div>
 				<span> {{ message.content }}</span>
 			</li>
+			<transition name="fade" mode="out-in">
+				<small v-if="typing">{{ receiverName }} piše...</small>
+			</transition>
 		</ul>
 
 		<form
@@ -39,7 +42,7 @@
 			"
 		>
 			<input
-				placeholder="Enter your message"
+				placeholder="Upiši poruku"
 				type="text"
 				v-model="message"
 				@focus="
@@ -55,7 +58,7 @@
 				:class="{ disabled: !message }"
 				:disabled="!message"
 			>
-				Send
+				Pošalji
 			</button>
 		</form>
 	</div>
@@ -77,24 +80,22 @@ export default {
 	},
 	data() {
 		return {
-			componentKey: 0,
 			message: null,
-			messagesData: this.messages
+			typing: false
 		};
 	},
-	props: {
-		index: {
-			type: [Number, String],
-			required: true
-		}
-	},
+
 	computed: {
 		...mapGetters([
 			"getChats",
 			"getUserData",
 			"getSearchedUserData",
-			"getLoggedInUser"
+			"getLoggedInUser",
+			"getChatIndex"
 		]),
+		index() {
+			return this.getChatIndex;
+		},
 		messages() {
 			return this.getChats[this.index].messages;
 		},
@@ -111,6 +112,13 @@ export default {
 			return this.chat.sender === this.getUserData._id
 				? this.chat.receiver
 				: this.chat.sender;
+		}
+	},
+	watch: {
+		message(value) {
+			value
+				? this.$socket.emit("typing", this.chat._id)
+				: this.$socket.emit("stopTyping", this.chat._id);
 		}
 	},
 
@@ -170,6 +178,7 @@ export default {
 				sender: this.getUserData._id
 			});
 			this.$socket.emit("connected", {
+				userId: this.getUserData._id,
 				room: this.chat._id,
 				sender: this.chat.sender,
 				receiver: this.chat.receiver
@@ -177,6 +186,13 @@ export default {
 			if (this.messages[this.messages.length - 1]) {
 				this.messages[this.messages.length - 1].receiverHasRead = true;
 			}
+		},
+
+		typing() {
+			this.typing = true;
+		},
+		stopTyping() {
+			this.typing = false;
 		},
 		message(data) {
 			this.getChats[this.index].messages.push(data);
@@ -220,6 +236,12 @@ export default {
 		.name {
 			font-weight: 500;
 		}
+	}
+	small {
+		display: block;
+		padding: 1rem 1rem;
+		margin: 1rem;
+		border-radius: 0.25em;
 	}
 	li:last-child {
 		border-bottom: none;

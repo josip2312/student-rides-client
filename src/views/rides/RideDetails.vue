@@ -21,6 +21,7 @@
 				<div class="smoking">
 					<img
 						src="@/assets/img/icons/yes.svg"
+						alt="Check icon"
 						v-if="getRideDetails.smoking"
 					/>
 					<img
@@ -140,8 +141,10 @@ export default {
 	computed: {
 		...mapGetters(["getRideDetails", "getLoggedInUser"]),
 		passengers() {
-			if (this.getRideDetails.users.length) {
-				return this.getRideDetails.users.length < 1;
+			if (this.getRideDetails) {
+				if (this.getRideDetails.users.length) {
+					return this.getRideDetails.users.length < 1;
+				}
 			}
 			return true;
 		},

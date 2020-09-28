@@ -5,6 +5,7 @@ import moment from "moment";
 export default {
 	state: {
 		rides: [],
+		allRides: [],
 		userRides: [],
 		reservedRides: [],
 		rideDetails: {}
@@ -20,29 +21,40 @@ export default {
 	},
 
 	mutations: {
-		SET_RIDES: (state, rides) => {
-			state.rides = rides;
+		SET_RIDES: (state, ridesObj) => {
+			state.rides = ridesObj.filteredRides;
+			state.allRides = ridesObj.allRides;
 		},
-		SET_USER_RIDES: (state, rides) => {
-			state.userRides = rides;
+
+		SET_USER_RIDES: (state, id) => {
+			let userRides = state.allRides.filter(ride => ride.user === id);
+			state.userRides = userRides;
 		},
-		SET_RESERVED_RIDES: (state, reservedRides) => {
-			state.reservedRides = reservedRides;
+		SET_RESERVED_RIDES: (state, userData) => {
+			let reserved = [];
+			userData.reservedRides.forEach(rideId => {
+				state.rides.forEach(ride => {
+					if (ride._id === rideId) reserved.push(ride);
+				});
+			});
+			state.reservedRides = reserved;
 		},
 
 		ADD_RIDE: (state, ride) => {
+			state.allRides.push(ride);
 			state.userRides.push(ride);
 			router.push({ name: "Profile" });
 		},
-		SET_RIDE_DETAILS: (state, data) => {
-			data.ride._id = data.id;
-			state.rideDetails = data.ride;
+
+		SET_RIDE_DETAILS: (state, id) => {
+			let ride = state.allRides.find(ride => ride._id === id);
+
+			state.rideDetails = ride;
 			if (router.currentRoute.name !== "RideDetails") {
 				router.push({ name: "RideDetails" });
 			}
 		},
 		RIDE_DELETED: (state, id) => {
-			state.rides = state.rides.filter(ride => ride._id !== id);
 			state.userRides = state.userRides.filter(ride => ride._id !== id);
 		},
 		SET_EDITING_RIDE: (state, data) => {
@@ -68,22 +80,33 @@ export default {
 			try {
 				const res = await axios.get("rides");
 
-				const rides = res.data.filter(ride => {
+				const filteredRides = res.data.filter(ride => {
 					return ride.user !== rootGetters.getLoggedInUser;
 				});
+				const allRides = res.data;
 
-				commit("SET_RIDES", rides);
+				commit("SET_RIDES", { filteredRides, allRides });
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
-		async fetchUserRides({ commit, rootGetters }) {
+		fetchUserRides({ commit, rootGetters }) {
 			try {
-				const res = await axios.get(
-					`rides/user/${rootGetters.getLoggedInUser}`
-				);
-
-				commit("SET_USER_RIDES", res.data);
+				commit("SET_USER_RIDES", rootGetters.getLoggedInUser);
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
+		fetchRideDetails({ commit }, id) {
+			try {
+				commit("SET_RIDE_DETAILS", id);
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
+		fetchReservedRides({ commit, rootGetters }) {
+			try {
+				commit("SET_RESERVED_RIDES", rootGetters.getUserData);
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -108,15 +131,7 @@ export default {
 				console.error(error.response);
 			}
 		},
-		async fetchRideDetails({ commit }, id) {
-			try {
-				const ride = await axios.get(`rides/${id}`);
 
-				commit("SET_RIDE_DETAILS", { ride: ride.data, id });
-			} catch (error) {
-				console.error(error.response);
-			}
-		},
 		async reserveRide({ dispatch }, data) {
 			try {
 				await axios.post(`rides/ride/${data.rideId}`, {
@@ -124,6 +139,7 @@ export default {
 				});
 
 				//get updated details
+				await dispatch("fetchRides");
 				dispatch("fetchRideDetails", data.rideId);
 				//get updated user notifications
 				dispatch("fetchUserData");
@@ -132,21 +148,10 @@ export default {
 			}
 		},
 
-		async fetchReservedRides({ commit, rootGetters }) {
-			try {
-				const res = await axios.get(
-					`rides/user/reserved/${rootGetters.getLoggedInUser}`
-				);
-
-				commit("SET_RESERVED_RIDES", res.data);
-			} catch (error) {
-				console.error(error.response);
-			}
-		},
-
-		async deleteRide({ commit }, id) {
+		async deleteRide({ commit, dispatch }, id) {
 			try {
 				await axios.delete(`rides/ride/${id}`);
+				dispatch("fetchRides");
 				commit("RIDE_DELETED", id);
 			} catch (error) {
 				console.error(error.response);
@@ -164,7 +169,7 @@ export default {
 			}
 		},
 
-		async editRideMode(_, data) {
+		editRideMode(_, data) {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
 
 			router.push({
@@ -203,7 +208,7 @@ export default {
 					car: data.car
 				});
 
-				await dispatch("fetchUserRides");
+				await dispatch("fetchRides");
 				router.push({ name: "Profile" });
 			} catch (error) {
 				console.error(error.response);
@@ -212,7 +217,7 @@ export default {
 
 		//at every login check if any rides are outdated
 		async deleteExpiredRides() {
-			await axios.delete("/rides/expired");
+			await axios.delete("rides/expired");
 		}
 	}
 };

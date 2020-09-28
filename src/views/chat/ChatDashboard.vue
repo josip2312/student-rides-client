@@ -2,13 +2,18 @@
 	<div id="dashboard">
 		<h2 class="heading-2">Tvoje poruke</h2>
 		<div class="chats" v-if="chats.length > 0">
-			<router-link
+			<div
 				class="chat"
 				v-for="(chat, index) in chats"
 				:key="chat._id"
-				:to="{ name: 'Chat', params: { index: index } }"
+				@click="openChat(index)"
 				:class="{ unread: messageIsRead(index) }"
 			>
+				<div
+					class="online"
+					title="online"
+					:style="{ backgroundColor: '#38d452' }"
+				></div>
 				<div class="name">
 					{{ receiverName(index) }}
 				</div>
@@ -28,7 +33,7 @@
 				>
 					<img src="@/assets/img/icons/trashblack.svg" alt="" />
 				</button>
-			</router-link>
+			</div>
 		</div>
 		<div class="no-chats" v-else>
 			<img src="@/assets/img/icons/notfound.svg" alt="" />
@@ -62,7 +67,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(["fetchChats", "deleteChat"]),
+		...mapActions(["fetchChats", "deleteChat", "openChat"]),
 
 		messageIsRead(chatIndex) {
 			if (this.chats[chatIndex].messages.length > 0) {
@@ -161,6 +166,7 @@ export default {
 
 		margin-left: -2rem;
 		padding: 2.5rem;
+		padding-left: 3.5rem;
 
 		font-size: 2rem;
 		border-radius: 3px;
@@ -183,6 +189,17 @@ export default {
 
 		&:not(:last-child) {
 			margin-bottom: 1.5rem;
+		}
+		.online {
+			position: absolute;
+			transform: translateY(-50%);
+			left: 1.25rem;
+			top: 50%;
+
+			width: 1.2rem;
+			height: 1.2rem;
+			background-color: #38d452;
+			border-radius: 50%;
 		}
 		.delete-chat {
 			cursor: pointer;
