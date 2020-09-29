@@ -9,11 +9,6 @@
 				@click="openChat(index)"
 				:class="{ unread: messageIsRead(index) }"
 			>
-				<div
-					class="online"
-					title="online"
-					:style="{ backgroundColor: '#38d452' }"
-				></div>
 				<div class="name">
 					{{ receiverName(index) }}
 				</div>
@@ -190,17 +185,7 @@ export default {
 		&:not(:last-child) {
 			margin-bottom: 1.5rem;
 		}
-		.online {
-			position: absolute;
-			transform: translateY(-50%);
-			left: 1.25rem;
-			top: 50%;
 
-			width: 1.2rem;
-			height: 1.2rem;
-			background-color: #38d452;
-			border-radius: 50%;
-		}
 		.delete-chat {
 			cursor: pointer;
 			position: absolute;
