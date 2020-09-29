@@ -56,7 +56,7 @@ export default {
 				await axios.post(`/chat/create`, payload);
 
 				dispatch("fetchChats");
-				dispatch("fetchUserData", null, { root: true });
+				//dispatch("fetchUserData", null, { root: true });
 
 				commit("SEND_CHAT_DASHBOARD");
 			} catch (error) {

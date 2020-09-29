@@ -54,9 +54,7 @@ export default {
 				router.push({ name: "RideDetails" });
 			}
 		},
-		RIDE_DELETED: (state, id) => {
-			state.userRides = state.userRides.filter(ride => ride._id !== id);
-		},
+
 		SET_EDITING_RIDE: (state, data) => {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
 
@@ -141,18 +139,16 @@ export default {
 				//get updated details
 				await dispatch("fetchRides");
 				dispatch("fetchRideDetails", data.rideId);
-				//get updated user notifications
-				dispatch("fetchUserData");
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 
-		async deleteRide({ commit, dispatch }, id) {
+		async deleteRide({ dispatch }, id) {
 			try {
 				await axios.delete(`rides/ride/${id}`);
-				dispatch("fetchRides");
-				commit("RIDE_DELETED", id);
+				await dispatch("fetchRides");
+				dispatch("fetchUserRides");
 			} catch (error) {
 				console.error(error.response);
 			}

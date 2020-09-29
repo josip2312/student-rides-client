@@ -105,11 +105,11 @@ const routes = [
 		beforeEnter: loggedInGuard
 	},
 	{
-		path: "/auth/confirmpassword/:token",
-		name: "ConfirmPassword",
+		path: "/auth/confirmaccount/:token",
+		name: "ConfirmAccount",
 		component: () =>
 			import(
-				/* webpackChunkName: "Register" */ "@/views/auth/ConfirmPassword.vue"
+				/* webpackChunkName: "Register" */ "@/views/auth/ConfirmAccount.vue"
 			),
 		beforeEnter: (to, from, next) => {
 			if (!store.state.authModule.loggedIn) {

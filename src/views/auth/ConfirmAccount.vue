@@ -5,13 +5,13 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-	name: "ConfirmPassword",
+	name: "ConfirmAccount",
 	methods: {
-		...mapActions(["confirmPassword"])
+		...mapActions(["confirmAccount"])
 	},
 
 	created() {
-		this.confirmPassword(this.$route.params.token);
+		this.confirmAccount(this.$route.params.token);
 	}
 };
 </script>

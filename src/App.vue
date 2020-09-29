@@ -67,6 +67,4 @@ export default {
 	position: relative;
 	@include fillPage;
 }
-
-//import "assets/css/app";
 </style>

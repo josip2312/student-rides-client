@@ -29,7 +29,7 @@
 				</div>
 				<button
 					class="delete-chat"
-					@click.prevent="deleteChat(chat._id)"
+					@click.prevent.stop="deleteChat(chat._id)"
 				>
 					<img src="@/assets/img/icons/trashblack.svg" alt="" />
 				</button>

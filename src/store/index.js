@@ -20,7 +20,7 @@ export default new Vuex.Store({
 	},
 	plugins: [
 		createPersistedState({
-			storage: window.sessionStorage,
+			storage: window.localStorage,
 
 			reducer: val => {
 				if (!val.authModule.loggedIn) {

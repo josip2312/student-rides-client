@@ -141,7 +141,7 @@ export default {
 	computed: {
 		...mapGetters(["getRideDetails", "getLoggedInUser"]),
 		passengers() {
-			if (this.getRideDetails) {
+			if (this.getRideDetails.users) {
 				if (this.getRideDetails.users.length) {
 					return this.getRideDetails.users.length < 1;
 				}

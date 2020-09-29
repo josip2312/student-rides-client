@@ -70,7 +70,7 @@ export default {
 			}
 		},
 
-		async confirmPassword(_, token) {
+		async confirmAccount(_, token) {
 			try {
 				await axios.get(`/auth/user/confirmation/${token}`);
 				router.push({ name: "Login" });
@@ -95,7 +95,7 @@ export default {
 
 		async resetPassword({ commit }, data) {
 			try {
-				const res = await axios.put(`auth/resetpassword/${data.id}`, {
+				const res = await axios.patch(`auth/resetpassword/${data.id}`, {
 					password: data.password
 				});
 				commit("SET_LOGGED_IN", res.data);

@@ -20,8 +20,7 @@ export default {
 		SET_USER_DATA: (state, data) => {
 			state.userData = data;
 		},
-		USER_UPDATED: (state, data) => {
-			state.userData = data;
+		USER_UPDATED: () => {
 			router.push({ name: "Profile" });
 		},
 
@@ -51,28 +50,6 @@ export default {
 	},
 
 	actions: {
-		async editProfile({ commit, rootGetters }, data) {
-			try {
-				await axios.patch(
-					`auth/user/edit/${rootGetters.getLoggedInUser}`,
-					{
-						name: data.name,
-						lastname: data.lastname,
-						contact: data.contact,
-						description: data.desc
-					}
-				);
-
-				const res = await axios.get(
-					`auth/user/${rootGetters.getLoggedInUser}`
-				);
-
-				commit("USER_UPDATED", res.data);
-			} catch (error) {
-				console.error(error.response);
-			}
-		},
-
 		async fetchUserData({ commit, rootGetters }) {
 			try {
 				const res = await axios.get(
@@ -93,18 +70,37 @@ export default {
 				console.error(error.response);
 			}
 		},
+		async editProfile({ commit, dispatch, rootGetters }, data) {
+			try {
+				await axios.patch(
+					`auth/user/edit/${rootGetters.getLoggedInUser}`,
+					{
+						name: data.name,
+						lastname: data.lastname,
+						contact: data.contact,
+						description: data.desc
+					}
+				);
+
+				await dispatch("fetchUserData");
+
+				commit("USER_UPDATED");
+			} catch (error) {
+				console.error(error.response);
+			}
+		},
 		async readNotification({ commit, dispatch }, data) {
 			try {
 				await axios.patch(`/rides/notifications/`, {
 					userId: data.userId,
 					notificationId: data.notificationId
 				});
-				//const res = await axios.get(`rides/${data.rideId}`);
 
 				commit("SET_USER_NOTIFICATIONS", {
 					id: data.notificationId
 				});
-				//update notifications
+				//send to rideDetails
+				await dispatch("fetchRides", null, { root: true });
 				dispatch("fetchRideDetails", data.rideId, { root: true });
 			} catch (error) {
 				console.error(error.response);
@@ -124,22 +120,18 @@ export default {
 
 				fd.append("image", payload, payload.name);
 
-				const res = await axios.put(
+				const res = await axios.patch(
 					`auth/user/${rootGetters.getLoggedInUser}/photo`,
 					fd
 				);
 
 				commit("SET_PHOTO", res.data.data);
-				commit("SUCCESS", "Photo uploaded");
-				setTimeout(() => {
-					commit("CLEAR_SUCCESS");
-				}, 3000);
 			} catch (error) {
 				console.error(error.response);
 			}
-		},
+		}
 
-		async fetchPhoto({ commit, rootGetters }) {
+		/* async fetchPhoto({ commit, rootGetters }) {
 			try {
 				const res = await axios.get(
 					`auth/user/${rootGetters.getLoggedInUser}/photo`
@@ -148,6 +140,6 @@ export default {
 			} catch (error) {
 				console.error(error.response);
 			}
-		}
+		} */
 	}
 };
