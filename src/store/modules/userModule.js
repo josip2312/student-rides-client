@@ -19,6 +19,7 @@ export default {
 	mutations: {
 		SET_USER_DATA: (state, data) => {
 			state.userData = data;
+			state.photo = data.photo;
 		},
 		USER_UPDATED: () => {
 			router.push({ name: "Profile" });
@@ -35,16 +36,15 @@ export default {
 			}
 		},
 		SET_USER_NOTIFICATIONS: (state, data) => {
-			state.userData.notifications = state.userData.notifications.filter(
-				notification => {
-					return notification._id !== data.id;
-				}
-			);
+			state.userData.notifications = data;
 		},
 		DELETE_NOTIFICATIONS: state => {
 			state.userData.notifications = [];
 		},
-		SET_PHOTO: (state, data) => {
+		SET_PHOTO: state => {
+			state.photo = state.userData.photo;
+		},
+		SET_UPLOADED_PHOTO: (state, data) => {
 			state.photo = data;
 		}
 	},
@@ -53,34 +53,34 @@ export default {
 		async fetchUserData({ commit, rootGetters }) {
 			try {
 				const res = await axios.get(
-					`auth/user/${rootGetters.getLoggedInUser}`
+					`user/${rootGetters.getLoggedInUser}`,
+					{ headers: { "Cache-Control": "no-cache" } }
 				);
 
-				commit("SET_USER_DATA", res.data);
+				await commit("SET_USER_DATA", res.data.user);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 		async fetchUserById({ commit }, id) {
 			try {
-				const res = await axios.get(`auth/user/${id}`);
+				const res = await axios.get(`user/${id}`);
 
-				commit("SET_SEARCHED_USER_DATA", res.data);
+				commit("SET_SEARCHED_USER_DATA", res.data.user);
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 		async editProfile({ commit, dispatch, rootGetters }, data) {
 			try {
-				await axios.patch(
-					`auth/user/edit/${rootGetters.getLoggedInUser}`,
-					{
-						name: data.name,
-						lastname: data.lastname,
-						contact: data.contact,
-						description: data.desc
-					}
-				);
+				const { name, lastname, contact, description } = data;
+
+				await axios.patch(`user/edit/${rootGetters.getLoggedInUser}`, {
+					name,
+					lastname,
+					contact,
+					description
+				});
 
 				await dispatch("fetchUserData");
 
@@ -91,14 +91,14 @@ export default {
 		},
 		async readNotification({ commit, dispatch }, data) {
 			try {
-				await axios.patch(`/rides/notifications/`, {
-					userId: data.userId,
-					notificationId: data.notificationId
+				const { userId, notificationId } = data;
+
+				const res = await axios.patch(`/user/notifications/`, {
+					userId,
+					notificationId
 				});
 
-				commit("SET_USER_NOTIFICATIONS", {
-					id: data.notificationId
-				});
+				commit("SET_USER_NOTIFICATIONS", res.data.notifications);
 				//send to rideDetails
 				await dispatch("fetchRides", null, { root: true });
 				dispatch("fetchRideDetails", data.rideId, { root: true });
@@ -108,7 +108,7 @@ export default {
 		},
 		async readAllNotifications({ commit }, userId) {
 			try {
-				await axios.delete(`/rides/notifications/${userId}`);
+				await axios.delete(`/user/notifications/${userId}`);
 				commit("DELETE_NOTIFICATIONS");
 			} catch (error) {
 				console.error(error.response);
@@ -121,25 +121,14 @@ export default {
 				fd.append("image", payload, payload.name);
 
 				const res = await axios.patch(
-					`auth/user/${rootGetters.getLoggedInUser}/photo`,
+					`user/${rootGetters.getLoggedInUser}/photo`,
 					fd
 				);
 
-				commit("SET_PHOTO", res.data.data);
+				commit("SET_UPLOADED_PHOTO", res.data.data);
 			} catch (error) {
 				console.error(error.response);
 			}
 		}
-
-		/* async fetchPhoto({ commit, rootGetters }) {
-			try {
-				const res = await axios.get(
-					`auth/user/${rootGetters.getLoggedInUser}/photo`
-				);
-				commit("SET_PHOTO", res.data);
-			} catch (error) {
-				console.error(error.response);
-			}
-		} */
 	}
 };

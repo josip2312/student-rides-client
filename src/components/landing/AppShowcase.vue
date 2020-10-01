@@ -92,6 +92,9 @@ export default {
 		justify-content: space-between;
 		width: 100%;
 		max-width: 45rem;
+		.btn-secondary {
+			border: 3px solid $accent;
+		}
 		@media only screen and(max-width:$vp-5) {
 			flex-direction: column;
 			justify-content: center;

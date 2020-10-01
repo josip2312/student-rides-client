@@ -85,7 +85,7 @@ export default {
 				value: null,
 				rules: {
 					required: true,
-					min: { length: 6 }
+					password: this.value
 				},
 				name: "password",
 				id: "password"

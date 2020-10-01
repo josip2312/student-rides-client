@@ -10,11 +10,12 @@
 						lastname: lastname.value,
 
 						contact: contact.value,
-						desc
+						description
 					})
 				)
 			"
 		>
+			<!-- //TODO - trim where neccessary -->
 			<template #form-content>
 				<div class="form-edit-group">
 					<div class="form-group">
@@ -23,7 +24,7 @@
 							:type="name.type"
 							:name="name.name"
 							:id="name.id"
-							v-model="name.value"
+							v-model.trim="name.value"
 							:rules="name.rules"
 						/>
 					</div>
@@ -61,16 +62,16 @@
 					/>
 				</div>
 				<div class="form-group">
-					<label for="desc">Kratka biografija</label>
+					<label for="description">Kratka biografija</label>
 					<ValidationProvider
 						v-slot="v"
 						rules="minmax:10,200|required"
 					>
 						<textarea
 							:class="v.classes"
-							v-model="desc"
-							name="desc"
-							id="desc"
+							v-model="description"
+							name="description"
+							id="description"
 							cols="5"
 							rows="4"
 						></textarea>
@@ -165,7 +166,8 @@ export default {
 				id: "email"
 			},
 
-			desc: this.$store.state.userModule.userData.description || null
+			description:
+				this.$store.state.userModule.userData.description || null
 		};
 	},
 	computed: {

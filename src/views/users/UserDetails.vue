@@ -23,7 +23,6 @@
 				class="message"
 				@click="
 					createNewChat({
-						chats: getUserData.chats,
 						sender: getUserData._id,
 						receiver: getSearchedUserData._id
 					})

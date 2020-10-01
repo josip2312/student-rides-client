@@ -135,6 +135,7 @@ export default {
 		}
 	}
 	&-mid {
+		margin-top: 2rem;
 		align-self: center;
 		span {
 			font-weight: 500;

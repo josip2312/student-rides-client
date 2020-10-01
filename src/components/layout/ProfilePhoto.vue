@@ -64,6 +64,7 @@ export default {
 	max-width: 40rem;
 	margin-bottom: 2rem;
 	min-height: 20rem;
+	max-height: 50rem;
 
 	img {
 		width: 100%;

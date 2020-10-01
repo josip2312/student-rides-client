@@ -182,7 +182,7 @@ export default {
 	border-radius: 3px;
 
 	padding: 3rem 2rem;
-	width: 90%;
+	width: 100%;
 	max-width: 60rem;
 	margin: 0 auto;
 

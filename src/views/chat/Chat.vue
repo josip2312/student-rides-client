@@ -103,10 +103,13 @@ export default {
 			return this.getChats[this.index];
 		},
 		receiverName() {
-			if (this.chat.members[0].name === this.getUserData.name) {
-				return this.chat.members[1].name;
+			if (
+				this.chat.senderFullName ===
+				`${this.getUserData.name} ${this.getUserData.lastname}`
+			) {
+				return this.chat.receiverFullName;
 			}
-			return this.chat.members[0].name;
+			return this.chat.senderFullName;
 		},
 		chatReceiver() {
 			return this.chat.sender === this.getUserData._id
@@ -155,19 +158,14 @@ export default {
 		this.scrollBottom();
 	},
 
-	created() {
-		//* force connect this particular socket
+	async created() {
+		//force connect this particular socket
 		this.$socket.disconnect();
 		this.$socket.connect();
 
-		this.fetchChats();
-		this.$socket.emit("readMessages", {
-			room: this.chat._id,
-			sender: this.getUserData._id
-		});
-		if (this.messages[this.messages.length - 1]) {
-			this.messages[this.messages.length - 1].receiverHasRead = true;
-		}
+		await this.fetchChats();
+
+		this.readMessages({ sender: this.getUserData._id });
 	},
 
 	sockets: {

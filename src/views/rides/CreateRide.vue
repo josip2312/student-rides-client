@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO - make some fields optional -->
 	<section class="create">
 		<ValidationObserver v-slot="{ handleSubmit }" slim :key="1">
 			<transition name="fade" mode="out-in">
@@ -476,10 +477,11 @@ export default {
 				label: "Cijena",
 				type: "number",
 				value: this.$route.params.price || null,
+
 				rules: {
 					required: true,
 					numeric: true,
-					minmax_value: [1, 100]
+					minmax_value: [0, 100]
 				},
 				name: "price",
 				id: "price",
@@ -598,13 +600,9 @@ select:focus {
 	border-bottom: 1px solid $accent;
 }
 .btn-secondary {
-	background-color: $tertiary;
 	color: $font-black;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
-.btn-secondary:hover {
-	background-color: $tertiary;
-}
+
 p {
 	font-size: 1.2rem;
 	margin-top: 0.6rem;

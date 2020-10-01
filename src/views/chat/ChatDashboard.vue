@@ -85,11 +85,12 @@ export default {
 
 		receiverName(chatIndex) {
 			if (
-				this.chats[chatIndex].members[0].name === this.getUserData.name
+				this.chats[chatIndex].senderFullName ===
+				`${this.getUserData.name} ${this.getUserData.lastname}`
 			) {
-				return `${this.chats[chatIndex].members[1].name} ${this.chats[chatIndex].members[1].lastname}`;
+				return `${this.chats[chatIndex].receiverFullName}`;
 			}
-			return `${this.chats[chatIndex].members[0].name} ${this.chats[chatIndex].members[0].lastname}`;
+			return `${this.chats[chatIndex].senderFullName}`;
 		},
 		lastMessage(chatIndex) {
 			if (

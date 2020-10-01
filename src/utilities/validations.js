@@ -24,6 +24,15 @@ extend("email", {
 	...email,
 	message: "Unesite valjan email"
 });
+
+extend("password", {
+	validate: value => {
+		const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+		return re.test(value);
+	},
+	message: "Lozinka mora imati najmanje 6 znakova, jedno veliko slovo i broj"
+});
+
 extend("required", {
 	...required,
 	message: "Ovo polje ne moze biti prazno"
@@ -42,10 +51,6 @@ extend("min", {
 
 	message: `Polje mora imati najmanje 6 znakova`
 });
-/* extend("max", {
-	...max,
-	message: `Polje moze imati najvise 200 znakova`
-}); */
 
 extend("minmax", {
 	validate(value, { min, max }) {

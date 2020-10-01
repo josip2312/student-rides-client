@@ -370,7 +370,6 @@ export default {
 			if (this.getLoggedInUser) {
 				this.$socket.disconnect();
 				this.$socket.connect();
-				console.log("header");
 			}
 		}
 	},

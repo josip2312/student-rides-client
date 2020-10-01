@@ -56,7 +56,7 @@
 						:name="password.name"
 						:id="password.id"
 						v-model="password.value"
-						rules="required|min:6"
+						:rules="password.rules"
 					/>
 				</div>
 				<div class="form-group">
@@ -104,7 +104,7 @@ export default {
 				value: null,
 				rules: {
 					required: true,
-					min: 6
+					password: this.value
 				},
 				name: "password",
 				id: "password",

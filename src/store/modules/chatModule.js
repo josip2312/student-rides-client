@@ -37,7 +37,7 @@ export default {
 					`/chat/${rootGetters.getLoggedInUser}`
 				);
 
-				commit("SET_CHATS", res.data);
+				commit("SET_CHATS", res.data.chats);
 			} catch (error) {
 				console.error(error.response);
 			}

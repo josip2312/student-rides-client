@@ -58,16 +58,27 @@ export default {
 		SET_EDITING_RIDE: (state, data) => {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
 
+			const {
+				id,
+				start,
+				end,
+				contact,
+				seats,
+				price,
+				smoking,
+				car
+			} = data;
+
 			state.editingRide = {
-				id: data.id,
-				start: data.start,
-				end: data.end,
-				contact: data.contact,
-				date: formattedDate,
-				seats: data.seats,
-				price: data.price,
-				smoking: data.smoking,
-				car: data.car
+				id,
+				start,
+				end,
+				contact,
+				seats,
+				price,
+				smoking,
+				car,
+				date: formattedDate
 			};
 			state.editRideMode = true;
 		}
@@ -78,10 +89,10 @@ export default {
 			try {
 				const res = await axios.get("rides");
 
-				const filteredRides = res.data.filter(ride => {
+				const filteredRides = res.data.rides.filter(ride => {
 					return ride.user !== rootGetters.getLoggedInUser;
 				});
-				const allRides = res.data;
+				const allRides = res.data.rides;
 
 				commit("SET_RIDES", { filteredRides, allRides });
 			} catch (error) {
@@ -111,17 +122,30 @@ export default {
 		},
 		async postRide({ commit, rootGetters }, data) {
 			try {
+				const {
+					start,
+					end,
+					date,
+					startTime,
+					contact,
+					seats,
+					price,
+
+					smoking,
+					car
+				} = data;
+
 				const res = await axios.post("rides", {
-					start: data.start,
-					end: data.end,
-					date: data.date,
-					startTime: data.startTime,
-					contact: data.contact,
-					seats: data.seats,
-					price: data.price,
+					start,
+					end,
+					date,
+					startTime,
+					contact,
+					seats,
+					price,
 					userId: rootGetters.getLoggedInUser,
-					smoking: data.smoking,
-					car: data.car
+					smoking,
+					car
 				});
 
 				commit("ADD_RIDE", res.data.ride);
@@ -156,7 +180,7 @@ export default {
 
 		async removeUserFromRide({ dispatch }, data) {
 			try {
-				await axios.patch(`rides/ride/update/${data.rideId}`, {
+				await axios.patch(`rides/ride/${data.rideId}`, {
 					userId: data.userId
 				});
 				dispatch("fetchRideDetails", data.rideId);
@@ -168,19 +192,31 @@ export default {
 		editRideMode(_, data) {
 			const formattedDate = moment(data.date).format("YYYY-MM-DD");
 
+			const {
+				id,
+				start,
+				end,
+				startTime,
+				contact,
+				seats,
+				price,
+				smoking,
+				car
+			} = data;
+
 			router.push({
 				name: "CreateRide",
 				params: {
-					id: data.id,
-					start: data.start,
-					end: data.end,
-					startTime: data.startTime,
-					contact: data.contact,
+					id,
+					start,
+					end,
+					startTime,
+					contact,
+					seats,
+					price,
+					smoking,
+					car,
 					date: formattedDate,
-					seats: data.seats,
-					price: data.price,
-					smoking: data.smoking,
-					car: data.car,
 					editMode: true
 				}
 			});
@@ -192,16 +228,27 @@ export default {
 					? (data.smoking = true)
 					: (data.smoking = false);
 
+				const {
+					id,
+					start,
+					end,
+					startTime,
+					contact,
+					seats,
+					price,
+					car
+				} = data;
+
 				await axios.put(`rides/ride/${data.id}`, {
-					id: data.id,
-					start: data.start,
-					end: data.end,
-					date: data.date,
-					contact: data.contact,
-					seats: data.seats,
-					price: data.price,
-					smoking: data.smoking,
-					car: data.car
+					id,
+					start,
+					end,
+					startTime,
+					contact,
+					seats,
+					price,
+					car,
+					smoking: data.smoking
 				});
 
 				await dispatch("fetchRides");

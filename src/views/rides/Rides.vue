@@ -98,7 +98,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters(["getRides"]),
+		...mapGetters(["getRides", "getPhoto"]),
 
 		filteredRides() {
 			return this.getRides.filter(ride => {
@@ -124,11 +124,14 @@ export default {
 	},
 
 	methods: {
-		...mapActions(["fetchRides", "fetchRideDetails"])
+		...mapActions(["fetchRides", "fetchRideDetails", "fetchPhoto"])
 	},
 
 	created() {
 		this.fetchRides();
+		if (!this.getPhoto) {
+			this.$store.commit("SET_PHOTO");
+		}
 	}
 };
 </script>
