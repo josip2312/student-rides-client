@@ -20,13 +20,10 @@ export default {
 			state.loggedIn = true;
 			state.jwtToken = userData.token;
 			state.loggedInUser = userData.userId;
-
-			router.push({ name: "Rides" });
 		},
 
 		REGISTER_USER: (state, userId) => {
 			state.registeringUser = userId;
-			router.push({ name: "RegistrationSuccess", params: { userId } });
 		},
 		LOGIN_FAILED: (state, data) => {
 			state.error = data;
@@ -46,6 +43,7 @@ export default {
 				});
 
 				commit("SET_LOGGED_IN", res.data);
+				router.push({ name: "Rides" });
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -65,15 +63,22 @@ export default {
 				});
 
 				commit("REGISTER_USER", res.data.userId);
+				4;
+				router.push({
+					name: "RegistrationSuccess",
+					params: { userId: res.data.userId }
+				});
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
 
-		async confirmAccount(_, token) {
+		async confirmAccount({ commit }, token) {
 			try {
-				await axios.get(`/auth/user/confirmation/${token}`);
-				router.push({ name: "Login" });
+				const res = await axios.get(`/auth/user/confirmation/${token}`);
+
+				commit("SET_LOGGED_IN", res.data);
+				router.push({ name: "Rides" });
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -99,6 +104,7 @@ export default {
 					password: data.password
 				});
 				commit("SET_LOGGED_IN", res.data);
+				router.push({ name: "Rides" });
 			} catch (error) {
 				console.error(error.response);
 			}

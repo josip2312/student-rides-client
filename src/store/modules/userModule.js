@@ -21,19 +21,9 @@ export default {
 			state.userData = data;
 			state.photo = data.photo;
 		},
-		USER_UPDATED: () => {
-			router.push({ name: "Profile" });
-		},
 
 		SET_SEARCHED_USER_DATA: (state, data) => {
-			if (data._id === state.loggedInUser) {
-				router.push({ name: "Profile" });
-			} else {
-				state.searchedUserData = data;
-				router.push({
-					name: "UserDetails"
-				});
-			}
+			state.searchedUserData = data;
 		},
 		SET_USER_NOTIFICATIONS: (state, data) => {
 			state.userData.notifications = data;
@@ -62,16 +52,23 @@ export default {
 				console.error(error.response);
 			}
 		},
-		async fetchUserById({ commit }, id) {
+		async fetchUserById({ commit, rootGetters }, id) {
 			try {
 				const res = await axios.get(`user/${id}`);
 
-				commit("SET_SEARCHED_USER_DATA", res.data.user);
+				if (res.data.user._id === rootGetters.getLoggedInUser) {
+					router.push({ name: "Profile" });
+				} else {
+					commit("SET_SEARCHED_USER_DATA", res.data.user);
+					router.push({
+						name: "UserDetails"
+					});
+				}
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
-		async editProfile({ commit, dispatch, rootGetters }, data) {
+		async editProfile({ dispatch, rootGetters }, data) {
 			try {
 				const { name, lastname, contact, description } = data;
 
@@ -83,8 +80,7 @@ export default {
 				});
 
 				await dispatch("fetchUserData");
-
-				commit("USER_UPDATED");
+				router.push({ name: "Profile" });
 			} catch (error) {
 				console.error(error.response);
 			}

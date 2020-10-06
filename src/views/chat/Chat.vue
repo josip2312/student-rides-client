@@ -12,7 +12,9 @@
 				<div class="name">
 					{{ message.from }}
 				</div>
-				<span> {{ message.content }}</span>
+
+				<div class="content">{{ message.content }}</div>
+				<div class="timestamp">{{ formatDate(message.createdAt) }}</div>
 			</li>
 			<transition name="fade" mode="out-in">
 				<small v-if="typing">{{ receiverName }} piše...</small>
@@ -65,6 +67,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Chat",
@@ -127,8 +130,12 @@ export default {
 
 	methods: {
 		...mapActions(["fetchChats"]),
+		formatDate(date) {
+			if (date) return dayjs(date).format("h:mm A");
+		},
 		sendMessage(data) {
-			this.messages.push(data.message);
+			//this.messages.push(data.message);
+			data.message.createdAt = dayjs().format();
 			this.message = null;
 			this.$socket.emit("message", data);
 		},
@@ -164,26 +171,20 @@ export default {
 		this.$socket.connect();
 
 		await this.fetchChats();
-
-		this.readMessages({ sender: this.getUserData._id });
 	},
 
 	sockets: {
 		connect() {
-			console.log("connected");
 			this.$socket.emit("readMessages", {
 				room: this.chat._id,
 				sender: this.getUserData._id
 			});
-			this.$socket.emit("connected", {
+			this.$socket.emit("connectedRoom", {
 				userId: this.getUserData._id,
 				room: this.chat._id,
 				sender: this.chat.sender,
 				receiver: this.chat.receiver
 			});
-			if (this.messages[this.messages.length - 1]) {
-				this.messages[this.messages.length - 1].receiverHasRead = true;
-			}
 		},
 
 		typing() {
@@ -193,7 +194,7 @@ export default {
 			this.typing = false;
 		},
 		message(data) {
-			this.getChats[this.index].messages.push(data);
+			this.messages.push(data);
 		}
 	}
 };
@@ -227,14 +228,25 @@ export default {
 	border-radius: 3px;
 
 	.chat-message {
-		padding: 1rem 1rem;
+		padding: 0.75rem 1rem;
 		margin: 1rem;
 		border-radius: 0.25em;
 		border-bottom: 1px solid $tertiary;
+
+		.content {
+			padding-bottom: 0.25rem;
+		}
+
 		.name {
+			font-size: 1.7rem;
 			font-weight: 500;
 		}
+		.timestamp {
+			font-size: 1.2rem;
+			color: $font-p;
+		}
 	}
+
 	small {
 		display: block;
 		padding: 1rem 1rem;

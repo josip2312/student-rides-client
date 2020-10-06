@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<footer class="footer" v-once>
 		<div class="footer-up">
 			<a href="#">

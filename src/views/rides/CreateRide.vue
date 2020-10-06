@@ -13,9 +13,9 @@
 							<label for="date">Datum polaska</label>
 							<ValidationProvider rules="required" v-slot="v">
 								<datepicker
+									:disabled-dates="disabledDates"
 									id="date"
 									:class="v.classes"
-									:disabled-dates="disabledDates"
 									v-model="date"
 									name="date"
 									:language="hr"
@@ -26,7 +26,7 @@
 							</ValidationProvider>
 						</div>
 						<div class="form-group">
-							<TextInput
+							<FormInput
 								ref="start"
 								:label="start.label"
 								:type="start.type"
@@ -37,7 +37,7 @@
 							/>
 						</div>
 						<div class="form-group">
-							<TextInput
+							<FormInput
 								ref="end"
 								:label="end.label"
 								:type="end.type"
@@ -70,7 +70,7 @@
 				>
 					<template v-slot:form-content>
 						<div class="form-group">
-							<TextInput
+							<FormInput
 								:label="contact.label"
 								:type="contact.type"
 								:name="contact.name"
@@ -80,7 +80,7 @@
 							/>
 						</div>
 						<div class="form-group">
-							<TextInput
+							<FormInput
 								:label="price.label"
 								:type="price.type"
 								:name="price.name"
@@ -342,7 +342,7 @@
 						</div>
 
 						<div class="form-group">
-							<TextInput
+							<FormInput
 								:label="car.label"
 								:type="car.type"
 								:name="car.name"
@@ -399,7 +399,7 @@
 import Datepicker from "vuejs-datepicker";
 import { hr } from "vuejs-datepicker/dist/locale";
 import FormWrapper from "@/components/form/FormWrapper";
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
@@ -420,18 +420,18 @@ export default {
 	components: {
 		Datepicker,
 		FormWrapper,
-		TextInput,
+		FormInput,
 		ValidationProvider,
 		ValidationObserver
 	},
 
 	data() {
 		return {
-			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
-
+			//problem with this, disables all dates on edit
 			//datepicker
 			disabledDates: {
-				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
+				to: new Date()
+				/* to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date()) */
 			},
 			hr: hr,
 
@@ -515,6 +515,13 @@ export default {
 
 	methods: {
 		...mapActions(["postRide", "editRide"]),
+
+		setStartValue(start) {
+			console.log("A");
+			console.log(start);
+			this.start.value = start;
+		},
+
 		nextStep() {
 			if (this.activeStep < 3) this.activeStep++;
 		},
@@ -522,7 +529,6 @@ export default {
 		previousStep() {
 			if (this.activeStep > 0) this.activeStep--;
 		},
-
 		checkAndAttachScript(callback) {
 			//eslint-disable-next-line
 			if (!!window.google) {
@@ -568,7 +574,6 @@ export default {
 			});
 		}
 	},
-
 	mounted() {
 		this.checkAndAttachScript(this.initLocationStart);
 		this.checkAndAttachScript(this.initLocationEnd);

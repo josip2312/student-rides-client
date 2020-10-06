@@ -8,7 +8,7 @@
 		>
 			<template #form-content>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="email.label"
 						:type="email.type"
 						:name="email.name"
@@ -32,7 +32,7 @@
 
 <script>
 import FormWrapper from "@/components/form/FormWrapper";
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 
 import { ValidationObserver } from "vee-validate";
 
@@ -42,7 +42,7 @@ export default {
 	components: {
 		ValidationObserver,
 		FormWrapper,
-		TextInput
+		FormInput
 	},
 
 	data() {

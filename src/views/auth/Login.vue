@@ -10,7 +10,7 @@
 		>
 			<template #form-content>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="email.label"
 						:type="email.type"
 						:name="email.name"
@@ -20,7 +20,7 @@
 					/>
 				</div>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="password.label"
 						:type="password.type"
 						:name="password.name"
@@ -52,7 +52,7 @@
 
 <script>
 import FormWrapper from "@/components/form/FormWrapper";
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 
 import { ValidationObserver } from "vee-validate";
 
@@ -63,7 +63,7 @@ export default {
 
 	components: {
 		FormWrapper,
-		TextInput,
+		FormInput,
 		ValidationObserver
 	},
 	data() {

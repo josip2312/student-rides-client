@@ -17,7 +17,7 @@
 			<template #form-content>
 				<div class="form-register-group">
 					<div class="form-group">
-						<TextInput
+						<FormInput
 							:label="name.label"
 							:type="name.type"
 							:name="name.name"
@@ -27,7 +27,7 @@
 						/>
 					</div>
 					<div class="form-group">
-						<TextInput
+						<FormInput
 							:label="lastname.label"
 							:type="lastname.type"
 							:name="lastname.name"
@@ -39,7 +39,7 @@
 				</div>
 
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="email.label"
 						:type="email.type"
 						:name="email.name"
@@ -49,7 +49,7 @@
 					/>
 				</div>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="password.label"
 						:vid="password.vid"
 						:type="password.type"
@@ -60,7 +60,7 @@
 					/>
 				</div>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="confirmPassword.label"
 						rules="required|confirmed:confirmation"
 						:type="confirmPassword.type"
@@ -83,7 +83,7 @@
 
 <script>
 import FormWrapper from "@/components/form/FormWrapper";
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 
 import { ValidationObserver } from "vee-validate";
 
@@ -93,7 +93,7 @@ export default {
 	name: "Register",
 	components: {
 		FormWrapper,
-		TextInput,
+		FormInput,
 		ValidationObserver
 	},
 	data() {

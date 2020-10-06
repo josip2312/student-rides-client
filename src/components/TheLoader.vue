@@ -25,6 +25,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition-duration: 350ms;
+	transition-property: opacity;
+	transition-timing-function: ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
 .overlay {
 	top: 0;
 	left: 0;

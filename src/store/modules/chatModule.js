@@ -18,15 +18,6 @@ export default {
 		},
 		SET_CHAT_INDEX: (state, index) => {
 			state.chatIndex = index;
-			if (router.history.current.name !== "Chat") {
-				router.push({ name: "Chat" });
-			}
-		},
-
-		SEND_CHAT_DASHBOARD: () => {
-			if (router.history.current.name !== "ChatDashboard") {
-				router.push({ name: "ChatDashboard" });
-			}
 		}
 	},
 
@@ -34,7 +25,7 @@ export default {
 		async fetchChats({ commit, rootGetters }) {
 			try {
 				const res = await axios.get(
-					`/chat/${rootGetters.getLoggedInUser}`
+					`/chats/${rootGetters.getLoggedInUser}`
 				);
 
 				commit("SET_CHATS", res.data.chats);
@@ -44,28 +35,34 @@ export default {
 		},
 		async deleteChat({ dispatch }, payload) {
 			try {
-				await axios.delete(`/chat/${payload}`);
+				await axios.delete(`/chats/chat/${payload}`);
 
 				dispatch("fetchChats");
 			} catch (error) {
 				console.error(error.response);
 			}
 		},
-		async createNewChat({ commit, dispatch }, payload) {
+		async createNewChat({ dispatch }, payload) {
 			try {
-				await axios.post(`/chat/create`, payload);
+				await axios.post(`/chats/chat/create`, payload);
 
 				dispatch("fetchChats");
-				//dispatch("fetchUserData", null, { root: true });
 
-				commit("SEND_CHAT_DASHBOARD");
+				if (router.history.current.name !== "ChatDashboard") {
+					router.push({ name: "ChatDashboard" });
+				}
 			} catch (error) {
-				commit("SEND_CHAT_DASHBOARD");
+				if (router.history.current.name !== "ChatDashboard") {
+					router.push({ name: "ChatDashboard" });
+				}
 				console.error(error.response);
 			}
 		},
 		openChat({ commit }, index) {
 			commit("SET_CHAT_INDEX", index);
+			if (router.history.current.name !== "Chat") {
+				router.push({ name: "Chat" });
+			}
 		}
 	}
 };

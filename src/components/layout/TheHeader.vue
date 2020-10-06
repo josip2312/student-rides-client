@@ -94,71 +94,12 @@
 							</span>
 						</div>
 					</button>
-					<transition name="fade" mode="out-in">
-						<div
-							class="notifications-dropdown"
-							v-click-outside="hideNotifications"
-							v-if="showNotifications"
-						>
-							<section class="notifications-header">
-								<span>Obavijesti</span>
-								<div
-									class="notifications-check-icon"
-									title="Oznaci sve kao procitano"
-								>
-									<img
-										src="@/assets/img/icons/yeswhite.svg"
-										alt="Check icon"
-										@click="
-											readAllNotifications(
-												getUserData._id
-											)
-										"
-									/>
-								</div>
-							</section>
 
-							<div
-								class="notification"
-								v-for="notif in getUserData.notifications"
-								:key="notif._id"
-								@click="
-									readNotification({
-										notificationId: notif._id,
-										userId: getUserData._id,
-										rideId: notif.rideId
-									}),
-										sendToRideDetails()
-								"
-							>
-								<span>
-									{{ notif.message }}
-								</span>
-								<button
-									@click.stop="
-										readNotification({
-											notificationId: notif._id,
-											userId: getUserData._id,
-											rideId: notif.rideId
-										})
-									"
-								>
-									<img
-										class="remove-notification"
-										src="@/assets/img/icons/no.svg"
-										alt=""
-									/>
-								</button>
-							</div>
-
-							<div
-								v-if="!notificationNumber"
-								class="no-notifications"
-							>
-								Nemate obavijesti
-							</div>
-						</div>
-					</transition>
+					<NotificationDropdownMenu
+						v-click-outside="hideNotifications"
+						:showNotifications="showNotifications"
+						@hide-notifications="hideNotifications"
+					/>
 
 					<button
 						aria-label="Profile info"
@@ -174,53 +115,11 @@
 						<img src="@/assets/img/icons/chevronDown.svg" alt="" />
 					</button>
 
-					<transition name="fade" mode="out-in">
-						<div
-							v-if="showUserDropdown"
-							v-click-outside="hideUserDropdown"
-							class="user-dropdown"
-						>
-							<router-link
-								@click.native="hideUserDropdown"
-								class="user-dropdown-profile"
-								:to="{ name: 'Profile' }"
-							>
-								<img
-									src="@/assets/img/icons/user.svg"
-									alt="Profile"
-								/>
-								<span>
-									Profil
-								</span>
-							</router-link>
-							<router-link
-								@click.native="hideUserDropdown"
-								class="user-dropdown-messages"
-								:to="{ name: 'ChatDashboard' }"
-							>
-								<img
-									src="@/assets/img/icons/messagewhite.svg"
-									alt="Messages"
-								/>
-								<span>
-									Poruke
-								</span>
-							</router-link>
-							<a
-								tabindex="0"
-								class="user-dropdown-logout"
-								@click="logout(), hideUserDropdown()"
-							>
-								<img
-									src="@/assets/img/icons/logout.svg"
-									alt="Logout"
-								/>
-								<span>
-									Odjavi se
-								</span>
-							</a>
-						</div>
-					</transition>
+					<UserDropdownMenu
+						:showUserDropdown="showUserDropdown"
+						@hide-user-dropdown="hideUserDropdown"
+						v-click-outside="hideUserDropdown"
+					/>
 				</div>
 
 				<!-- hamburger menu -->
@@ -233,16 +132,16 @@
 						/>
 					</button>
 				</div>
+
 				<transition name="fade" mode="out-in">
-					<router-link
-						ref="unreadMessage"
-						:to="{ name: 'ChatDashboard' }"
+					<button
+						@click.prevent="sendToChatDashboard"
 						class="unread-messages"
 						v-if="haveUnreadMessages"
 						:class="{ animate: isAnimated }"
 					>
 						{{ receivingMessage }}
-					</router-link>
+					</button>
 				</transition>
 			</div>
 		</div>
@@ -253,13 +152,17 @@
 
 <script>
 import ClickOutside from "vue-click-outside";
-import TheMobileNav from "@/components/layout/TheMobileNav";
+import TheMobileNav from "@/components/header/TheMobileNav";
+import UserDropdownMenu from "@/components/header/UserDropdownMenu";
+import NotificationDropdownMenu from "@/components/header/NotificationDropdownMenu";
 
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Header",
 	components: {
-		TheMobileNav
+		TheMobileNav,
+		UserDropdownMenu,
+		NotificationDropdownMenu
 	},
 
 	data() {
@@ -314,8 +217,26 @@ export default {
 			return haveUnread;
 		}
 	},
+	watch: {
+		getLoggedInUser: function() {
+			if (this.getLoggedInUser) {
+				this.$socket.disconnect();
+				this.$socket.connect();
+			}
+		}
+	},
 	methods: {
-		...mapActions(["logout", "readNotification", "readAllNotifications"]),
+		...mapActions(["logout"]),
+
+		animateAndPlayMessage() {
+			this.isAnimated = true;
+			setTimeout(() => {
+				this.isAnimated = false;
+			}, 1000);
+
+			let audio = new Audio(require("@/assets/message.mp3"));
+			audio.play();
+		},
 
 		makeUrl(filename) {
 			return require(`@/assets/img/icons/${filename}`);
@@ -335,6 +256,8 @@ export default {
 		hideUserDropdown() {
 			this.showUserDropdown = false;
 		},
+
+		//routing
 		sendToLanding() {
 			if (this.$router.history.current.name !== "Landing") {
 				this.$router.push({ name: "Landing" });
@@ -345,9 +268,12 @@ export default {
 				this.$router.push({ name: "Profile" });
 			}
 		},
-		sendToRideDetails() {
-			if (this.$router.history.current.name !== "RideDetails") {
-				this.$router.push({ name: "RideDetails" });
+		sendToChatDashboard() {
+			if (this.$router.history.current.name !== "ChatDashboard") {
+				this.$router.push({ name: "ChatDashboard" });
+			}
+			if (this.$router.history.current.name === "ChatDashboard") {
+				this.$router.go(this.$router.currentRoute);
 			}
 		}
 	},
@@ -365,35 +291,18 @@ export default {
 		ClickOutside
 	},
 
-	watch: {
-		getLoggedInUser: function() {
-			if (this.getLoggedInUser) {
-				this.$socket.disconnect();
-				this.$socket.connect();
-			}
-		}
-	},
 	sockets: {
 		connect() {
-			console.log("connectedGlobal");
-
 			if (this.getLoggedInUser) {
 				this.$socket.emit("connectedGlobal", {
 					id: this.getLoggedInUser
 				});
 			}
 		},
-
 		notification(data) {
 			this.haveUnread = true;
-			this.isAnimated = true;
 			this.receivingMessage = data;
-			setTimeout(() => {
-				this.isAnimated = false;
-			}, 1000);
-
-			let audio = new Audio(require("@/assets/message.mp3"));
-			audio.play();
+			this.animateAndPlayMessage();
 		},
 		clearNotification() {
 			this.haveUnread = false;
@@ -577,128 +486,6 @@ header {
 				width: 2rem;
 				height: 2rem;
 			}
-		}
-		.user-dropdown {
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-
-			font-size: 1.8rem;
-			color: $font-white;
-
-			padding: 3rem 0;
-			border-radius: 3px;
-			background-color: $primary;
-
-			width: 150%;
-			max-width: 20rem;
-			position: absolute;
-			top: 6vh;
-			right: 0;
-			z-index: 20;
-			&-profile,
-			&-messages {
-				margin-bottom: 1.5rem;
-			}
-			&-profile,
-			&-logout,
-			&-messages {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				margin-left: 5%;
-				margin-left: auto;
-				margin-right: auto;
-
-				padding: 0.8rem 1.6rem;
-				border-radius: 10rem;
-				font-weight: 400;
-
-				transition: opacity 0.2s ease-in-out;
-				cursor: pointer;
-
-				img {
-					width: 2.5rem;
-					height: 2.5rem;
-					margin-right: 1rem;
-				}
-			}
-		}
-
-		.notifications-dropdown {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-
-			padding: 2rem 1rem;
-			border-radius: 3px;
-
-			background-color: $primary;
-			color: $font-black;
-
-			width: 200%;
-			max-width: 30rem;
-			position: absolute;
-			top: 6vh;
-			right: 0;
-			z-index: 20;
-
-			.notifications-header {
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-				width: 100%;
-
-				color: $font-white;
-				border-bottom: 1px solid $tertiary;
-				padding-bottom: 1rem;
-				margin-bottom: 2rem;
-
-				img {
-					cursor: pointer;
-					width: 2rem;
-					height: 2rem;
-				}
-			}
-
-			.notification {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				background-color: $white;
-				border-radius: 3px;
-				padding: 1rem 2rem;
-
-				transition: background-color 0.2s ease-in-out;
-				cursor: pointer;
-				button {
-					flex-shrink: 0;
-					margin-left: 1rem;
-					.remove-notification {
-						width: 2.3rem;
-						height: 2.3rem;
-						transform: scale(0.8);
-						transition: transform 0.2s ease-in-out;
-					}
-					.remove-notification:hover {
-						transform: scale(1);
-					}
-				}
-
-				&:not(:last-child) {
-					margin-bottom: 1.5rem;
-				}
-			}
-			.notification:hover {
-				background-color: $tertiary-light;
-			}
-		}
-
-		.no-notifications {
-			font-size: 1.8rem;
-			color: $font-white;
 		}
 	}
 }

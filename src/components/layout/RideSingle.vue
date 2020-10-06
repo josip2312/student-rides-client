@@ -17,7 +17,7 @@
 				</div>
 				<div class="date">
 					<span>
-						{{ ride.date | moment }}
+						{{ formatDate(ride.date) }}
 					</span>
 				</div>
 			</div>
@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import "moment/locale/hr";
-import moment from "moment";
+import dayjs from "dayjs";
+
 import { mapGetters } from "vuex";
 export default {
 	name: "Ride",
@@ -48,14 +48,11 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(["isLoggedIn"]),
-		createdAt() {
-			return moment(this.ride.date).diff(moment());
-		}
+		...mapGetters(["isLoggedIn"])
 	},
-	filters: {
-		moment: function(date) {
-			return moment(date).format("LL");
+	methods: {
+		formatDate(date) {
+			return dayjs(date).format("DD/MM/YYYY");
 		}
 	}
 };

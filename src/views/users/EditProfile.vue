@@ -19,7 +19,7 @@
 			<template #form-content>
 				<div class="form-edit-group">
 					<div class="form-group">
-						<TextInput
+						<FormInput
 							:label="name.label"
 							:type="name.type"
 							:name="name.name"
@@ -29,7 +29,7 @@
 						/>
 					</div>
 					<div class="form-group">
-						<TextInput
+						<FormInput
 							:label="lastname.label"
 							:type="lastname.type"
 							:name="lastname.name"
@@ -41,7 +41,7 @@
 				</div>
 
 				<!-- <div class="form-group">
-					<TextInput
+					<FormInput
 						:label="email.label"
 						:type="email.type"
 						:name="email.name"
@@ -52,7 +52,7 @@
 					/>
 				</div> -->
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="contact.label"
 						:type="contact.type"
 						:name="contact.name"
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 import FormWrapper from "@/components/form/FormWrapper";
 
 import { ValidationProvider, ValidationObserver } from "vee-validate";
@@ -114,7 +114,7 @@ export default {
 	components: {
 		ValidationObserver,
 		ValidationProvider,
-		TextInput,
+		FormInput,
 		FormWrapper
 	},
 

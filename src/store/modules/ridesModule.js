@@ -1,6 +1,6 @@
 import axios from "axios";
 import router from "@/router/index";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export default {
 	state: {
@@ -43,21 +43,15 @@ export default {
 		ADD_RIDE: (state, ride) => {
 			state.allRides.push(ride);
 			state.userRides.push(ride);
-			router.push({ name: "Profile" });
 		},
 
 		SET_RIDE_DETAILS: (state, id) => {
 			let ride = state.allRides.find(ride => ride._id === id);
-
 			state.rideDetails = ride;
-			if (router.currentRoute.name !== "RideDetails") {
-				router.push({ name: "RideDetails" });
-			}
 		},
 
 		SET_EDITING_RIDE: (state, data) => {
-			const formattedDate = moment(data.date).format("YYYY-MM-DD");
-
+			const formattedDate = dayjs(data.date).format("DD/MM/YYYY");
 			const {
 				id,
 				start,
@@ -88,12 +82,10 @@ export default {
 		async fetchRides({ commit, rootGetters }) {
 			try {
 				const res = await axios.get("rides");
-
 				const filteredRides = res.data.rides.filter(ride => {
 					return ride.user !== rootGetters.getLoggedInUser;
 				});
 				const allRides = res.data.rides;
-
 				commit("SET_RIDES", { filteredRides, allRides });
 			} catch (error) {
 				console.error(error.response);
@@ -109,6 +101,9 @@ export default {
 		fetchRideDetails({ commit }, id) {
 			try {
 				commit("SET_RIDE_DETAILS", id);
+				if (router.currentRoute.name !== "RideDetails") {
+					router.push({ name: "RideDetails" });
+				}
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -130,7 +125,6 @@ export default {
 					contact,
 					seats,
 					price,
-
 					smoking,
 					car
 				} = data;
@@ -149,6 +143,7 @@ export default {
 				});
 
 				commit("ADD_RIDE", res.data.ride);
+				router.push({ name: "Profile" });
 			} catch (error) {
 				console.error(error.response);
 			}
@@ -190,7 +185,7 @@ export default {
 		},
 
 		editRideMode(_, data) {
-			const formattedDate = moment(data.date).format("YYYY-MM-DD");
+			const formattedDate = dayjs(data.date).format("DD/MM/YYYY");
 
 			const {
 				id,
@@ -259,8 +254,8 @@ export default {
 		},
 
 		//at every login check if any rides are outdated
-		async deleteExpiredRides() {
-			await axios.delete("rides/expired");
+		deleteExpiredRides() {
+			axios.delete("rides/expired");
 		}
 	}
 };

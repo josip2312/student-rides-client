@@ -2,8 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "@/router";
 import store from "@/store";
-import VueSocketIO from "vue-socket.io";
-import SocketIo from "socket.io-client";
 
 import "@/utilities/validations.js";
 import "@/utilities/axios.js";
@@ -16,13 +14,15 @@ Vue.use(VueMeta, {
 	refreshOnceOnNavigation: true
 });
 
+import SocketIo from "socket.io-client";
+import VueSocketIO from "vue-socket.io";
 Vue.use(
 	new VueSocketIO({
 		options: {
 			autoConnect: false
 		},
 		debug: false,
-		connection: SocketIo("http://localhost:3000")
+		connection: SocketIo(`${process.env.VUE_APP_BACKEND_URL}`)
 	})
 );
 

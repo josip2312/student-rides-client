@@ -10,7 +10,7 @@
 		>
 			<template #form-content>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="password.label"
 						:vid="password.vid"
 						:type="password.type"
@@ -21,7 +21,7 @@
 					/>
 				</div>
 				<div class="form-group">
-					<TextInput
+					<FormInput
 						:label="confirmPassword.label"
 						rules="required|confirmed:confirmation"
 						:type="confirmPassword.type"
@@ -48,7 +48,7 @@
 <script>
 import TheError from "@/components/TheError";
 import FormWrapper from "@/components/form/FormWrapper";
-import TextInput from "@/components/form/TextInput";
+import FormInput from "@/components/form/FormInput";
 
 import { ValidationObserver } from "vee-validate";
 
@@ -59,7 +59,7 @@ export default {
 		TheError,
 		ValidationObserver,
 		FormWrapper,
-		TextInput
+		FormInput
 	},
 	data() {
 		return {

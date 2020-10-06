@@ -7,7 +7,6 @@
 			</transition>
 		</div>
 		<TheFooter />
-
 		<TheSuccess />
 		<TheLoader />
 	</div>

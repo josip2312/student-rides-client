@@ -18,12 +18,15 @@
 import { ValidationProvider } from "vee-validate";
 
 export default {
-	name: "TextInput",
+	inheritAttrs: true,
+	name: "FormInput",
 	components: {
 		ValidationProvider
 	},
 	data() {
 		return {
+			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
+
 			currentValue: ""
 		};
 	},
@@ -58,6 +61,9 @@ export default {
 		vid: {
 			type: String,
 			default: undefined
+		},
+		googleInput: {
+			type: Boolean
 		}
 	}
 };
