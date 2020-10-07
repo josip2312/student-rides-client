@@ -51,7 +51,7 @@ export default {
 		},
 
 		SET_EDITING_RIDE: (state, data) => {
-			const formattedDate = dayjs(data.date).format("DD/MM/YYYY");
+			const formattedDate = dayjs(data.date).format();
 			const {
 				id,
 				start,
@@ -185,7 +185,7 @@ export default {
 		},
 
 		editRideMode(_, data) {
-			const formattedDate = dayjs(data.date).format("DD/MM/YYYY");
+			const formattedDate = dayjs(data.date).format();
 
 			const {
 				id,

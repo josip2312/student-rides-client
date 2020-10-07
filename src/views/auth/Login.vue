@@ -15,7 +15,7 @@
 						:type="email.type"
 						:name="email.name"
 						:id="email.id"
-						v-model="email.value"
+						v-model.trim="email.value"
 						:rules="email.rules"
 					/>
 				</div>

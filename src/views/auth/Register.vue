@@ -22,7 +22,7 @@
 							:type="name.type"
 							:name="name.name"
 							:id="name.id"
-							v-model="name.value"
+							v-model.trim="name.value"
 							:rules="name.rules"
 						/>
 					</div>
@@ -32,7 +32,7 @@
 							:type="lastname.type"
 							:name="lastname.name"
 							:id="lastname.id"
-							v-model="lastname.value"
+							v-model.trim="lastname.value"
 							:rules="lastname.rules"
 						/>
 					</div>
@@ -44,7 +44,7 @@
 						:type="email.type"
 						:name="email.name"
 						:id="email.id"
-						v-model="email.value"
+						v-model.trim="email.value"
 						:rules="email.rules"
 					/>
 				</div>

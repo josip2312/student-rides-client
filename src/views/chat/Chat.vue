@@ -68,6 +68,9 @@
 
 <script>
 import dayjs from "dayjs";
+import calendar from "dayjs/plugin/calendar";
+import "dayjs/locale/hr";
+dayjs.extend(calendar);
 import { mapGetters, mapActions } from "vuex";
 export default {
 	name: "Chat",
@@ -131,10 +134,18 @@ export default {
 	methods: {
 		...mapActions(["fetchChats"]),
 		formatDate(date) {
-			if (date) return dayjs(date).format("h:mm A");
+			if (date)
+				return dayjs(date)
+					.locale("hr")
+					.calendar(null, {
+						sameDay: "[Danas u ] H:mm",
+						nextWeek: "dddd [u] H:mm",
+						lastDay: "[Jučer u] H:mm",
+						lastWeek: "[Prošli] dddd [u] H:mm",
+						sameElse: "DD/MM/YYYY"
+					});
 		},
 		sendMessage(data) {
-			//this.messages.push(data.message);
 			data.message.createdAt = dayjs().format();
 			this.message = null;
 			this.$socket.emit("message", data);
@@ -224,7 +235,7 @@ export default {
 	background-color: $grey-light;
 	color: $font-black;
 	overflow-y: auto;
-	height: 35rem;
+	height: 40rem;
 	border-radius: 3px;
 
 	.chat-message {

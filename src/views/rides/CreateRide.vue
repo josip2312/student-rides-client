@@ -1,5 +1,4 @@
 <template>
-	<!-- TODO - make some fields optional -->
 	<section class="create">
 		<ValidationObserver v-slot="{ handleSubmit }" slim :key="1">
 			<transition name="fade" mode="out-in">
@@ -32,7 +31,7 @@
 								:type="start.type"
 								:name="start.name"
 								:id="start.id"
-								v-model="start.value"
+								v-model.trim="start.value"
 								:rules="start.rules"
 							/>
 						</div>
@@ -43,7 +42,7 @@
 								:type="end.type"
 								:name="end.name"
 								:id="end.id"
-								v-model="end.value"
+								v-model.trim="end.value"
 								:rules="end.rules"
 							/>
 						</div>
@@ -75,7 +74,7 @@
 								:type="contact.type"
 								:name="contact.name"
 								:id="contact.id"
-								v-model="contact.value"
+								v-model.trim="contact.value"
 								:rules="contact.rules"
 							/>
 						</div>
@@ -85,7 +84,7 @@
 								:type="price.type"
 								:name="price.name"
 								:id="price.id"
-								v-model="price.value"
+								v-model.trim="price.value"
 								:rules="price.rules"
 								:placeholder="price.placeholder"
 							/>
@@ -115,25 +114,29 @@
 						<div class="form-group">
 							<label for="seats">Broj slobodnih mjesta</label>
 							<div class="seats">
-								<div class="minus">
+								<button
+									class="minus"
+									@click.prevent="seats > 1 ? seats-- : seats"
+								>
 									<img
 										:class="{ disabled: seats === 1 }"
 										src="@/assets/img/icons/minus.svg"
 										alt=""
-										@click="seats > 1 ? seats-- : seats"
 									/>
-								</div>
+								</button>
 								<div class="value">
 									{{ seats }}
 								</div>
-								<div class="plus">
+								<button
+									class="plus"
+									@click.prevent="seats < 4 ? seats++ : seats"
+								>
 									<img
 										:class="{ disabled: seats === 4 }"
 										src="@/assets/img/icons/plus.svg"
 										alt=""
-										@click="seats < 4 ? seats++ : seats"
 									/>
-								</div>
+								</button>
 							</div>
 							<input
 								id="seats"
@@ -396,6 +399,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import Datepicker from "vuejs-datepicker";
 import { hr } from "vuejs-datepicker/dist/locale";
 import FormWrapper from "@/components/form/FormWrapper";
@@ -427,11 +431,8 @@ export default {
 
 	data() {
 		return {
-			//problem with this, disables all dates on edit
-			//datepicker
 			disabledDates: {
-				to: new Date()
-				/* to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date()) */
+				to: (d => new Date(d.setDate(d.getDate() - 1)))(new Date())
 			},
 			hr: hr,
 
@@ -516,10 +517,8 @@ export default {
 	methods: {
 		...mapActions(["postRide", "editRide"]),
 
-		setStartValue(start) {
-			console.log("A");
-			console.log(start);
-			this.start.value = start;
+		customFormatter(date) {
+			return dayjs(date).format("DD/MM/YYYY");
 		},
 
 		nextStep() {
