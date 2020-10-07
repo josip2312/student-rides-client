@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"axios": "^0.19.2",
+		"compression-webpack-plugin": "^6.0.2",
 		"core-js": "^3.6.5",
 		"dayjs": "^1.9.1",
 		"socket.io-client": "^2.3.0",
