@@ -1,5 +1,5 @@
 <template>
-	<transition name="fade" mode="out-in">
+	<transition name="grow-top" mode="out-in">
 		<div v-if="showDropdown" class="user-dropdown">
 			<router-link
 				@click.native="hideUserDropdown"
@@ -60,6 +60,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.grow-top-enter-active,
+.grow-top-leave-active {
+	transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+	transform-origin: top;
+	a {
+		transition: opacity 200ms ease-in-out 300ms;
+	}
+}
+.grow-top-enter,
+.grow-top-leave-to {
+	transform: scale(1, 0);
+	opacity: 0;
+	a {
+		opacity: 0;
+		transition: opacity 100ms ease-in-out;
+	}
+}
 .user-dropdown {
 	display: flex;
 	flex-direction: column;
@@ -85,6 +102,7 @@ export default {
 	&-profile,
 	&-logout,
 	&-messages {
+		transition: opacity 250ms ease-in-out;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -97,7 +115,6 @@ export default {
 		border-radius: 10rem;
 		font-weight: 400;
 
-		transition: opacity 0.2s ease-in-out;
 		cursor: pointer;
 
 		img {
@@ -105,6 +122,9 @@ export default {
 			height: 2.5rem;
 			margin-right: 1rem;
 		}
+	}
+	.router-link-exact-active {
+		background-color: $secondary;
 	}
 }
 </style>

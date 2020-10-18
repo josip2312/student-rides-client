@@ -62,6 +62,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "@/assets/css/app.scss";
 .wrap {
 	position: relative;
 	@include fillPage;

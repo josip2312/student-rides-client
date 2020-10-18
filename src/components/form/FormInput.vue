@@ -2,6 +2,7 @@
 	<ValidationProvider :rules="rules" :name="name" :vid="vid" v-slot="v">
 		<label :for="id">{{ label }}</label>
 		<input
+			class="input"
 			:type="type"
 			:id="id"
 			:class="v.classes"

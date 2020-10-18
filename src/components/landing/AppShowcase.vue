@@ -118,7 +118,6 @@ export default {
 		grid-column: 1 / -1;
 	}
 	@media only screen and(max-width:$vp-5) {
-		width: 125%;
 		justify-self: center;
 	}
 	img {

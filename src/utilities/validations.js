@@ -35,12 +35,12 @@ extend("password", {
 
 extend("required", {
 	...required,
-	message: "Ovo polje ne moze biti prazno"
+	message: "Ovo polje ne može biti prazno"
 });
 
 extend("alpha", {
 	...alpha,
-	message: "Dopustena samo slova"
+	message: "Dopuštena samo slova"
 });
 extend("between", {
 	...between,

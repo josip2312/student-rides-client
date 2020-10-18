@@ -40,8 +40,6 @@ export default {
 
 <style lang="scss" scoped>
 #reasons {
-	width: 100%;
 	background-color: $grey-light;
-	height: 100%;
 }
 </style>

@@ -55,8 +55,8 @@
 				<h2 class="heading-2">Putnici</h2>
 				<div
 					class="user"
-					v-for="(user, index) in getRideDetails.users"
-					:key="index"
+					v-for="user in getRideDetails.users"
+					:key="user.id"
 				>
 					<button
 						@click="fetchUserById(user._id)"
@@ -171,6 +171,9 @@ export default {
 
 	display: flex;
 	align-items: center;
+	@media only screen and(max-width:$vp-3) {
+		width: 90%;
+	}
 }
 .container {
 	display: flex;

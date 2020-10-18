@@ -114,13 +114,13 @@ export default {
 			try {
 				const fd = new FormData();
 
-				fd.append("image", payload, payload.name);
+				fd.append("file", payload, payload.name);
 
 				const res = await axios.patch(
 					`user/${rootGetters.getLoggedInUser}/photo`,
 					fd
 				);
-
+				console.log(res);
 				commit("SET_UPLOADED_PHOTO", res.data.data);
 			} catch (error) {
 				console.error(error.response);

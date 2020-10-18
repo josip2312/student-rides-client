@@ -143,6 +143,9 @@ export default {
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
+	@media only screen and(max-width:$vp-3) {
+		width: 90%;
+	}
 }
 .search {
 	display: flex;
@@ -224,7 +227,7 @@ export default {
 	margin-top: 7.5rem;
 
 	.wrapper-div {
-		width: 90%;
+		width: 100%;
 		max-width: 60rem;
 	}
 }

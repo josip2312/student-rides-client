@@ -11,6 +11,7 @@
 					<div class="end">{{ ride.end }}</div>
 				</div>
 			</div>
+
 			<div class="ride-right">
 				<div class="price">
 					<span>KM {{ ride.price }}</span>
@@ -74,7 +75,7 @@ export default {
 	box-shadow: 0 2px 8px 0 hsla(0, 0%, 0%, 0.3);
 	cursor: pointer;
 	&:not(:last-child) {
-		margin-bottom: 2.5rem;
+		margin-bottom: 5rem;
 	}
 	@media only screen and(max-width:$vp-5) {
 		padding: 2rem 1rem;
@@ -84,6 +85,10 @@ export default {
 		display: flex;
 		margin: 1rem 0;
 		width: 100%;
+		@media only screen and(max-width:$vp-3) {
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 	&-left {
 		flex: 1;
@@ -102,10 +107,9 @@ export default {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-			font-size: 1.7rem;
-			max-width: 30rem;
 			margin-top: -0.75rem;
-			height: 12rem;
+			margin-right: 1rem;
+			height: 12.5rem;
 		}
 		.start {
 			flex: 1;
@@ -120,19 +124,26 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-end;
+		@media only screen and(max-width:$vp-3) {
+			align-items: flex-start;
+
+			margin-top: 3.5rem;
+			margin-bottom: 1rem;
+		}
 
 		.price {
 			display: flex;
 			align-items: center;
 			font-weight: 600;
-			font-size: 2rem;
+			font-size: 2.2rem;
+			color: $font-blue;
 		}
 		.date {
 			font-size: 1.7rem;
 		}
 	}
 	&-mid {
-		margin-top: 2rem;
+		margin-top: 2.5rem;
 		align-self: center;
 		span {
 			font-weight: 500;

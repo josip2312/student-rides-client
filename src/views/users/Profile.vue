@@ -74,8 +74,8 @@
 			<div v-if="getReservedRides[0]">
 				<div
 					class="profile-reserved-ride"
-					v-for="(ride, index) in getReservedRides"
-					:key="index"
+					v-for="ride in getReservedRides"
+					:key="ride._id"
 					@click="fetchRideDetails(ride._id)"
 				>
 					<div class="ride-start">
@@ -98,10 +98,11 @@
 			<div class="no-rides" v-if="getUserRides.length < 1">
 				Trenutno nemate vožnji!
 			</div>
+
 			<RideSingle
 				v-else
-				v-for="(ride, index) in getUserRides"
-				:key="index"
+				v-for="ride in getUserRides"
+				:key="ride._id"
 				:ride="{
 					start: ride.start,
 					startTime: ride.startTime,

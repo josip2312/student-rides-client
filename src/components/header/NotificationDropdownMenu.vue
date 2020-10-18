@@ -1,5 +1,5 @@
 <template>
-	<transition name="fade" mode="out-in">
+	<transition name="grow-top" mode="out-in">
 		<div class="notifications-dropdown" v-if="showNotifications">
 			<section class="notifications-header">
 				<span>Obavijesti</span>
@@ -91,6 +91,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.grow-top-enter-active,
+.grow-top-leave-active {
+	transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+	transform-origin: top;
+	& > * {
+		transition: opacity 200ms ease-in-out 300ms;
+	}
+}
+.grow-top-enter,
+.grow-top-leave-to {
+	transform: scale(1, 0);
+	opacity: 0;
+	& > * {
+		opacity: 0;
+		transition: opacity 100ms ease-in-out;
+	}
+}
 .notifications-dropdown {
 	display: flex;
 	flex-direction: column;
