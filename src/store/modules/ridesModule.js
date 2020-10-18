@@ -218,6 +218,7 @@ export default {
 		},
 
 		async editRide({ dispatch }, data) {
+			console.log(data);
 			try {
 				data.smoking === "yes"
 					? (data.smoking = true)
@@ -230,6 +231,7 @@ export default {
 					startTime,
 					contact,
 					seats,
+					date,
 					price,
 					car
 				} = data;
@@ -238,6 +240,7 @@ export default {
 					id,
 					start,
 					end,
+					date,
 					startTime,
 					contact,
 					seats,
