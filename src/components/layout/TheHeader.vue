@@ -11,7 +11,7 @@
 			<div class="nav-right">
 				<nav
 					v-if="!isLoggedIn"
-					:class="{ isVisible: visible }"
+					:class="{ isVisible: showSidebar }"
 					v-click-outside="hideSidebar"
 				>
 					<router-link
@@ -39,7 +39,7 @@
 
 				<!-- navbar when logged in -->
 				<nav
-					:class="{ isVisible: visible }"
+					:class="{ isVisible: showSidebar }"
 					v-if="isLoggedIn"
 					v-click-outside="hideSidebar"
 				>
@@ -105,11 +105,7 @@
 						aria-label="Profile info"
 						class="user-icon"
 						tabindex="0"
-						@click="
-							sendToProfile,
-								(showUserDropdown = !showUserDropdown),
-								hideNotifications()
-						"
+						@click="toggleUserDropdown(), hideNotifications()"
 					>
 						<img :src="getPhoto" alt="" />
 						<img src="@/assets/img/icons/chevronDown.svg" alt="" />
@@ -123,10 +119,10 @@
 				</div>
 
 				<!-- hamburger menu -->
-				<div class="menu" @click="showSidebar">
+				<div class="menu" @click="toggleSidebar">
 					<button>
 						<img
-							:class="{ active: visible }"
+							:class="{ active: showSidebar }"
 							src="@/assets/img/icons/menu.svg"
 							alt="Menu icon"
 						/>
@@ -171,7 +167,7 @@ export default {
 
 			showUserDropdown: false,
 			showNotifications: false,
-			visible: false,
+			showSidebar: false,
 
 			haveUnread: false,
 			receivingMessage: "",
@@ -243,15 +239,30 @@ export default {
 		},
 		toggleNotifications() {
 			this.showNotifications = !this.showNotifications;
+			if (this.showSidebar) {
+				this.showSidebar = false;
+			}
 		},
 		hideNotifications() {
 			this.showNotifications = false;
 		},
-		showSidebar() {
-			this.visible = !this.visible;
+		toggleSidebar() {
+			this.showSidebar = !this.showSidebar;
+			if (this.showUserDropdown) {
+				this.showUserDropdown = false;
+			}
+			if (this.showNotifications) {
+				this.showNotifications = false;
+			}
+		},
+		toggleUserDropdown() {
+			this.showUserDropdown = !this.showUserDropdown;
+			if (this.showSidebar) {
+				this.showSidebar = false;
+			}
 		},
 		hideSidebar() {
-			this.visible = false;
+			this.showSidebar = false;
 		},
 		hideUserDropdown() {
 			this.showUserDropdown = false;
@@ -388,12 +399,12 @@ header {
 			position: fixed;
 			top: 0;
 			right: 0;
-			height: 91vh;
+			height: 100vh;
 
 			z-index: -1;
 			transform: translateX(50vw);
 			width: 50vw;
-			transition: transform 0.2s ease-in-out;
+			transition: transform 350ms ease-in-out;
 			a {
 				text-align: center;
 				font-size: 2.4rem;
@@ -410,7 +421,7 @@ header {
 
 	.menu {
 		display: none;
-		margin-left: 0.5rem;
+		margin-left: 1rem;
 		flex-shrink: 0;
 		@media only screen and(max-width:$vp-6) {
 			display: flex;
@@ -421,10 +432,10 @@ header {
 			cursor: pointer;
 		}
 		img {
-			width: 4.5rem;
-			height: 4.5rem;
+			width: 3.5rem;
+			height: 3.5rem;
 			transform: rotate(0);
-			transition: transform 0.2s ease-in-out;
+			transition: transform 350ms ease-in-out;
 		}
 		.active {
 			transform: rotate(180deg);

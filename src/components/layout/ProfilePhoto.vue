@@ -5,7 +5,7 @@
 			:src="getPhoto"
 			alt="User picture"
 			@click="$refs.fileInput.click()"
-			:class="{}"
+			width="300"
 		/>
 		<img
 			v-else
@@ -63,8 +63,6 @@ export default {
 	width: 85%;
 	max-width: 40rem;
 	margin-bottom: 2rem;
-	min-height: 20rem;
-	max-height: 50rem;
 
 	img {
 		width: 100%;
@@ -72,6 +70,7 @@ export default {
 		object-fit: cover;
 		min-height: 20rem;
 		border-radius: 3px;
+		overflow: hidden;
 		transition: opacity 0.2s;
 		cursor: pointer;
 	}

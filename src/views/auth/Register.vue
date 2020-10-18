@@ -91,6 +91,16 @@ import { mapActions } from "vuex";
 
 export default {
 	name: "Register",
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Registriraj se u StudentRides`
+				}
+			]
+		};
+	},
 	components: {
 		FormWrapper,
 		FormInput,

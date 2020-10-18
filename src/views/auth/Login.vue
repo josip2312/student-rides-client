@@ -60,7 +60,16 @@ import { mapActions } from "vuex";
 
 export default {
 	name: "Login",
-
+	metaInfo() {
+		return {
+			meta: [
+				{
+					name: "description",
+					content: `Prijavi se u StudentRides`
+				}
+			]
+		};
+	},
 	components: {
 		FormWrapper,
 		FormInput,

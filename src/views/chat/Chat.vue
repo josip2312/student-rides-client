@@ -6,8 +6,8 @@
 		<ul ref="chat" class="chat">
 			<li
 				class="chat-message"
-				v-for="(message, index) in messages"
-				:key="index"
+				v-for="message in messages"
+				:key="message._id"
 			>
 				<div class="name">
 					{{ message.from }}
@@ -80,6 +80,11 @@ export default {
 				{
 					name: "description",
 					content: `Razgovor sa ${this.receiverName}`
+				},
+				{
+					name: "viewport",
+					content:
+						"width=device-width, initial-scale=1, maximum-scale=1"
 				}
 			]
 		};
@@ -235,7 +240,7 @@ export default {
 	background-color: $grey-light;
 	color: $font-black;
 	overflow-y: auto;
-	height: 40rem;
+	height: 35rem;
 	border-radius: 3px;
 
 	.chat-message {

@@ -35,22 +35,18 @@ export default {
 	bottom: 0;
 	left: 50%;
 	z-index: 20;
+	transform: translateX(-50%);
 
-	min-height: 17.5vh;
-	width: 75%;
-	max-width: 60rem;
-	background-color: #1c52c7;
+	width: 85%;
+	max-width: 70rem;
+	background-color: #113277;
 	border-radius: 3px;
 	text-align: center;
-	font-size: 2.2rem;
+	font-size: 2.5rem;
 	color: $white;
-	padding: 2rem;
+	padding: 7.5rem 2.5rem;
 
-	transform: translateX(-50%);
 	transition: transform 0.2s, opacity 0.2s;
-	@media only screen and(max-width:$vp-3) {
-		min-height: 22.5vh;
-	}
 
 	img {
 		position: absolute;

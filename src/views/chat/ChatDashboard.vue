@@ -161,8 +161,7 @@ export default {
 		color: $font-black;
 
 		margin-left: -2rem;
-		padding: 2.5rem;
-		padding-left: 3.5rem;
+		padding: 2.5rem 1.5rem;
 
 		font-size: 2rem;
 		border-radius: 3px;
@@ -176,11 +175,12 @@ export default {
 			padding: 0.5rem 1rem;
 			color: $white;
 			font-size: 1.5rem;
-			margin-left: 2.5rem;
+			margin: 0 1.5rem;
 			margin-right: auto;
 		}
 		.last-message {
 			font-size: 1.5rem;
+			margin-left: 1.5rem;
 		}
 
 		&:not(:last-child) {
