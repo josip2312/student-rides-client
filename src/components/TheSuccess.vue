@@ -27,10 +27,6 @@ export default {
 
 <style lang="scss" scoped>
 .success {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
 	position: fixed;
 	bottom: 0;
 	left: 50%;
@@ -44,7 +40,7 @@ export default {
 	text-align: center;
 	font-size: 2.5rem;
 	color: $white;
-	padding: 7.5rem 2.5rem;
+	padding: 7rem 2.5rem;
 
 	transition: transform 0.2s, opacity 0.2s;
 
