@@ -8,7 +8,7 @@
 					title="Oznaci sve kao procitano"
 				>
 					<img
-						src="@/assets/img/icons/yeswhite.svg"
+						src="@/assets/img/icons/checkWhite.svg"
 						alt="Check icon"
 						@click="readAllNotifications(getUserData._id)"
 					/>
@@ -42,7 +42,7 @@
 				>
 					<img
 						class="remove-notification"
-						src="@/assets/img/icons/no.svg"
+						src="@/assets/img/icons/x.svg"
 						alt=""
 					/>
 				</button>
@@ -93,37 +93,25 @@ export default {
 <style lang="scss" scoped>
 .grow-top-enter-active,
 .grow-top-leave-active {
-	transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-	transform-origin: top;
-	& > * {
-		transition: opacity 200ms ease-in-out 300ms;
-	}
+	transition: opacity 250ms ease-in-out;
 }
 .grow-top-enter,
 .grow-top-leave-to {
-	transform: scale(1, 0);
 	opacity: 0;
-	& > * {
-		opacity: 0;
-		transition: opacity 100ms ease-in-out;
-	}
 }
 .notifications-dropdown {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
-	padding: 2rem 1rem;
-	border-radius: 3px;
-
+	padding: 2rem 3rem;
+	max-width: 35rem;
 	background-color: $primary;
 	color: $font-black;
 
-	width: 200%;
-	max-width: 30rem;
 	position: absolute;
-	top: 6vh;
-	right: 0;
+	top: 100%;
+	right: 5rem;
 	z-index: 20;
 
 	.notifications-header {
@@ -139,8 +127,8 @@ export default {
 
 		img {
 			cursor: pointer;
-			width: 2rem;
-			height: 2rem;
+			width: 2.5rem;
+			height: 2.5rem;
 		}
 	}
 
@@ -159,8 +147,8 @@ export default {
 			flex-shrink: 0;
 			margin-left: 1rem;
 			.remove-notification {
-				width: 2.3rem;
-				height: 2.3rem;
+				width: 3rem;
+				height: 3rem;
 				transform: scale(0.8);
 				transition: transform 0.2s ease-in-out;
 			}

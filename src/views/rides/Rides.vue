@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="all-rides" v-if="filteredRides">
+		<div class="all-rides" v-if="filteredRides.length > 0">
 			<transition-group
 				name="fade"
 				mode="out-in"
@@ -143,6 +143,9 @@ export default {
 	max-width: 120rem;
 	margin: 0 auto;
 	background-color: $white;
+	display: flex;
+	flex-direction: column;
+	@include fillPage;
 	@media only screen and(max-width:$vp-3) {
 		width: 90%;
 	}
@@ -157,6 +160,7 @@ export default {
 	width: 75%;
 	max-width: 50rem;
 	margin: 0 auto;
+	padding-bottom: 7.5rem;
 	border-radius: 3px;
 
 	&-top {
@@ -164,7 +168,10 @@ export default {
 		border-bottom: 1px solid $tertiary;
 		padding-bottom: 1.25rem;
 		margin-bottom: 1.25rem;
-
+		img {
+			width: 3rem;
+			height: 3rem;
+		}
 		h3 {
 			margin-right: 2rem;
 		}
@@ -224,7 +231,6 @@ export default {
 	flex-direction: column;
 
 	color: $font-black;
-	margin-top: 7.5rem;
 
 	.wrapper-div {
 		width: 100%;
@@ -232,15 +238,12 @@ export default {
 	}
 }
 .no-rides {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 100%;
-
+	width: 85%;
+	justify-self: center;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	transform: translateX(-50%);
 
 	color: $font-p;
 	text-align: center;

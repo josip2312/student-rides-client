@@ -64,15 +64,15 @@ export default {
 		}
 	}
 	&-down {
-		height: 10vh;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		background-color: $secondary;
 		color: #9c9a9a;
-		@media only screen and(max-width:$vp-5) {
-			margin-bottom: 9vh;
+		padding: 5rem 0;
+		@media only screen and(max-width:$vp-6) {
+			padding-bottom: 12.5rem;
 		}
 	}
 }

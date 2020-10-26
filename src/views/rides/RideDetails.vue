@@ -15,24 +15,29 @@
 
 			<div class="details-mid">
 				<div class="seats">
-					<img src="@/assets/img/icons/seat.svg" alt="Seat icon" />
-					<span>{{ getRideDetails.seats }} mjesta</span>
+					<img src="@/assets/img/icons/places.svg" alt="Seat icon" />
+					<span
+						>{{ getRideDetails.seats }}
+						{{
+							getRideDetails.seats === 1 ? "mjesto" : "mjesta"
+						}}</span
+					>
 				</div>
 				<div class="smoking">
 					<img
-						src="@/assets/img/icons/yes.svg"
+						src="@/assets/img/icons/check.svg"
 						alt="Check icon"
 						v-if="getRideDetails.smoking"
 					/>
 					<img
 						v-else
-						src="@/assets/img/icons/no.svg"
+						src="@/assets/img/icons/x.svg"
 						alt="Cross icon"
 					/>
 					<span>Cigarete</span>
 				</div>
 				<div class="car">
-					<img src="@/assets/img/icons/rides2.svg" alt="Car icon" />
+					<img src="@/assets/img/icons/carBlack.svg" alt="Car icon" />
 					{{ getRideDetails.car }}
 				</div>
 			</div>
@@ -82,7 +87,7 @@
 							})
 						"
 					>
-						<img src="@/assets/img/icons/no.svg" alt="" />
+						<img src="@/assets/img/icons/x.svg" alt="" />
 					</button>
 				</div>
 
@@ -220,8 +225,8 @@ export default {
 		align-items: center;
 	}
 	img {
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 3rem;
+		height: 3rem;
 	}
 }
 .details-user {
@@ -250,8 +255,8 @@ export default {
 	justify-content: center;
 	padding-bottom: 4rem;
 	img {
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 3rem;
+		height: 3rem;
 		margin-right: 1rem;
 	}
 	span {
@@ -288,8 +293,8 @@ export default {
 		.user-remove {
 			margin-left: auto;
 			img {
-				width: 2.5rem;
-				height: 2.5rem;
+				width: 3rem;
+				height: 3rem;
 			}
 		}
 	}

@@ -20,7 +20,7 @@
 				<span>Početna</span>
 			</router-link>
 			<router-link :to="{ name: 'Rides' }" tag="a">
-				<img src="@/assets/img/icons/rides.svg" alt="Rides" />
+				<img src="@/assets/img/icons/car.svg" alt="Rides" />
 				<span>Vožnje</span>
 			</router-link>
 			<router-link :to="{ name: 'Profile' }" tag="a">
@@ -58,10 +58,11 @@ export default {
 	position: fixed;
 	bottom: 0;
 	left: 0;
+	right: 0;
 	display: flex;
 	align-items: center;
-	min-height: 9vh;
-
+	//min-height: 9vh;
+	padding: 1.2rem 0;
 	width: 100%;
 	background: $accent;
 	z-index: 1000;
@@ -93,7 +94,7 @@ export default {
 		}
 
 		.router-link-exact-active {
-			background-color: $blue;
+			background-color: #194ec0;
 		}
 	}
 }

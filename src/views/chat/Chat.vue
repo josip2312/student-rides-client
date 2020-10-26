@@ -186,6 +186,10 @@ export default {
 		this.$socket.disconnect();
 		this.$socket.connect();
 
+		this.readMessages({
+			sender: this.getUserData._id
+		});
+
 		await this.fetchChats();
 	},
 

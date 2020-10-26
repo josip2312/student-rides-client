@@ -1,5 +1,5 @@
-optimization: {
-	splitChunks: {
-		chunks: "all";
+{
+	{
+		"all";
 	}
 }

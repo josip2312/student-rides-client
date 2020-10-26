@@ -44,7 +44,7 @@
 			</div>
 			<div class="contact">
 				<p v-if="!getSearchedUserData.description">
-					Kontak broj nije dodan
+					Kontakt broj nije dodan
 				</p>
 				<div v-else>
 					<span>Kontakt broj:</span>
@@ -160,7 +160,10 @@ export default {
 	font-size: 2rem;
 	border-radius: 3px;
 	transition: background-color 0.2s ease-in-out;
-
+	img {
+		width: 3rem;
+		height: 3rem;
+	}
 	span {
 		font-size: 1.8rem;
 		font-weight: 500;

@@ -1,6 +1,6 @@
 <template>
 	<transition name="grow-top" mode="out-in">
-		<div v-if="showDropdown" class="user-dropdown">
+		<div v-if="showDropdown" class="user-dropdown spacing-sm">
 			<router-link
 				@click.native="hideUserDropdown"
 				class="user-dropdown-profile"
@@ -9,6 +9,16 @@
 				<img src="@/assets/img/icons/user.svg" alt="Profile" />
 				<span>
 					Profil
+				</span>
+			</router-link>
+			<router-link
+				@click.native="hideUserDropdown"
+				class="user-dropdown-rides"
+				:to="{ name: 'Rides' }"
+			>
+				<img src="@/assets/img/icons/car.svg" alt="Rides" />
+				<span>
+					Vožnje
 				</span>
 			</router-link>
 			<router-link
@@ -62,20 +72,11 @@ export default {
 <style lang="scss" scoped>
 .grow-top-enter-active,
 .grow-top-leave-active {
-	transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-	transform-origin: top;
-	a {
-		transition: opacity 200ms ease-in-out 300ms;
-	}
+	transition: opacity 250ms ease-in-out;
 }
 .grow-top-enter,
 .grow-top-leave-to {
-	transform: scale(1, 0);
 	opacity: 0;
-	a {
-		opacity: 0;
-		transition: opacity 100ms ease-in-out;
-	}
 }
 .user-dropdown {
 	display: flex;
@@ -85,23 +86,19 @@ export default {
 	font-size: 1.8rem;
 	color: $font-white;
 
-	padding: 3rem 0;
-	border-radius: 3px;
+	padding: 2rem 3rem;
+
 	background-color: $primary;
 
-	width: 150%;
-	max-width: 20rem;
 	position: absolute;
-	top: 6vh;
-	right: 0;
+	top: 100%;
+	right: 0rem;
 	z-index: 20;
-	&-profile,
-	&-messages {
-		margin-bottom: 1.5rem;
-	}
+
 	&-profile,
 	&-logout,
-	&-messages {
+	&-messages,
+	&-rides {
 		transition: opacity 250ms ease-in-out;
 		display: flex;
 		align-items: center;
