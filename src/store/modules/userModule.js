@@ -115,7 +115,7 @@ export default {
 				const fd = new FormData();
 
 				fd.append("file", payload, payload.name);
-				console.log(payload);
+
 				const res = await axios.patch(
 					`user/${rootGetters.getLoggedInUser}/photo`,
 					fd
