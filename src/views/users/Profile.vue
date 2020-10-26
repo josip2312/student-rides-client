@@ -282,12 +282,12 @@ export default {
 	flex-wrap: wrap;
 
 	font-size: 1.8rem;
-	background-color: $grey-light;
+
 	border-radius: 3px;
 
 	img {
-		width: 2.25rem;
-		height: 2.25rem;
+		width: 3rem;
+		height: 3rem;
 		margin-right: 1.5rem;
 	}
 	span + span {
@@ -305,7 +305,6 @@ export default {
 	max-width: 50rem;
 	padding: 1.5rem;
 	border-radius: 3px;
-	background-color: $grey-light;
 
 	font-size: 1.8rem;
 	font-weight: 500;
@@ -314,14 +313,19 @@ export default {
 	p {
 		padding-top: 1.5rem;
 	}
+	img {
+		width: 3rem;
+		height: 3rem;
+		margin-right: 1.5rem;
+	}
 }
 .contact-title,
 .additional-title {
 	display: flex;
 	align-items: center;
 	img {
-		width: 2.25rem;
-		height: 2.25rem;
+		width: 3rem;
+		height: 3rem;
 		margin-right: 1rem;
 	}
 }

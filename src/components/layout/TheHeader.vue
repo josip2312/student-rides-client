@@ -118,17 +118,6 @@
 					/>
 				</div>
 
-				<!-- hamburger menu -->
-				<div class="menu" @click="toggleSidebar">
-					<button>
-						<img
-							:class="{ active: showSidebar }"
-							src="@/assets/img/icons/menu.svg"
-							alt="Menu icon"
-						/>
-					</button>
-				</div>
-
 				<transition name="fade" mode="out-in">
 					<button
 						@click.prevent="sendToChatDashboard"
@@ -330,16 +319,11 @@ header {
 	position: sticky;
 	top: 0;
 
-	min-height: 9vh;
 	z-index: 20;
 }
 .animate {
 	animation: scale 0.75s forwards;
 }
-
-/////////////
-//navbar
-/////////////
 
 .wrapper {
 	display: flex;
@@ -356,6 +340,7 @@ header {
 
 	.logo {
 		font-size: 3rem;
+		padding: 1.5rem 0;
 		cursor: pointer;
 	}
 	.nav-right {
@@ -366,7 +351,7 @@ header {
 	.unread-messages {
 		position: absolute;
 		right: 0;
-		top: 8vh;
+		top: 8.5rem;
 		font-weight: 500;
 		background-color: $warning;
 		padding: 0.8rem 1.4rem;
@@ -382,8 +367,7 @@ header {
 			border-radius: 5em;
 			cursor: pointer;
 
-			transition: opacity 0.2s ease-in-out,
-				background-color 0.2s ease-in-out;
+			transition: opacity 0.2s ease-in-out;
 		}
 		.logout {
 			display: none;
@@ -392,54 +376,12 @@ header {
 			}
 		}
 		@media only screen and(max-width:$vp-6) {
-			flex-direction: column;
-			justify-content: center;
-
-			background-color: $primary;
-			position: fixed;
-			top: 0;
-			right: 0;
-			height: 100vh;
-
-			z-index: -1;
-			transform: translateX(50vw);
-			width: 50vw;
-			transition: transform 350ms ease-in-out;
-			a {
-				text-align: center;
-				font-size: 2.4rem;
-				margin: 1.5rem 0;
-				padding: 2.5rem 0;
-				border-radius: 0;
-			}
+			display: none;
 		}
 	}
 
 	.isVisible {
 		transform: translateX(0);
-	}
-
-	.menu {
-		display: none;
-		margin-left: 1rem;
-		flex-shrink: 0;
-		@media only screen and(max-width:$vp-6) {
-			display: flex;
-		}
-
-		button {
-			padding: 0;
-			cursor: pointer;
-		}
-		img {
-			width: 3.5rem;
-			height: 3.5rem;
-			transform: rotate(0);
-			transition: transform 350ms ease-in-out;
-		}
-		.active {
-			transform: rotate(180deg);
-		}
 	}
 
 	/////////
@@ -456,9 +398,9 @@ header {
 
 			cursor: pointer;
 			img {
-				width: 2.5rem;
-				height: 2.5rem;
-				border-radius: 50%;
+				width: 3rem;
+				height: 3rem;
+				margin-right: 0.5rem;
 			}
 		}
 		.notification-icon {
@@ -475,8 +417,8 @@ header {
 			border-radius: 50%;
 			background-color: #f53f5b;
 			position: absolute;
-			top: -1.3rem;
-			right: -1.3rem;
+			top: -1.25rem;
+			right: -0.75rem;
 			width: 2.75rem;
 			height: 2.75rem;
 
@@ -488,14 +430,15 @@ header {
 			display: flex;
 			align-items: center;
 			img:first-child {
-				width: 2.5rem;
-				height: 2.5rem;
+				width: 3rem;
+				height: 3rem;
+				border-radius: 50%;
 				object-fit: cover;
 				margin-right: 0.5rem;
 			}
 			img + img {
-				width: 2rem;
-				height: 2rem;
+				width: 2.5rem;
+				height: 2.5rem;
 			}
 		}
 	}

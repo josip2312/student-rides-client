@@ -1,7 +1,11 @@
 <template>
 	<transition name="fade" mode="out-in">
 		<div class="success" v-if="isSuccess">
-			<img src="@/assets/img/icons/x.svg" alt="" @click="clearSuccess" />
+			<img
+				src="@/assets/img/icons/xWhite.svg"
+				alt=""
+				@click="clearSuccess"
+			/>
 			<span>
 				{{ getSuccessMessage }}
 			</span>
@@ -39,8 +43,8 @@ export default {
 	border-radius: 3px;
 	text-align: center;
 	font-size: 2.5rem;
-	color: $white;
-	padding: 7rem 2.5rem;
+	color: $font-white;
+	padding: 7.5rem 2.5rem;
 
 	transition: transform 0.2s, opacity 0.2s;
 

@@ -2,7 +2,6 @@
 	<ValidationProvider :rules="rules" :name="name" :vid="vid" v-slot="v">
 		<label :for="id">{{ label }}</label>
 		<input
-			class="input"
 			:type="type"
 			:id="id"
 			:class="v.classes"
@@ -23,13 +22,6 @@ export default {
 	name: "FormInput",
 	components: {
 		ValidationProvider
-	},
-	data() {
-		return {
-			googleKey: process.env.VUE_APP_GOOGLE_API_KEY,
-
-			currentValue: ""
-		};
 	},
 
 	props: {
@@ -62,9 +54,6 @@ export default {
 		vid: {
 			type: String,
 			default: undefined
-		},
-		googleInput: {
-			type: Boolean
 		}
 	}
 };
