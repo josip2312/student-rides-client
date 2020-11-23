@@ -41,14 +41,3 @@ button {
 	color: $font-black;
 	background-color: $white;
 }
-
-@mixin input {
-	color: $font-black;
-	padding: 1rem 1.2rem;
-	width: 100%;
-	outline: none;
-	border: none;
-	border-bottom: 1px solid $tertiary;
-	transition: border 0.2s ease-in-out;
-	background-color: $tertiary;
-}

@@ -73,12 +73,6 @@ typography
 .spacing-sm > * + * {
 	margin-top: 1.5rem;
 }
-@mixin fillPage {
-	min-height: 91vh;
-	@media only screen and(max-width:$vp-6) {
-		min-height: 82vh;
-	}
-}
 
 @media only screen and(max-width:$vp-6) {
 	input,
