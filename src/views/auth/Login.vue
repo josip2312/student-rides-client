@@ -34,7 +34,7 @@
 			<template #form-down>
 				<div class="form-group">
 					<button class="btn">
-						{{ email.value }}
+						Prijavi se
 					</button>
 				</div>
 				<div class="form-footer">
@@ -65,15 +65,15 @@ export default {
 			meta: [
 				{
 					name: "description",
-					content: `Prijavi se u StudentRides`,
-				},
-			],
+					content: `Prijavi se u StudentRides`
+				}
+			]
 		};
 	},
 	components: {
 		FormWrapper,
 		FormInput,
-		ValidationObserver,
+		ValidationObserver
 	},
 	data() {
 		return {
@@ -83,10 +83,10 @@ export default {
 				value: null,
 				rules: {
 					required: true,
-					email: true,
+					email: true
 				},
 				name: "email",
-				id: "email",
+				id: "email"
 			},
 			password: {
 				label: "Lozinka",
@@ -94,17 +94,17 @@ export default {
 				value: null,
 				rules: {
 					required: true,
-					password: this.value,
+					password: this.value
 				},
 				name: "password",
-				id: "password",
-			},
+				id: "password"
+			}
 		};
 	},
 
 	methods: {
-		...mapActions({ login: "loginUser" }),
-	},
+		...mapActions({ login: "loginUser" })
+	}
 };
 </script>
 <style lang="scss" scoped>
